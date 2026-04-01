@@ -1,7 +1,16 @@
 import SwiftUI
+import AppKit
 
 struct OnboardingView: View {
     @State var viewModel: OnboardingViewModel
+    @Environment(\.dismissWindow) private var dismissWindow
+
+    private func finishOnboarding() {
+        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            dismissWindow(id: "onboarding")
+        }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -47,6 +56,7 @@ struct OnboardingView: View {
                     Button(viewModel.isLastStep ? "はじめる" : "次へ") {
                         if viewModel.isLastStep {
                             viewModel.completeOnboarding()
+                            finishOnboarding()
                         } else {
                             viewModel.goToNextStep()
                         }
@@ -61,6 +71,9 @@ struct OnboardingView: View {
                         Spacer()
                         Button("スキップ") {
                             viewModel.skipOnboarding()
+                            if viewModel.hasCompletedOnboarding {
+                                finishOnboarding()
+                            }
                         }
                         .buttonStyle(.plain)
                         .font(.caption)
@@ -76,6 +89,7 @@ struct OnboardingView: View {
         .alert("アクセシビリティ権限が未設定です", isPresented: $viewModel.showAccessibilityWarning) {
             Button("スキップする") {
                 viewModel.confirmSkipWithoutPermission()
+                finishOnboarding()
             }
             Button("設定に戻る", role: .cancel) {}
         } message: {
