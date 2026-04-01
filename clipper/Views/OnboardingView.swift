@@ -1,0 +1,120 @@
+import SwiftUI
+
+struct OnboardingView: View {
+    @State var viewModel: OnboardingViewModel
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Step content area
+            ZStack {
+                stepView(for: viewModel.currentStep)
+                    .id(viewModel.currentStep)
+                    .transition(stepTransition)
+            }
+            .frame(maxWidth: 520, maxHeight: 300)
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 20))
+            .animation(.smooth(duration: 0.35), value: viewModel.currentStep)
+            .padding(.horizontal, 40)
+            .padding(.top, 30)
+
+            Spacer()
+
+            // Page indicator
+            HStack(spacing: 8) {
+                ForEach(0..<viewModel.totalSteps, id: \.self) { index in
+                    Circle()
+                        .fill(index == viewModel.currentStep ? Color.accentColor : Color.secondary.opacity(0.3))
+                        .frame(width: 8, height: 8)
+                }
+            }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("ステップ \(viewModel.currentStep + 1) / 全 \(viewModel.totalSteps) ステップ")
+
+            Spacer().frame(height: 12)
+
+            // Navigation area
+            ZStack {
+                // Back + Next/Start buttons (centered)
+                HStack(spacing: 12) {
+                    if !viewModel.isFirstStep && !viewModel.isLastStep {
+                        Button("戻る") {
+                            viewModel.goToPreviousStep()
+                        }
+                        .buttonStyle(.bordered)
+                        .accessibilityLabel("前のステップに戻る")
+                    }
+
+                    Button(viewModel.isLastStep ? "はじめる" : "次へ") {
+                        if viewModel.isLastStep {
+                            viewModel.completeOnboarding()
+                        } else {
+                            viewModel.goToNextStep()
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .accessibilityLabel(viewModel.isLastStep ? "オンボーディングを完了してアプリを開始する" : "次のステップに進む")
+                }
+
+                // Skip link (right-aligned)
+                if !viewModel.isLastStep {
+                    HStack {
+                        Spacer()
+                        Button("スキップ") {
+                            viewModel.skipOnboarding()
+                        }
+                        .buttonStyle(.plain)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .accessibilityLabel("オンボーディングをスキップする")
+                    }
+                }
+            }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 16)
+        }
+        .frame(width: 600, height: 450)
+        .alert("アクセシビリティ権限が未設定です", isPresented: $viewModel.showAccessibilityWarning) {
+            Button("スキップする") {
+                viewModel.confirmSkipWithoutPermission()
+            }
+            Button("設定に戻る", role: .cancel) {}
+        } message: {
+            Text("アクセシビリティ権限がないと、アプリの主要機能が制限されます。")
+        }
+    }
+
+    @ViewBuilder
+    private func stepView(for step: Int) -> some View {
+        let content = viewModel.steps[step]
+        switch content.stepType {
+        case .welcome, .feature, .complete:
+            OnboardingStepView(content: content)
+        case .accessibilityPermission:
+            AccessibilityPermissionStepView(viewModel: viewModel)
+        case .launchAtLogin:
+            LaunchAtLoginStepView(viewModel: viewModel)
+        }
+    }
+
+    private var stepTransition: AnyTransition {
+        switch viewModel.navigationDirection {
+        case .forward:
+            AnyTransition.asymmetric(
+                insertion: .move(edge: .trailing).combined(with: .opacity),
+                removal: .move(edge: .leading).combined(with: .opacity)
+            )
+        case .backward:
+            AnyTransition.asymmetric(
+                insertion: .move(edge: .leading).combined(with: .opacity),
+                removal: .move(edge: .trailing).combined(with: .opacity)
+            )
+        }
+    }
+}
+
+#Preview {
+    OnboardingView(viewModel: OnboardingViewModel(
+        accessibilityService: AccessibilityPermissionService(),
+        loginItemService: LoginItemService()
+    ))
+}

@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct clipperApp: App {
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if hasCompletedOnboarding {
+                ContentView()
+            } else {
+                OnboardingView(viewModel: OnboardingViewModel())
+            }
         }
+        .windowResizability(.contentSize)
     }
 }
