@@ -17,12 +17,14 @@ struct GeneralSettingsView: View {
             }
 
             Section("クリップボード履歴") {
-                Stepper(
-                    "最大保存件数: \(viewModel.settings.maxHistoryCount)",
-                    value: viewModel.settings.$maxHistoryCount,
-                    in: 10...500,
-                    step: 10
-                )
+                HStack {
+                    Text("最大保存件数")
+                    Spacer()
+                    TextField("", value: viewModel.settings.$maxHistoryCount, format: .number)
+                        .frame(width: 60)
+                        .textFieldStyle(.roundedBorder)
+                        .multilineTextAlignment(.center)
+                }
                 .accessibilityLabel("クリップボード履歴の最大保存件数")
                 .accessibilityValue("\(viewModel.settings.maxHistoryCount)件")
             }

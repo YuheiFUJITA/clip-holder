@@ -24,8 +24,12 @@ final class AppSettings {
     @ObservationIgnored
     @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
 
+    // Observation でトラッキングされるプロパティ（ビュー更新のトリガー）
+    var excludedAppsVersion: Int = 0
+
     var excludedApps: [ExcludedApp] {
         get {
+            _ = excludedAppsVersion // Observation アクセスを登録
             guard let data = excludedAppsJSON.data(using: .utf8),
                   let apps = try? JSONDecoder().decode([ExcludedApp].self, from: data) else {
                 return []
@@ -36,6 +40,7 @@ final class AppSettings {
             if let data = try? JSONEncoder().encode(newValue),
                let json = String(data: data, encoding: .utf8) {
                 excludedAppsJSON = json
+                excludedAppsVersion += 1
             }
         }
     }

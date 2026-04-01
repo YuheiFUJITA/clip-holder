@@ -13,16 +13,25 @@ final class SettingsViewModel {
 
     private let loginItemService: LoginItemManaging
     private let accessibilityService: AccessibilityPermissionChecking
+    private let historyStore: ClipboardHistoryStoring?
 
     init(
         settings: AppSettings = AppSettings(),
         loginItemService: LoginItemManaging = LoginItemService(),
-        accessibilityService: AccessibilityPermissionChecking = AccessibilityPermissionService()
+        accessibilityService: AccessibilityPermissionChecking = AccessibilityPermissionService(),
+        historyStore: ClipboardHistoryStoring? = nil
     ) {
         self.settings = settings
         self.loginItemService = loginItemService
         self.accessibilityService = accessibilityService
+        self.historyStore = historyStore
         self.isAccessibilityGranted = accessibilityService.isGranted
+
+        // ログイン項目のシステム状態と設定値を同期（初回のみ）
+        // UserDefaults に値が明示的に保存されていない場合のみシステム状態で初期化
+        if UserDefaults.standard.object(forKey: "launchAtLogin") == nil {
+            settings.launchAtLogin = loginItemService.isEnabled
+        }
     }
 
     // MARK: - 一般設定
@@ -62,7 +71,7 @@ final class SettingsViewModel {
 
     func confirmClearHistory() {
         showDeleteConfirmation = false
-        // クリップボード履歴サービスが実装された後にここで削除を実行する
+        historyStore?.clearAll()
     }
 
     func toggleSaveTextData(_ enabled: Bool) {
@@ -77,6 +86,12 @@ final class SettingsViewModel {
             return
         }
         settings.saveImageData = enabled
+    }
+
+    func updateMaxHistoryCount(_ count: Int) {
+        let clamped = max(1, count)
+        settings.maxHistoryCount = clamped
+        historyStore?.trimToCount(clamped)
     }
 
     // MARK: - 除外アプリ

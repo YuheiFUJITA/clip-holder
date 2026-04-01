@@ -1,12 +1,12 @@
 import SwiftUI
-import AppKit
 
 struct OnboardingView: View {
     @State var viewModel: OnboardingViewModel
     @Environment(\.dismissWindow) private var dismissWindow
+    @Environment(\.openSettings) private var openSettings
 
     private func finishOnboarding() {
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        openSettings()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             dismissWindow(id: "onboarding")
         }
