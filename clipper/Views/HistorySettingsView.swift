@@ -66,6 +66,6 @@ struct HistorySettingsView: View {
 }
 
 #Preview {
-    HistorySettingsView(viewModel: SettingsViewModel())
+    HistorySettingsView(viewModel: SettingsViewModel(settings: AppSettings()))
         .frame(width: 450, height: 400)
 }

@@ -87,6 +87,7 @@ struct HistoryPanelViewModelTests {
         let (vm, _, _, _) = makeViewModel(entries: entries)
         vm.loadEntries()
         vm.searchQuery = "Hello"
+        vm.applyFilter()
         #expect(vm.filteredEntries.count == 1)
         #expect(vm.filteredEntries[0].textContent == "Hello World")
     }
@@ -97,6 +98,7 @@ struct HistoryPanelViewModelTests {
         ])
         vm.loadEntries()
         vm.searchQuery = "hello"
+        vm.applyFilter()
         #expect(vm.filteredEntries.count == 1)
     }
 
@@ -107,8 +109,10 @@ struct HistoryPanelViewModelTests {
         ])
         vm.loadEntries()
         vm.searchQuery = "X"
+        vm.applyFilter()
         #expect(vm.filteredEntries.isEmpty)
         vm.searchQuery = ""
+        vm.applyFilter()
         #expect(vm.filteredEntries.count == 2)
     }
 
@@ -118,6 +122,7 @@ struct HistoryPanelViewModelTests {
         ])
         vm.loadEntries()
         vm.searchQuery = "xyz"
+        vm.applyFilter()
         #expect(vm.isSearchEmpty == true)
     }
 

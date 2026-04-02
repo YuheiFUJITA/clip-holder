@@ -15,63 +15,35 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-@main
-struct clipperApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
-    @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
+/// アプリ全体の状態を保持するコントローラー
+/// SwiftUI App struct のライフサイクルに依存しない安定した参照を提供する
+@MainActor
+final class AppController {
+    static let shared = AppController()
 
-    private let appSettings = AppSettings()
-    private let historyStore = ClipboardHistoryStore()
-    @State private var settingsViewModel: SettingsViewModel?
-    @State private var clipboardMonitor: ClipboardMonitorService?
-    @State private var panelWindowService: PanelWindowService?
-    @State private var pasteService = PasteService()
-    @State private var historyPanelViewModel: HistoryPanelViewModel?
+    let appSettings = AppSettings()
+    let historyStore = ClipboardHistoryStore()
+    let pasteService = PasteService()
+    lazy var settingsViewModel = SettingsViewModel(
+        settings: appSettings,
+        historyStore: historyStore
+    )
 
-    var body: some Scene {
-        Window("オンボーディング", id: "onboarding") {
-            OnboardingView(viewModel: OnboardingViewModel())
-        }
-        .windowResizability(.contentSize)
-        .defaultLaunchBehavior(.presented)
+    private var clipboardMonitor: ClipboardMonitorService?
+    private var panelWindowService: PanelWindowService?
+    private var historyPanelViewModel: HistoryPanelViewModel?
 
-        Settings {
-            if let vm = settingsViewModel {
-                TabView {
-                    GeneralSettingsView(viewModel: vm)
-                        .tabItem { Label("一般", systemImage: "gear") }
-                    HistorySettingsView(viewModel: vm)
-                        .tabItem { Label("履歴", systemImage: "clock") }
-                    ShortcutsSettingsView()
-                        .tabItem { Label("ショートカット", systemImage: "keyboard") }
-                }
-                .frame(width: 480)
-            }
-        }
+    private init() {}
 
-        MenuBarExtra("Clipper", systemImage: "paperclip", isInserted: $showMenuBarIcon) {
-            MenuBarMenuView(onShowHistory: { showHistoryPanel() })
-        }
-    }
-
-    init() {
-        let vm = SettingsViewModel(
-            settings: appSettings,
-            historyStore: historyStore
-        )
-        _settingsViewModel = State(initialValue: vm)
-
+    func startMonitoring() {
+        guard clipboardMonitor == nil else { return }
         let monitor = ClipboardMonitorService(settings: appSettings, store: historyStore)
         monitor.startMonitoring()
-        _clipboardMonitor = State(initialValue: monitor)
-
-        KeyboardShortcuts.onKeyUp(for: .showClipboardHistory) { [self] in
-            showHistoryPanel()
-        }
+        clipboardMonitor = monitor
+        print("[AppController] Monitoring started")
     }
 
-    private func showHistoryPanel() {
+    func showHistoryPanel() {
         pasteService.recordPreviousApp()
 
         let service: PanelWindowService
@@ -99,6 +71,49 @@ struct clipperApp: App {
         service.togglePanel()
         if service.isVisible {
             historyPanelViewModel?.onPanelShow()
+        }
+    }
+}
+
+@main
+struct clipperApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
+
+    private let controller = AppController.shared
+
+    var body: some Scene {
+        Window("オンボーディング", id: "onboarding") {
+            OnboardingView(viewModel: OnboardingViewModel())
+        }
+        .windowResizability(.contentSize)
+        .defaultLaunchBehavior(.presented)
+
+        Settings {
+            TabView {
+                GeneralSettingsView(viewModel: controller.settingsViewModel)
+                    .tabItem { Label("一般", systemImage: "gear") }
+                HistorySettingsView(viewModel: controller.settingsViewModel)
+                    .tabItem { Label("履歴", systemImage: "clock") }
+                ShortcutsSettingsView()
+                    .tabItem { Label("ショートカット", systemImage: "keyboard") }
+            }
+            .frame(width: 480)
+        }
+
+        MenuBarExtra("Clipper", systemImage: "paperclip", isInserted: $showMenuBarIcon) {
+            MenuBarMenuView(onShowHistory: { controller.showHistoryPanel() })
+        }
+    }
+
+    init() {
+        controller.startMonitoring()
+
+        KeyboardShortcuts.onKeyUp(for: .showClipboardHistory) {
+            Task { @MainActor in
+                AppController.shared.showHistoryPanel()
+            }
         }
     }
 }

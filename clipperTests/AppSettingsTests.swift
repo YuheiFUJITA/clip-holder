@@ -2,28 +2,34 @@ import Testing
 import Foundation
 @testable import clipper
 
-@Suite
+@Suite(.serialized)
 struct AppSettingsTests {
 
+    private func cleanDefaults() {
+        let keys = ["launchAtLogin", "showMenuBarIcon", "maxHistoryCount",
+                     "saveTextData", "saveImageData", "excludedAppsJSON", "hasCompletedOnboarding"]
+        keys.forEach { UserDefaults.standard.removeObject(forKey: $0) }
+    }
+
     @Test func defaultMaxHistoryCount() {
-        // maxHistoryCount のデフォルトは AppSettings 定義で 50
+        cleanDefaults()
         let settings = AppSettings()
-        // UserDefaults に値が設定されていない場合のデフォルト値を検証
-        // 注: テスト環境では他のテストが UserDefaults を変更する可能性があるため、
-        // ここではモデルのプロパティが読み書き可能であることを検証する
         let original = settings.maxHistoryCount
         settings.maxHistoryCount = 100
         #expect(settings.maxHistoryCount == 100)
         settings.maxHistoryCount = original
+        cleanDefaults()
     }
 
     @Test func excludedAppsEmptyByDefault() {
+        cleanDefaults()
         let settings = AppSettings()
-        settings.excludedAppsJSON = "[]"
         #expect(settings.excludedApps.isEmpty)
+        cleanDefaults()
     }
 
     @Test func excludedAppsSerializationRoundTrip() {
+        cleanDefaults()
         let settings = AppSettings()
         let app = ExcludedApp(id: "com.test.app", name: "Test App", bundlePath: "/Applications/Test.app")
         settings.excludedApps = [app]
@@ -33,28 +39,34 @@ struct AppSettingsTests {
         #expect(decoded[0].id == "com.test.app")
         #expect(decoded[0].name == "Test App")
         #expect(decoded[0].bundlePath == "/Applications/Test.app")
+        cleanDefaults()
     }
 
     @Test func addExcludedAppPreventsduplicates() {
+        cleanDefaults()
         let settings = AppSettings()
-        settings.excludedAppsJSON = "[]"
         let app = ExcludedApp(id: "com.test.app", name: "Test App", bundlePath: "/Applications/Test.app")
         settings.addExcludedApp(app)
         settings.addExcludedApp(app)
         #expect(settings.excludedApps.count == 1)
+        cleanDefaults()
     }
 
     @Test func removeExcludedApp() {
+        cleanDefaults()
         let settings = AppSettings()
         let app = ExcludedApp(id: "com.test.app", name: "Test App", bundlePath: "/Applications/Test.app")
         settings.excludedApps = [app]
         settings.removeExcludedApp(app)
         #expect(settings.excludedApps.isEmpty)
+        cleanDefaults()
     }
 
     @Test func invalidJSONReturnsEmptyArray() {
+        cleanDefaults()
+        UserDefaults.standard.set("invalid json", forKey: "excludedAppsJSON")
         let settings = AppSettings()
-        settings.excludedAppsJSON = "invalid json"
         #expect(settings.excludedApps.isEmpty)
+        cleanDefaults()
     }
 }

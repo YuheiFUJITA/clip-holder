@@ -2,30 +2,49 @@ import SwiftUI
 import Observation
 
 @Observable
-final class AppSettings {
-    @ObservationIgnored
-    @AppStorage("launchAtLogin") var launchAtLogin: Bool = false
+final class AppSettings: @unchecked Sendable {
+    private let defaults = UserDefaults.standard
 
-    @ObservationIgnored
-    @AppStorage("showMenuBarIcon") var showMenuBarIcon: Bool = true
+    var launchAtLogin: Bool {
+        get { defaults.bool(forKey: "launchAtLogin") }
+        set { defaults.set(newValue, forKey: "launchAtLogin") }
+    }
 
-    @ObservationIgnored
-    @AppStorage("maxHistoryCount") var maxHistoryCount: Int = 50
+    var showMenuBarIcon: Bool {
+        get { defaults.object(forKey: "showMenuBarIcon") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "showMenuBarIcon") }
+    }
 
-    @ObservationIgnored
-    @AppStorage("saveTextData") var saveTextData: Bool = true
+    var maxHistoryCount: Int {
+        get {
+            let val = defaults.integer(forKey: "maxHistoryCount")
+            return val > 0 ? val : 50
+        }
+        set { defaults.set(newValue, forKey: "maxHistoryCount") }
+    }
 
-    @ObservationIgnored
-    @AppStorage("saveImageData") var saveImageData: Bool = true
+    var saveTextData: Bool {
+        get { defaults.object(forKey: "saveTextData") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "saveTextData") }
+    }
 
-    @ObservationIgnored
-    @AppStorage("excludedAppsJSON") var excludedAppsJSON: String = "[]"
+    var saveImageData: Bool {
+        get { defaults.object(forKey: "saveImageData") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "saveImageData") }
+    }
 
-    @ObservationIgnored
-    @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
+    var hasCompletedOnboarding: Bool {
+        get { defaults.bool(forKey: "hasCompletedOnboarding") }
+        set { defaults.set(newValue, forKey: "hasCompletedOnboarding") }
+    }
 
     // Observation でトラッキングされるプロパティ（ビュー更新のトリガー）
     var excludedAppsVersion: Int = 0
+
+    private var excludedAppsJSON: String {
+        get { defaults.string(forKey: "excludedAppsJSON") ?? "[]" }
+        set { defaults.set(newValue, forKey: "excludedAppsJSON") }
+    }
 
     var excludedApps: [ExcludedApp] {
         get {

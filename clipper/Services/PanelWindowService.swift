@@ -2,6 +2,12 @@ import Foundation
 import AppKit
 import SwiftUI
 
+// キーウィンドウになれるNSPanelサブクラス
+private class KeyablePanel: NSPanel {
+    override var canBecomeKey: Bool { true }
+    override var canBecomeMain: Bool { false }
+}
+
 protocol PanelWindowManaging {
     var isVisible: Bool { get }
     func showPanel()
@@ -30,7 +36,7 @@ final class PanelWindowService: PanelWindowManaging {
         let panel = createOrReusePanel()
         let position = calculatePosition()
         panel.setFrameOrigin(position)
-        panel.orderFrontRegardless()
+        panel.makeKeyAndOrderFront(nil)
         isVisible = true
 
         startEventMonitor()
@@ -58,9 +64,9 @@ final class PanelWindowService: PanelWindowManaging {
             return existing
         }
 
-        let newPanel = NSPanel(
+        let newPanel = KeyablePanel(
             contentRect: NSRect(origin: .zero, size: panelSize),
-            styleMask: [.nonactivatingPanel, .borderless, .fullSizeContentView],
+            styleMask: [.nonactivatingPanel, .fullSizeContentView, .titled],
             backing: .buffered,
             defer: false
         )
@@ -70,7 +76,9 @@ final class PanelWindowService: PanelWindowManaging {
         newPanel.backgroundColor = .clear
         newPanel.hasShadow = true
         newPanel.hidesOnDeactivate = false
-        newPanel.isMovableByWindowBackground = false
+        newPanel.isMovableByWindowBackground = true
+        newPanel.titleVisibility = .hidden
+        newPanel.titlebarAppearsTransparent = true
 
         if let contentView = contentView {
             let hostingView = NSHostingView(rootView: contentView())

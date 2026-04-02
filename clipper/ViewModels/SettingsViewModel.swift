@@ -16,7 +16,7 @@ final class SettingsViewModel {
     private let historyStore: ClipboardHistoryStoring?
 
     init(
-        settings: AppSettings = AppSettings(),
+        settings: AppSettings,
         loginItemService: LoginItemManaging = LoginItemService(),
         accessibilityService: AccessibilityPermissionChecking = AccessibilityPermissionService(),
         historyStore: ClipboardHistoryStoring? = nil

@@ -11,9 +11,7 @@ final class HistoryPanelViewModel {
     var entries: [ClipboardHistoryEntry] = []
     var filteredEntries: [ClipboardHistoryEntry] = []
     var selectedIndex: Int = 0
-    var searchQuery: String = "" {
-        didSet { applyFilter() }
-    }
+    var searchQuery: String = ""
     var pasteError: String?
 
     private let store: ClipboardHistoryStoring
@@ -93,7 +91,7 @@ final class HistoryPanelViewModel {
 
     // MARK: - Private
 
-    private func applyFilter() {
+    func applyFilter() {
         if searchQuery.isEmpty {
             filteredEntries = entries
         } else {

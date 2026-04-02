@@ -37,18 +37,19 @@ struct HistoryPanelView: View {
             viewModel.moveSelection(direction: .down)
             return .handled
         }
-        .onKeyPress(.return) {
-            viewModel.confirmPaste(mode: .original)
-            return .handled
-        }
         .onKeyPress(.escape) {
             onDismiss()
             return .handled
         }
+        .onChange(of: viewModel.searchQuery) {
+            viewModel.applyFilter()
+        }
         .background(
-            CmdShiftVKeyHandler {
-                viewModel.confirmPaste(mode: .plainText)
-            }
+            PanelKeyHandler(
+                onReturn: { viewModel.confirmPaste(mode: .original) },
+                onCmdShiftV: { viewModel.confirmPaste(mode: .plainText) },
+                onEscape: { onDismiss() }
+            )
         )
     }
 
@@ -156,32 +157,88 @@ struct HistoryPanelView: View {
     }
 }
 
-// ⌘⇧V のキーイベントを NSEvent ローカルモニターで検出する
-private struct CmdShiftVKeyHandler: NSViewRepresentable {
-    let action: () -> Void
+/// Enter / ⌘⇧V / Esc のキーイベントを NSEvent ローカルモニターで検出する
+/// IMEの変換確定中（markedText がある状態）ではEnterキーを無視する
+private struct PanelKeyHandler: NSViewRepresentable {
+    let onReturn: () -> Void
+    let onCmdShiftV: () -> Void
+    let onEscape: () -> Void
 
-    func makeNSView(context: Context) -> NSView {
-        let view = CmdShiftVMonitorView()
-        view.action = action
+    func makeNSView(context: Context) -> PanelKeyMonitorView {
+        let view = PanelKeyMonitorView()
+        view.onReturn = onReturn
+        view.onCmdShiftV = onCmdShiftV
+        view.onEscape = onEscape
         return view
     }
 
-    func updateNSView(_ nsView: NSView, context: Context) {
-        (nsView as? CmdShiftVMonitorView)?.action = action
+    func updateNSView(_ nsView: PanelKeyMonitorView, context: Context) {
+        nsView.onReturn = onReturn
+        nsView.onCmdShiftV = onCmdShiftV
+        nsView.onEscape = onEscape
     }
 }
 
-private class CmdShiftVMonitorView: NSView {
-    var action: (() -> Void)?
+private class PanelKeyMonitorView: NSView {
+    var onReturn: (() -> Void)?
+    var onCmdShiftV: (() -> Void)?
+    var onEscape: (() -> Void)?
+    private var localMonitor: Any?
 
-    override var acceptsFirstResponder: Bool { false }
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        if window != nil {
+            startMonitoring()
+        } else {
+            stopMonitoring()
+        }
+    }
 
-    override func keyDown(with event: NSEvent) {
+    private func startMonitoring() {
+        guard localMonitor == nil else { return }
+        localMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard let self else { return event }
+            return self.handleKeyEvent(event)
+        }
+    }
+
+    private func stopMonitoring() {
+        if let monitor = localMonitor {
+            NSEvent.removeMonitor(monitor)
+            localMonitor = nil
+        }
+    }
+
+    private func handleKeyEvent(_ event: NSEvent) -> NSEvent? {
+        // ⌘⇧V
         if event.modifierFlags.contains([.command, .shift]),
            event.charactersIgnoringModifiers == "v" {
-            action?()
-        } else {
-            super.keyDown(with: event)
+            onCmdShiftV?()
+            return nil
         }
+
+        // Escape
+        if event.keyCode == 53 {
+            onEscape?()
+            return nil
+        }
+
+        // Enter（IME変換確定中は無視）
+        if event.keyCode == 36 || event.keyCode == 76 {
+            // 現在のウィンドウの firstResponder にマークドテキスト（IME入力中）があるか確認
+            if let responder = self.window?.firstResponder as? NSTextInputClient,
+               responder.hasMarkedText() {
+                // IME変換確定のためイベントをそのまま通す
+                return event
+            }
+            onReturn?()
+            return nil
+        }
+
+        return event
+    }
+
+    deinit {
+        stopMonitoring()
     }
 }

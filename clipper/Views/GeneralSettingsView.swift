@@ -12,7 +12,10 @@ struct GeneralSettingsView: View {
                 ))
                 .accessibilityLabel("ログイン時に Clipper を自動起動する")
 
-                Toggle("メニューバーにアイコンを表示", isOn: viewModel.settings.$showMenuBarIcon)
+                Toggle("メニューバーにアイコンを表示", isOn: Binding(
+                    get: { viewModel.settings.showMenuBarIcon },
+                    set: { viewModel.settings.showMenuBarIcon = $0 }
+                ))
                     .accessibilityLabel("メニューバーに Clipper アイコンを表示する")
             }
 
@@ -67,6 +70,6 @@ struct GeneralSettingsView: View {
 }
 
 #Preview {
-    GeneralSettingsView(viewModel: SettingsViewModel())
+    GeneralSettingsView(viewModel: SettingsViewModel(settings: AppSettings()))
         .frame(width: 450, height: 400)
 }

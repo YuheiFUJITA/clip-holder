@@ -22,9 +22,12 @@ final class ClipboardMonitorService: ClipboardMonitoring {
 
     func startMonitoring() {
         stopMonitoring()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+        let newTimer = Timer(timeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.checkClipboard()
         }
+        RunLoop.main.add(newTimer, forMode: .common)
+        timer = newTimer
+        print("[ClipboardMonitor] Monitoring started. Initial changeCount: \(lastChangeCount)")
     }
 
     func stopMonitoring() {
@@ -63,10 +66,12 @@ final class ClipboardMonitorService: ClipboardMonitoring {
         let currentCount = NSPasteboard.general.changeCount
         guard currentCount != lastChangeCount else { return }
         lastChangeCount = currentCount
+        print("[ClipboardMonitor] changeCount changed to \(currentCount)")
 
         // 自アプリからの書き込みを除外
         if let frontApp = NSWorkspace.shared.frontmostApplication,
            frontApp.bundleIdentifier == selfBundleID {
+            print("[ClipboardMonitor] Skipped: self-app (\(selfBundleID))")
             return
         }
 
@@ -74,16 +79,19 @@ final class ClipboardMonitorService: ClipboardMonitoring {
         let sourceApp = NSWorkspace.shared.frontmostApplication
         let sourceBundleID = sourceApp?.bundleIdentifier
         let sourceName = sourceApp?.localizedName
+        print("[ClipboardMonitor] Source: \(sourceName ?? "unknown") (\(sourceBundleID ?? "nil"))")
 
         // 除外アプリチェック
         if let bundleID = sourceBundleID {
             let excludedIDs = settings.excludedApps.map { $0.id }
             if excludedIDs.contains(bundleID) {
+                print("[ClipboardMonitor] Skipped: excluded app")
                 return
             }
         }
 
         let pasteboard = NSPasteboard.general
+        print("[ClipboardMonitor] saveTextData=\(settings.saveTextData), saveImageData=\(settings.saveImageData)")
 
         // テキストデータの処理
         if settings.saveTextData,
@@ -99,6 +107,7 @@ final class ClipboardMonitorService: ClipboardMonitoring {
                 sourceAppName: sourceName
             )
             store.add(entry, maxCount: settings.maxHistoryCount)
+            print("[ClipboardMonitor] Added text entry. Store count: \(store.entries.count)")
             return
         }
 
@@ -121,7 +130,10 @@ final class ClipboardMonitorService: ClipboardMonitoring {
                     sourceAppName: sourceName
                 )
                 store.add(entry, maxCount: settings.maxHistoryCount)
+                print("[ClipboardMonitor] Added image entry. Store count: \(store.entries.count)")
             }
+        } else {
+            print("[ClipboardMonitor] No text or image data found in pasteboard")
         }
     }
 }

@@ -20,6 +20,17 @@ final class ClipboardHistoryStore: ClipboardHistoryStoring {
     }
 
     func add(_ entry: ClipboardHistoryEntry, maxCount: Int) {
+        // 同一内容の既存エントリを削除（重複防止）
+        entries.removeAll { existing in
+            if existing.dataType != entry.dataType { return false }
+            switch entry.dataType {
+            case .text:
+                return existing.textContent == entry.textContent
+            case .image:
+                return existing.imageData == entry.imageData
+            }
+        }
+
         entries.insert(entry, at: 0)
         if entries.count > maxCount {
             entries = Array(entries.prefix(maxCount))
