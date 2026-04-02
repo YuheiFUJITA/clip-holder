@@ -5,6 +5,7 @@ protocol ClipboardHistoryStoring {
     func add(_ entry: ClipboardHistoryEntry, maxCount: Int)
     func clearAll()
     func trimToCount(_ maxCount: Int)
+    func delete(id: UUID)
 }
 
 final class ClipboardHistoryStore: ClipboardHistoryStoring {
@@ -34,6 +35,11 @@ final class ClipboardHistoryStore: ClipboardHistoryStoring {
     func trimToCount(_ maxCount: Int) {
         guard entries.count > maxCount else { return }
         entries = Array(entries.prefix(maxCount))
+        saveToDisk()
+    }
+
+    func delete(id: UUID) {
+        entries.removeAll { $0.id == id }
         saveToDisk()
     }
 

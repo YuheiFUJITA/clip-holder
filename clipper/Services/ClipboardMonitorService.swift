@@ -38,6 +38,27 @@ final class ClipboardMonitorService: ClipboardMonitoring {
 
     // MARK: - Private
 
+    private func detectTextSubtype(pasteboard: NSPasteboard, text: String) -> (TextSubtype, Data?) {
+        // RTF または HTML 型が存在する場合はリッチテキスト
+        let types = pasteboard.types ?? []
+        if types.contains(.rtf) || types.contains(.html) {
+            let richData = pasteboard.data(forType: .rtf) ?? pasteboard.data(forType: .html)
+            return (.richText, richData)
+        }
+
+        // URL 型の存在、またはテキスト内容が URL パターンに一致する場合
+        if types.contains(.URL) {
+            return (.url, nil)
+        }
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let url = URL(string: trimmed), let scheme = url.scheme,
+           ["http", "https", "ftp"].contains(scheme.lowercased()) {
+            return (.url, nil)
+        }
+
+        return (.plain, nil)
+    }
+
     private func checkClipboard() {
         let currentCount = NSPasteboard.general.changeCount
         guard currentCount != lastChangeCount else { return }
@@ -68,9 +89,12 @@ final class ClipboardMonitorService: ClipboardMonitoring {
         if settings.saveTextData,
            let text = pasteboard.string(forType: .string),
            !text.isEmpty {
+            let (subtype, richData) = detectTextSubtype(pasteboard: pasteboard, text: text)
             let entry = ClipboardHistoryEntry(
                 dataType: .text,
+                textSubtype: subtype,
                 textContent: text,
+                richTextData: richData,
                 sourceAppBundleID: sourceBundleID,
                 sourceAppName: sourceName
             )

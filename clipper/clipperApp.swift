@@ -25,6 +25,9 @@ struct clipperApp: App {
     private let historyStore = ClipboardHistoryStore()
     @State private var settingsViewModel: SettingsViewModel?
     @State private var clipboardMonitor: ClipboardMonitorService?
+    @State private var panelWindowService: PanelWindowService?
+    @State private var pasteService = PasteService()
+    @State private var historyPanelViewModel: HistoryPanelViewModel?
 
     var body: some Scene {
         Window("オンボーディング", id: "onboarding") {
@@ -48,7 +51,7 @@ struct clipperApp: App {
         }
 
         MenuBarExtra("Clipper", systemImage: "paperclip", isInserted: $showMenuBarIcon) {
-            MenuBarMenuView()
+            MenuBarMenuView(onShowHistory: { showHistoryPanel() })
         }
     }
 
@@ -63,8 +66,39 @@ struct clipperApp: App {
         monitor.startMonitoring()
         _clipboardMonitor = State(initialValue: monitor)
 
-        KeyboardShortcuts.onKeyUp(for: .showClipboardHistory) {
-            // クリップボード履歴表示 UI が実装された後にここで表示する
+        KeyboardShortcuts.onKeyUp(for: .showClipboardHistory) { [self] in
+            showHistoryPanel()
+        }
+    }
+
+    private func showHistoryPanel() {
+        pasteService.recordPreviousApp()
+
+        let service: PanelWindowService
+        if let existing = panelWindowService {
+            service = existing
+        } else {
+            service = PanelWindowService()
+            let vm = HistoryPanelViewModel(
+                store: historyStore,
+                pasteService: pasteService,
+                panelService: service
+            )
+            historyPanelViewModel = vm
+            service.contentView = { [weak service] in
+                AnyView(
+                    HistoryPanelView(
+                        viewModel: vm,
+                        onDismiss: { service?.hidePanel() }
+                    )
+                )
+            }
+            panelWindowService = service
+        }
+
+        service.togglePanel()
+        if service.isVisible {
+            historyPanelViewModel?.onPanelShow()
         }
     }
 }

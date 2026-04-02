@@ -27,6 +27,10 @@ final class MockClipboardHistoryStore: ClipboardHistoryStoring {
             entries = Array(entries.prefix(maxCount))
         }
     }
+
+    func delete(id: UUID) {
+        entries.removeAll { $0.id == id }
+    }
 }
 
 @Suite

@@ -1,9 +1,11 @@
 import SwiftUI
 
 struct MenuBarMenuView: View {
+    var onShowHistory: () -> Void = {}
+
     var body: some View {
         Button("クリップボード履歴を表示") {
-            // クリップボード履歴ウィンドウが実装された後にここで表示する
+            onShowHistory()
         }
         .keyboardShortcut("v", modifiers: [.option, .command])
 

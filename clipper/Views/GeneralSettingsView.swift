@@ -20,7 +20,10 @@ struct GeneralSettingsView: View {
                 HStack {
                     Text("最大保存件数")
                     Spacer()
-                    TextField("", value: viewModel.settings.$maxHistoryCount, format: .number)
+                    TextField("", value: Binding(
+                        get: { viewModel.settings.maxHistoryCount },
+                        set: { viewModel.updateMaxHistoryCount($0) }
+                    ), format: .number)
                         .frame(width: 60)
                         .textFieldStyle(.roundedBorder)
                         .multilineTextAlignment(.center)

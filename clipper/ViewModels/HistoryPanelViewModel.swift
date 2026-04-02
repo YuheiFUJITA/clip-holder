@@ -1,0 +1,112 @@
+import Foundation
+
+enum SelectionDirection {
+    case up
+    case down
+}
+
+@Observable
+@MainActor
+final class HistoryPanelViewModel {
+    var entries: [ClipboardHistoryEntry] = []
+    var filteredEntries: [ClipboardHistoryEntry] = []
+    var selectedIndex: Int = 0
+    var searchQuery: String = "" {
+        didSet { applyFilter() }
+    }
+    var pasteError: String?
+
+    private let store: ClipboardHistoryStoring
+    private let pasteService: PasteExecuting
+    private let panelService: PanelWindowManaging
+    private let previousAppRecorder: (() -> Void)?
+
+    init(
+        store: ClipboardHistoryStoring,
+        pasteService: PasteExecuting,
+        panelService: PanelWindowManaging,
+        previousAppRecorder: (() -> Void)? = nil
+    ) {
+        self.store = store
+        self.pasteService = pasteService
+        self.panelService = panelService
+        self.previousAppRecorder = previousAppRecorder
+    }
+
+    var isEmpty: Bool {
+        entries.isEmpty
+    }
+
+    var isSearchEmpty: Bool {
+        !searchQuery.isEmpty && filteredEntries.isEmpty
+    }
+
+    // MARK: - Actions
+
+    func loadEntries() {
+        entries = store.entries
+        searchQuery = ""
+        selectedIndex = 0
+        pasteError = nil
+        applyFilter()
+    }
+
+    func moveSelection(direction: SelectionDirection) {
+        guard !filteredEntries.isEmpty else { return }
+        switch direction {
+        case .up:
+            selectedIndex = max(0, selectedIndex - 1)
+        case .down:
+            selectedIndex = min(filteredEntries.count - 1, selectedIndex + 1)
+        }
+    }
+
+    func confirmPaste(mode: PasteMode) {
+        guard selectedIndex >= 0, selectedIndex < filteredEntries.count else { return }
+        let entry = filteredEntries[selectedIndex]
+        Task {
+            let success = await pasteService.paste(entry: entry, mode: mode)
+            if success {
+                panelService.hidePanel()
+            } else {
+                pasteError = "ペーストに失敗しました。クリップボードにはコピー済みです。"
+            }
+        }
+    }
+
+    func deleteEntry(id: UUID) {
+        store.delete(id: id)
+        entries = store.entries
+        applyFilter()
+        // 選択インデックスを範囲内に調整
+        if !filteredEntries.isEmpty {
+            selectedIndex = min(selectedIndex, filteredEntries.count - 1)
+        } else {
+            selectedIndex = 0
+        }
+    }
+
+    func onPanelShow() {
+        previousAppRecorder?()
+        loadEntries()
+    }
+
+    // MARK: - Private
+
+    private func applyFilter() {
+        if searchQuery.isEmpty {
+            filteredEntries = entries
+        } else {
+            filteredEntries = entries.filter { entry in
+                guard let text = entry.textContent else { return false }
+                return text.localizedCaseInsensitiveContains(searchQuery)
+            }
+        }
+        // 選択インデックスを範囲内に調整
+        if filteredEntries.isEmpty {
+            selectedIndex = 0
+        } else {
+            selectedIndex = min(selectedIndex, filteredEntries.count - 1)
+        }
+    }
+}
