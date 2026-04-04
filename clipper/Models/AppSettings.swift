@@ -33,6 +33,11 @@ final class AppSettings: @unchecked Sendable {
         set { defaults.set(newValue, forKey: "saveImageData") }
     }
 
+    var openSettingsOnLaunch: Bool {
+        get { defaults.bool(forKey: "openSettingsOnLaunch") }
+        set { defaults.set(newValue, forKey: "openSettingsOnLaunch") }
+    }
+
     var hasCompletedOnboarding: Bool {
         get { defaults.bool(forKey: "hasCompletedOnboarding") }
         set { defaults.set(newValue, forKey: "hasCompletedOnboarding") }

@@ -17,6 +17,12 @@ struct GeneralSettingsView: View {
                     set: { viewModel.settings.showMenuBarIcon = $0 }
                 ))
                     .accessibilityLabel("メニューバーに Clipper アイコンを表示する")
+
+                Toggle("起動時に設定画面を開く", isOn: Binding(
+                    get: { viewModel.settings.openSettingsOnLaunch },
+                    set: { viewModel.settings.openSettingsOnLaunch = $0 }
+                ))
+                    .accessibilityLabel("起動時に設定画面を開く")
             }
 
             Section("クリップボード履歴") {

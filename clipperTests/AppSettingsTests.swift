@@ -7,7 +7,8 @@ struct AppSettingsTests {
 
     private func cleanDefaults() {
         let keys = ["launchAtLogin", "showMenuBarIcon", "maxHistoryCount",
-                     "saveTextData", "saveImageData", "excludedAppsJSON", "hasCompletedOnboarding"]
+                     "saveTextData", "saveImageData", "excludedAppsJSON", "hasCompletedOnboarding",
+                     "openSettingsOnLaunch"]
         keys.forEach { UserDefaults.standard.removeObject(forKey: $0) }
     }
 
@@ -59,6 +60,24 @@ struct AppSettingsTests {
         settings.excludedApps = [app]
         settings.removeExcludedApp(app)
         #expect(settings.excludedApps.isEmpty)
+        cleanDefaults()
+    }
+
+    @Test func openSettingsOnLaunchDefaultsToFalse() {
+        cleanDefaults()
+        let settings = AppSettings()
+        #expect(settings.openSettingsOnLaunch == false)
+        cleanDefaults()
+    }
+
+    @Test func openSettingsOnLaunchPersistsValue() {
+        cleanDefaults()
+        let settings = AppSettings()
+        settings.openSettingsOnLaunch = true
+        #expect(settings.openSettingsOnLaunch == true)
+        #expect(UserDefaults.standard.bool(forKey: "openSettingsOnLaunch") == true)
+        settings.openSettingsOnLaunch = false
+        #expect(settings.openSettingsOnLaunch == false)
         cleanDefaults()
     }
 

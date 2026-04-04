@@ -88,7 +88,7 @@ struct clipperApp: App {
             OnboardingView(viewModel: OnboardingViewModel())
         }
         .windowResizability(.contentSize)
-        .defaultLaunchBehavior(.presented)
+        .defaultLaunchBehavior(hasCompletedOnboarding ? .suppressed : .presented)
 
         Settings {
             TabView {
@@ -101,6 +101,7 @@ struct clipperApp: App {
             }
             .frame(width: 480)
         }
+        .defaultLaunchBehavior(hasCompletedOnboarding && controller.appSettings.openSettingsOnLaunch ? .presented : .suppressed)
 
         MenuBarExtra("Clipper", systemImage: "paperclip", isInserted: $showMenuBarIcon) {
             MenuBarMenuView(onShowHistory: { controller.showHistoryPanel() })
@@ -115,5 +116,6 @@ struct clipperApp: App {
                 AppController.shared.showHistoryPanel()
             }
         }
+
     }
 }
