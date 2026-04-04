@@ -43,10 +43,10 @@ final class PasteService: PasteExecuting {
         guard let targetApp = previousApp else {
             return false
         }
-        targetApp.activate()
+        targetApp.activate(options: .activateIgnoringOtherApps)
 
         // アプリ切替の安定化のための遅延
-        try? await Task.sleep(for: .milliseconds(50))
+        try? await Task.sleep(for: .milliseconds(100))
 
         // ⌘V キーイベントを送信
         sendPasteKeyEvent()

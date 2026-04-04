@@ -29,23 +29,13 @@ struct HistoryPanelView: View {
         .frame(width: 360, height: 480)
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        .onKeyPress(.upArrow) {
-            viewModel.moveSelection(direction: .up)
-            return .handled
-        }
-        .onKeyPress(.downArrow) {
-            viewModel.moveSelection(direction: .down)
-            return .handled
-        }
-        .onKeyPress(.escape) {
-            onDismiss()
-            return .handled
-        }
         .onChange(of: viewModel.searchQuery) {
             viewModel.applyFilter()
         }
         .background(
             PanelKeyHandler(
+                onUpArrow: { viewModel.moveSelection(direction: .up) },
+                onDownArrow: { viewModel.moveSelection(direction: .down) },
                 onReturn: { viewModel.confirmPaste(mode: .original) },
                 onCmdShiftV: { viewModel.confirmPaste(mode: .plainText) },
                 onEscape: { onDismiss() }
@@ -160,12 +150,16 @@ struct HistoryPanelView: View {
 /// Enter / ⌘⇧V / Esc のキーイベントを NSEvent ローカルモニターで検出する
 /// IMEの変換確定中（markedText がある状態）ではEnterキーを無視する
 private struct PanelKeyHandler: NSViewRepresentable {
+    let onUpArrow: () -> Void
+    let onDownArrow: () -> Void
     let onReturn: () -> Void
     let onCmdShiftV: () -> Void
     let onEscape: () -> Void
 
     func makeNSView(context: Context) -> PanelKeyMonitorView {
         let view = PanelKeyMonitorView()
+        view.onUpArrow = onUpArrow
+        view.onDownArrow = onDownArrow
         view.onReturn = onReturn
         view.onCmdShiftV = onCmdShiftV
         view.onEscape = onEscape
@@ -173,6 +167,8 @@ private struct PanelKeyHandler: NSViewRepresentable {
     }
 
     func updateNSView(_ nsView: PanelKeyMonitorView, context: Context) {
+        nsView.onUpArrow = onUpArrow
+        nsView.onDownArrow = onDownArrow
         nsView.onReturn = onReturn
         nsView.onCmdShiftV = onCmdShiftV
         nsView.onEscape = onEscape
@@ -180,6 +176,8 @@ private struct PanelKeyHandler: NSViewRepresentable {
 }
 
 private class PanelKeyMonitorView: NSView {
+    var onUpArrow: (() -> Void)?
+    var onDownArrow: (() -> Void)?
     var onReturn: (() -> Void)?
     var onCmdShiftV: (() -> Void)?
     var onEscape: (() -> Void)?
@@ -220,6 +218,18 @@ private class PanelKeyMonitorView: NSView {
         // Escape
         if event.keyCode == 53 {
             onEscape?()
+            return nil
+        }
+
+        // ↑矢印
+        if event.keyCode == 126 {
+            onUpArrow?()
+            return nil
+        }
+
+        // ↓矢印
+        if event.keyCode == 125 {
+            onDownArrow?()
             return nil
         }
 

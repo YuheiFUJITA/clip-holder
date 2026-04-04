@@ -62,11 +62,11 @@ final class HistoryPanelViewModel {
     func confirmPaste(mode: PasteMode) {
         guard selectedIndex >= 0, selectedIndex < filteredEntries.count else { return }
         let entry = filteredEntries[selectedIndex]
+        // パネルを先に閉じてから貼り付ける（パネルがフォーカスを奪い返すのを防ぐ）
+        panelService.hidePanel()
         Task {
             let success = await pasteService.paste(entry: entry, mode: mode)
-            if success {
-                panelService.hidePanel()
-            } else {
+            if !success {
                 pasteError = "ペーストに失敗しました。クリップボードにはコピー済みです。"
             }
         }

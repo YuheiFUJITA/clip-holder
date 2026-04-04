@@ -36,6 +36,7 @@ final class PanelWindowService: PanelWindowManaging {
         let panel = createOrReusePanel()
         let position = calculatePosition()
         panel.setFrameOrigin(position)
+        NSApp.activate()
         panel.makeKeyAndOrderFront(nil)
         isVisible = true
 
