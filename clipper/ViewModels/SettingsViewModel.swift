@@ -117,9 +117,4 @@ final class SettingsViewModel {
         settings.removeExcludedApp(app)
     }
 
-    // MARK: - オンボーディング
-
-    func resetOnboarding() {
-        settings.hasCompletedOnboarding = false
-    }
 }

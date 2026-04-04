@@ -63,14 +63,6 @@ struct SettingsViewModelTests {
         #expect(vm.showDeleteConfirmation == false)
     }
 
-    @Test @MainActor func resetOnboardingClearsFlag() {
-        let settings = AppSettings()
-        settings.hasCompletedOnboarding = true
-        let vm = SettingsViewModel(settings: settings, loginItemService: MockLoginItemService(), accessibilityService: MockAccessibilityService())
-        vm.resetOnboarding()
-        #expect(settings.hasCompletedOnboarding == false)
-    }
-
     @Test @MainActor func removeExcludedAppDelegatesToSettings() {
         let settings = AppSettings()
         let app = ExcludedApp(id: "com.test", name: "Test", bundlePath: "/test")

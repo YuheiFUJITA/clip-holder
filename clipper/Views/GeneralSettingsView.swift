@@ -62,12 +62,6 @@ struct GeneralSettingsView: View {
                 }
             }
 
-            Section("オンボーディング") {
-                Button("オンボーディングをリセット") {
-                    viewModel.resetOnboarding()
-                }
-                .accessibilityLabel("オンボーディングをリセットして次回起動時に再表示する")
-            }
         }
         .formStyle(.grouped)
         .onAppear { viewModel.startAccessibilityPolling() }
