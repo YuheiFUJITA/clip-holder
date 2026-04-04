@@ -29,13 +29,13 @@ final class OnboardingViewModel {
     var currentStepContent: OnboardingStepContent { steps[currentStep] }
 
     init(
-        accessibilityService: AccessibilityPermissionChecking = AccessibilityPermissionService(),
-        loginItemService: LoginItemManaging = LoginItemService()
+        accessibilityService: AccessibilityPermissionChecking? = nil,
+        loginItemService: LoginItemManaging? = nil
     ) {
-        self.accessibilityService = accessibilityService
-        self.loginItemService = loginItemService
-        self.isAccessibilityGranted = accessibilityService.isGranted
-        self.isLaunchAtLoginEnabled = loginItemService.isEnabled
+        self.accessibilityService = accessibilityService ?? AccessibilityPermissionService()
+        self.loginItemService = loginItemService ?? LoginItemService()
+        self.isAccessibilityGranted = self.accessibilityService.isGranted
+        self.isLaunchAtLoginEnabled = self.loginItemService.isEnabled
     }
 
     func goToNextStep() {
@@ -75,6 +75,7 @@ final class OnboardingViewModel {
         do {
             try loginItemService.setEnabled(enabled)
             isLaunchAtLoginEnabled = enabled
+            UserDefaults.standard.set(enabled, forKey: "launchAtLogin")
         } catch {
             isLaunchAtLoginEnabled = !enabled
         }

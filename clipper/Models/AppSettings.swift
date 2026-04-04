@@ -34,7 +34,7 @@ final class AppSettings: @unchecked Sendable {
     }
 
     var openSettingsOnLaunch: Bool {
-        get { defaults.bool(forKey: "openSettingsOnLaunch") }
+        get { defaults.object(forKey: "openSettingsOnLaunch") as? Bool ?? true }
         set { defaults.set(newValue, forKey: "openSettingsOnLaunch") }
     }
 

@@ -63,10 +63,10 @@ struct AppSettingsTests {
         cleanDefaults()
     }
 
-    @Test func openSettingsOnLaunchDefaultsToFalse() {
+    @Test func openSettingsOnLaunchDefaultsToTrue() {
         cleanDefaults()
         let settings = AppSettings()
-        #expect(settings.openSettingsOnLaunch == false)
+        #expect(settings.openSettingsOnLaunch == true)
         cleanDefaults()
     }
 
