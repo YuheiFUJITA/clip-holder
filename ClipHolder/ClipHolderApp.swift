@@ -123,7 +123,7 @@ struct ClipHolderApp: App {
         }
         .defaultLaunchBehavior(hasCompletedOnboarding && controller.appSettings.openSettingsOnLaunch ? .presented : .suppressed)
 
-        MenuBarExtra("Clip Holder", systemImage: "paperclip", isInserted: $showMenuBarIcon) {
+        MenuBarExtra("Clip Holder", image: "MenuBarIcon", isInserted: $showMenuBarIcon) {
             MenuBarMenuView(
                 onShowHistory: { controller.showHistoryPanel() },
                 onCheckForUpdates: { controller.updateService.checkForUpdates() },
