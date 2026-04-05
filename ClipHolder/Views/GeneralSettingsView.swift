@@ -16,19 +16,19 @@ struct GeneralSettingsView: View {
                     get: { viewModel.settings.launchAtLogin },
                     set: { viewModel.toggleLaunchAtLogin($0) }
                 ))
-                .accessibilityLabel("ログイン時に Clipper を自動起動する")
+                .accessibilityLabel("ログイン時に Clip Holder を自動起動する")
 
                 Toggle("メニューバーにアイコンを表示", isOn: Binding(
                     get: { viewModel.settings.showMenuBarIcon },
                     set: { viewModel.settings.showMenuBarIcon = $0 }
                 ))
-                    .accessibilityLabel("メニューバーに Clipper アイコンを表示する")
+                    .accessibilityLabel("メニューバーに Clip Holder アイコンを表示する")
 
                 Toggle("Dock にアイコンを表示", isOn: Binding(
                     get: { viewModel.settings.showDockIcon },
                     set: { viewModel.toggleDockIcon($0) }
                 ))
-                    .accessibilityLabel("Dock に Clipper アイコンを表示する")
+                    .accessibilityLabel("Dock に Clip Holder アイコンを表示する")
 
                 Toggle("起動時に設定画面を開く", isOn: Binding(
                     get: { viewModel.settings.openSettingsOnLaunch },

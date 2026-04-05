@@ -17,7 +17,7 @@ struct LaunchAtLoginStepView: View {
                 .font(.title2)
                 .fontWeight(.bold)
 
-            Text("Mac を起動するたびに Clipper が\n自動で立ち上がります。")
+            Text("Mac を起動するたびに Clip Holder が\n自動で立ち上がります。")
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -29,7 +29,7 @@ struct LaunchAtLoginStepView: View {
             ))
             .toggleStyle(.switch)
             .fixedSize()
-            .accessibilityLabel("ログイン時に Clipper を自動起動する")
+            .accessibilityLabel("ログイン時に Clip Holder を自動起動する")
 
             Text("この設定は後から変更できます")
                 .font(.caption)

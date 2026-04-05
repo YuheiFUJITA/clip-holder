@@ -25,7 +25,7 @@ struct MenuBarMenuView: View {
 
         Divider()
 
-        Button("Clipper を終了") {
+        Button("Clip Holder を終了") {
             NSApplication.shared.terminate(nil)
         }
         .keyboardShortcut("q", modifiers: .command)

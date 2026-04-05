@@ -17,7 +17,7 @@ final class ClipboardMonitorService: ClipboardMonitoring {
         self.settings = settings
         self.store = store
         self.lastChangeCount = NSPasteboard.general.changeCount
-        self.selfBundleID = Bundle.main.bundleIdentifier ?? "dev.fujita.clipper"
+        self.selfBundleID = Bundle.main.bundleIdentifier ?? "app.clip-holder"
     }
 
     func startMonitoring() {

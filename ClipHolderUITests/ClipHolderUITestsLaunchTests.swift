@@ -1,13 +1,13 @@
 //
-//  clipperUITestsLaunchTests.swift
-//  clipperUITests
+//  ClipHolderUITestsLaunchTests.swift
+//  ClipHolderUITests
 //
 //  Created by Yuhei FUJITA on 2026/03/25.
 //
 
 import XCTest
 
-final class clipperUITestsLaunchTests: XCTestCase {
+final class ClipHolderUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

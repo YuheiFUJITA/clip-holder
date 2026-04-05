@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import clipper
+@testable import ClipHolder
 
 // テスト用のモック ClipboardHistoryStore
 final class MockClipboardHistoryStore: ClipboardHistoryStoring {

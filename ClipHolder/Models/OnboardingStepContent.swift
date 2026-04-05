@@ -19,7 +19,7 @@ extension OnboardingStepContent {
     static let allSteps: [OnboardingStepContent] = [
         OnboardingStepContent(
             iconName: "clipboard",
-            title: "Clipper へようこそ",
+            title: "Clip Holder へようこそ",
             description: "macOS のクリップボードを\nもっと便利に、もっと賢く。",
             stepType: .welcome
         ),
@@ -44,13 +44,13 @@ extension OnboardingStepContent {
         OnboardingStepContent(
             iconName: "power",
             title: "ログイン時に自動起動",
-            description: "Mac を起動するたびに Clipper が\n自動で立ち上がります。",
+            description: "Mac を起動するたびに Clip Holder が\n自動で立ち上がります。",
             stepType: .launchAtLogin
         ),
         OnboardingStepContent(
             iconName: "checkmark.circle",
             title: "準備完了！",
-            description: "すべての設定が完了しました。\nClipper を使い始めましょう。",
+            description: "すべての設定が完了しました。\nClip Holder を使い始めましょう。",
             stepType: .complete
         ),
     ]

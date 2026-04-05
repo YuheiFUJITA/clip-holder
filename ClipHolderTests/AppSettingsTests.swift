@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import clipper
+@testable import ClipHolder
 
 @Suite(.serialized)
 struct AppSettingsTests {

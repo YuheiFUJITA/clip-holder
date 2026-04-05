@@ -58,7 +58,7 @@ final class ClipboardHistoryStore: ClipboardHistoryStoring {
 
     private static var defaultDirectory: URL {
         let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        return appSupport.appendingPathComponent("dev.fujita.clipper")
+        return appSupport.appendingPathComponent("app.clip-holder")
     }
 
     private func ensureDirectoryExists(_ directory: URL) {

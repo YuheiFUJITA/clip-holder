@@ -1,6 +1,6 @@
 //
-//  clipperApp.swift
-//  clipper
+//  ClipHolderApp.swift
+//  ClipHolder
 //
 //  Created by Yuhei FUJITA on 2026/03/25.
 //
@@ -95,7 +95,7 @@ final class AppController {
 }
 
 @main
-struct clipperApp: App {
+struct ClipHolderApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
@@ -123,7 +123,7 @@ struct clipperApp: App {
         }
         .defaultLaunchBehavior(hasCompletedOnboarding && controller.appSettings.openSettingsOnLaunch ? .presented : .suppressed)
 
-        MenuBarExtra("Clipper", systemImage: "paperclip", isInserted: $showMenuBarIcon) {
+        MenuBarExtra("Clip Holder", systemImage: "paperclip", isInserted: $showMenuBarIcon) {
             MenuBarMenuView(
                 onShowHistory: { controller.showHistoryPanel() },
                 onCheckForUpdates: { controller.updateService.checkForUpdates() },

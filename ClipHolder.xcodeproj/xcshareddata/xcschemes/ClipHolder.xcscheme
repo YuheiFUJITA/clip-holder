@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9627C1052F72FBFF00E1805B"
-               BuildableName = "clipper.app"
-               BlueprintName = "clipper"
-               ReferencedContainer = "container:clipper.xcodeproj">
+               BuildableName = "ClipHolder.app"
+               BlueprintName = "ClipHolder"
+               ReferencedContainer = "container:ClipHolder.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,9 +35,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9627C1122F72FC0100E1805B"
-               BuildableName = "clipperTests.xctest"
-               BlueprintName = "clipperTests"
-               ReferencedContainer = "container:clipper.xcodeproj">
+               BuildableName = "ClipHolderTests.xctest"
+               BlueprintName = "ClipHolderTests"
+               ReferencedContainer = "container:ClipHolder.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -45,9 +45,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9627C11C2F72FC0100E1805B"
-               BuildableName = "clipperUITests.xctest"
-               BlueprintName = "clipperUITests"
-               ReferencedContainer = "container:clipper.xcodeproj">
+               BuildableName = "ClipHolderUITests.xctest"
+               BlueprintName = "ClipHolderUITests"
+               ReferencedContainer = "container:ClipHolder.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -68,9 +68,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9627C1052F72FBFF00E1805B"
-            BuildableName = "clipper.app"
-            BlueprintName = "clipper"
-            ReferencedContainer = "container:clipper.xcodeproj">
+            BuildableName = "ClipHolder.app"
+            BlueprintName = "ClipHolder"
+            ReferencedContainer = "container:ClipHolder.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -85,9 +85,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9627C1052F72FBFF00E1805B"
-            BuildableName = "clipper.app"
-            BlueprintName = "clipper"
-            ReferencedContainer = "container:clipper.xcodeproj">
+            BuildableName = "ClipHolder.app"
+            BlueprintName = "ClipHolder"
+            ReferencedContainer = "container:ClipHolder.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -1,5 +1,5 @@
 import Testing
-@testable import clipper
+@testable import ClipHolder
 
 struct OnboardingModelTests {
 

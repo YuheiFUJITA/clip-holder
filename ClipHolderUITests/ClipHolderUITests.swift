@@ -1,13 +1,13 @@
 //
-//  clipperUITests.swift
-//  clipperUITests
+//  ClipHolderUITests.swift
+//  ClipHolderUITests
 //
 //  Created by Yuhei FUJITA on 2026/03/25.
 //
 
 import XCTest
 
-final class clipperUITests: XCTestCase {
+final class ClipHolderUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

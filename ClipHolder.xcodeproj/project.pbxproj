@@ -17,37 +17,37 @@
 			containerPortal = 9627C0FE2F72FBFF00E1805B /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9627C1052F72FBFF00E1805B;
-			remoteInfo = clipper;
+			remoteInfo = ClipHolder;
 		};
 		9627C11E2F72FC0100E1805B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9627C0FE2F72FBFF00E1805B /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9627C1052F72FBFF00E1805B;
-			remoteInfo = clipper;
+			remoteInfo = ClipHolder;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9627C1062F72FBFF00E1805B /* clipper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = clipper.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9627C1132F72FC0100E1805B /* clipperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = clipperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9627C11D2F72FC0100E1805B /* clipperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = clipperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9627C1062F72FBFF00E1805B /* ClipHolder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ClipHolder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9627C1132F72FC0100E1805B /* ClipHolderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ClipHolderTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9627C11D2F72FC0100E1805B /* ClipHolderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ClipHolderUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		9627C1082F72FBFF00E1805B /* clipper */ = {
+		9627C1082F72FBFF00E1805B /* ClipHolder */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = clipper;
+			path = "ClipHolder";
 			sourceTree = "<group>";
 		};
-		9627C1162F72FC0100E1805B /* clipperTests */ = {
+		9627C1162F72FC0100E1805B /* ClipHolderTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = clipperTests;
+			path = "ClipHolderTests";
 			sourceTree = "<group>";
 		};
-		9627C1202F72FC0100E1805B /* clipperUITests */ = {
+		9627C1202F72FC0100E1805B /* ClipHolderUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = clipperUITests;
+			path = "ClipHolderUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -82,9 +82,9 @@
 		9627C0FD2F72FBFF00E1805B = {
 			isa = PBXGroup;
 			children = (
-				9627C1082F72FBFF00E1805B /* clipper */,
-				9627C1162F72FC0100E1805B /* clipperTests */,
-				9627C1202F72FC0100E1805B /* clipperUITests */,
+				9627C1082F72FBFF00E1805B /* ClipHolder */,
+				9627C1162F72FC0100E1805B /* ClipHolderTests */,
+				9627C1202F72FC0100E1805B /* ClipHolderUITests */,
 				9627C1072F72FBFF00E1805B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,9 +92,9 @@
 		9627C1072F72FBFF00E1805B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9627C1062F72FBFF00E1805B /* clipper.app */,
-				9627C1132F72FC0100E1805B /* clipperTests.xctest */,
-				9627C11D2F72FC0100E1805B /* clipperUITests.xctest */,
+				9627C1062F72FBFF00E1805B /* ClipHolder.app */,
+				9627C1132F72FC0100E1805B /* ClipHolderTests.xctest */,
+				9627C11D2F72FC0100E1805B /* ClipHolderUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,9 +102,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9627C1052F72FBFF00E1805B /* clipper */ = {
+		9627C1052F72FBFF00E1805B /* ClipHolder */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9627C1272F72FC0100E1805B /* Build configuration list for PBXNativeTarget "clipper" */;
+			buildConfigurationList = 9627C1272F72FC0100E1805B /* Build configuration list for PBXNativeTarget "ClipHolder" */;
 			buildPhases = (
 				9627C1022F72FBFF00E1805B /* Sources */,
 				9627C1032F72FBFF00E1805B /* Frameworks */,
@@ -115,20 +115,20 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				9627C1082F72FBFF00E1805B /* clipper */,
+				9627C1082F72FBFF00E1805B /* ClipHolder */,
 			);
-			name = clipper;
+			name = "ClipHolder";
 			packageProductDependencies = (
 				A1B2C3D40000000000000002 /* KeyboardShortcuts */,
 				A1B2C3D40000000000000004 /* Sparkle */,
 			);
-			productName = clipper;
-			productReference = 9627C1062F72FBFF00E1805B /* clipper.app */;
+			productName = "ClipHolder";
+			productReference = 9627C1062F72FBFF00E1805B /* ClipHolder.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9627C1122F72FC0100E1805B /* clipperTests */ = {
+		9627C1122F72FC0100E1805B /* ClipHolderTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9627C12A2F72FC0100E1805B /* Build configuration list for PBXNativeTarget "clipperTests" */;
+			buildConfigurationList = 9627C12A2F72FC0100E1805B /* Build configuration list for PBXNativeTarget "ClipHolderTests" */;
 			buildPhases = (
 				9627C10F2F72FC0100E1805B /* Sources */,
 				9627C1102F72FC0100E1805B /* Frameworks */,
@@ -140,18 +140,18 @@
 				9627C1152F72FC0100E1805B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				9627C1162F72FC0100E1805B /* clipperTests */,
+				9627C1162F72FC0100E1805B /* ClipHolderTests */,
 			);
-			name = clipperTests;
+			name = "ClipHolderTests";
 			packageProductDependencies = (
 			);
-			productName = clipperTests;
-			productReference = 9627C1132F72FC0100E1805B /* clipperTests.xctest */;
+			productName = "ClipHolderTests";
+			productReference = 9627C1132F72FC0100E1805B /* ClipHolderTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		9627C11C2F72FC0100E1805B /* clipperUITests */ = {
+		9627C11C2F72FC0100E1805B /* ClipHolderUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9627C12D2F72FC0100E1805B /* Build configuration list for PBXNativeTarget "clipperUITests" */;
+			buildConfigurationList = 9627C12D2F72FC0100E1805B /* Build configuration list for PBXNativeTarget "ClipHolderUITests" */;
 			buildPhases = (
 				9627C1192F72FC0100E1805B /* Sources */,
 				9627C11A2F72FC0100E1805B /* Frameworks */,
@@ -163,13 +163,13 @@
 				9627C11F2F72FC0100E1805B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				9627C1202F72FC0100E1805B /* clipperUITests */,
+				9627C1202F72FC0100E1805B /* ClipHolderUITests */,
 			);
-			name = clipperUITests;
+			name = "ClipHolderUITests";
 			packageProductDependencies = (
 			);
-			productName = clipperUITests;
-			productReference = 9627C11D2F72FC0100E1805B /* clipperUITests.xctest */;
+			productName = "ClipHolderUITests";
+			productReference = 9627C11D2F72FC0100E1805B /* ClipHolderUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -195,7 +195,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9627C1012F72FBFF00E1805B /* Build configuration list for PBXProject "clipper" */;
+			buildConfigurationList = 9627C1012F72FBFF00E1805B /* Build configuration list for PBXProject "ClipHolder" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -213,9 +213,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9627C1052F72FBFF00E1805B /* clipper */,
-				9627C1122F72FC0100E1805B /* clipperTests */,
-				9627C11C2F72FC0100E1805B /* clipperUITests */,
+				9627C1052F72FBFF00E1805B /* ClipHolder */,
+				9627C1122F72FC0100E1805B /* ClipHolderTests */,
+				9627C11C2F72FC0100E1805B /* ClipHolderUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -271,12 +271,12 @@
 /* Begin PBXTargetDependency section */
 		9627C1152F72FC0100E1805B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9627C1052F72FBFF00E1805B /* clipper */;
+			target = 9627C1052F72FBFF00E1805B /* ClipHolder */;
 			targetProxy = 9627C1142F72FC0100E1805B /* PBXContainerItemProxy */;
 		};
 		9627C11F2F72FC0100E1805B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9627C1052F72FBFF00E1805B /* clipper */;
+			target = 9627C1052F72FBFF00E1805B /* ClipHolder */;
 			targetProxy = 9627C11E2F72FC0100E1805B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -416,13 +416,14 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Clip Holder";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 0.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.fujita.clipper;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.clip-holder";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -448,13 +449,14 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Clip Holder";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 0.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.fujita.clipper;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.clip-holder";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -476,14 +478,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.fujita.clipperTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.clip-holder.tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipper.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/clipper";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClipHolder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ClipHolder";
 			};
 			name = Debug;
 		};
@@ -497,14 +499,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.fujita.clipperTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.clip-holder.tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipper.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/clipper";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClipHolder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ClipHolder";
 			};
 			name = Release;
 		};
@@ -516,14 +518,14 @@
 				DEVELOPMENT_TEAM = 5WKR442GT9;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.fujita.clipperUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.clip-holder.uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = clipper;
+				TEST_TARGET_NAME = "ClipHolder";
 			};
 			name = Debug;
 		};
@@ -535,21 +537,21 @@
 				DEVELOPMENT_TEAM = 5WKR442GT9;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.fujita.clipperUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.clip-holder.uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = clipper;
+				TEST_TARGET_NAME = "ClipHolder";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9627C1012F72FBFF00E1805B /* Build configuration list for PBXProject "clipper" */ = {
+		9627C1012F72FBFF00E1805B /* Build configuration list for PBXProject "ClipHolder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9627C1252F72FC0100E1805B /* Debug */,
@@ -558,7 +560,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9627C1272F72FC0100E1805B /* Build configuration list for PBXNativeTarget "clipper" */ = {
+		9627C1272F72FC0100E1805B /* Build configuration list for PBXNativeTarget "ClipHolder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9627C1282F72FC0100E1805B /* Debug */,
@@ -567,7 +569,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9627C12A2F72FC0100E1805B /* Build configuration list for PBXNativeTarget "clipperTests" */ = {
+		9627C12A2F72FC0100E1805B /* Build configuration list for PBXNativeTarget "ClipHolderTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9627C12B2F72FC0100E1805B /* Debug */,
@@ -576,7 +578,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9627C12D2F72FC0100E1805B /* Build configuration list for PBXNativeTarget "clipperUITests" */ = {
+		9627C12D2F72FC0100E1805B /* Build configuration list for PBXNativeTarget "ClipHolderUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9627C12E2F72FC0100E1805B /* Debug */,
