@@ -20,6 +20,11 @@ final class AppSettings: @unchecked Sendable {
         set { defaults.set(newValue, forKey: "showDockIcon") }
     }
 
+    var automaticallyDownloadsUpdates: Bool {
+        get { defaults.bool(forKey: "automaticallyDownloadsUpdates") }
+        set { defaults.set(newValue, forKey: "automaticallyDownloadsUpdates") }
+    }
+
     var maxHistoryCount: Int {
         get {
             let val = defaults.integer(forKey: "maxHistoryCount")

@@ -10,6 +10,7 @@ final class SettingsViewModel {
     var showDeleteConfirmation: Bool = false
 
     let settings: AppSettings
+    var updateService: UpdateService?
 
     private let loginItemService: LoginItemManaging
     private let accessibilityService: AccessibilityPermissionChecking
@@ -48,6 +49,15 @@ final class SettingsViewModel {
     func toggleDockIcon(_ enabled: Bool) {
         settings.showDockIcon = enabled
         NSApplication.shared.setActivationPolicy(enabled ? .regular : .accessory)
+    }
+
+    func toggleAutomaticallyDownloadsUpdates(_ enabled: Bool) {
+        settings.automaticallyDownloadsUpdates = enabled
+        updateService?.syncSettings(with: settings)
+    }
+
+    func checkForUpdates() {
+        updateService?.checkForUpdates()
     }
 
     // MARK: - 権限管理

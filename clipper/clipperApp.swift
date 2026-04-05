@@ -9,6 +9,23 @@ import SwiftUI
 import AppKit
 import KeyboardShortcuts
 
+private struct SettingsWindowResizer: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSView {
+        let view = NSView()
+        DispatchQueue.main.async {
+            guard let window = view.window else { return }
+            window.styleMask.insert(.resizable)
+            var frame = window.frame
+            frame.size.height = 600
+            frame.size.width = 480
+            window.setFrame(frame, display: true)
+        }
+        return view
+    }
+
+    func updateNSView(_ nsView: NSView, context: Context) {}
+}
+
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         false
@@ -24,6 +41,7 @@ final class AppController {
     let appSettings = AppSettings()
     let historyStore = ClipboardHistoryStore()
     let pasteService = PasteService()
+    let updateService = UpdateService()
     lazy var settingsViewModel = SettingsViewModel(
         settings: appSettings,
         historyStore: historyStore
@@ -40,6 +58,7 @@ final class AppController {
         let monitor = ClipboardMonitorService(settings: appSettings, store: historyStore)
         monitor.startMonitoring()
         clipboardMonitor = monitor
+        settingsViewModel.updateService = updateService
         print("[AppController] Monitoring started")
     }
 
@@ -99,17 +118,24 @@ struct clipperApp: App {
                 ShortcutsSettingsView()
                     .tabItem { Label("ショートカット", systemImage: "keyboard") }
             }
-            .frame(width: 480)
+            .frame(minWidth: 480, minHeight: 400)
+            .background(SettingsWindowResizer())
         }
         .defaultLaunchBehavior(hasCompletedOnboarding && controller.appSettings.openSettingsOnLaunch ? .presented : .suppressed)
 
         MenuBarExtra("Clipper", systemImage: "paperclip", isInserted: $showMenuBarIcon) {
-            MenuBarMenuView(onShowHistory: { controller.showHistoryPanel() })
+            MenuBarMenuView(
+                onShowHistory: { controller.showHistoryPanel() },
+                onCheckForUpdates: { controller.updateService.checkForUpdates() },
+                canCheckForUpdates: controller.updateService.canCheckForUpdates
+            )
         }
     }
 
     init() {
         controller.startMonitoring()
+        controller.updateService.syncSettings(with: controller.appSettings)
+        controller.updateService.startUpdater()
 
         if !controller.appSettings.showDockIcon {
             NSApplication.shared.setActivationPolicy(.accessory)

@@ -2,6 +2,8 @@ import SwiftUI
 
 struct MenuBarMenuView: View {
     var onShowHistory: () -> Void = {}
+    var onCheckForUpdates: () -> Void = {}
+    var canCheckForUpdates: Bool = true
 
     var body: some View {
         Button("クリップボード履歴を表示") {
@@ -10,6 +12,11 @@ struct MenuBarMenuView: View {
         .keyboardShortcut("v", modifiers: [.option, .command])
 
         Divider()
+
+        Button("アップデートを確認...") {
+            onCheckForUpdates()
+        }
+        .disabled(!canCheckForUpdates)
 
         SettingsLink {
             Text("設定...")

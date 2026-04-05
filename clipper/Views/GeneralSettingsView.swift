@@ -1,5 +1,11 @@
 import SwiftUI
 
+private extension Bundle {
+    var shortVersionString: String {
+        infoDictionary?["CFBundleShortVersionString"] as? String ?? "?"
+    }
+}
+
 struct GeneralSettingsView: View {
     @Bindable var viewModel: SettingsViewModel
 
@@ -65,6 +71,31 @@ struct GeneralSettingsView: View {
                         viewModel.openAccessibilitySettings()
                     }
                     .accessibilityLabel("システム設定のアクセシビリティ権限画面を開く")
+                }
+            }
+
+            Section("アップデート") {
+                Toggle("自動的にダウンロードしてインストール", isOn: Binding(
+                    get: { viewModel.settings.automaticallyDownloadsUpdates },
+                    set: { viewModel.toggleAutomaticallyDownloadsUpdates($0) }
+                ))
+                    .accessibilityLabel("アップデートを自動的にダウンロードしてインストールする")
+
+                HStack {
+                    Button("アップデートを確認") {
+                        viewModel.checkForUpdates()
+                    }
+                    .disabled(!(viewModel.updateService?.canCheckForUpdates ?? false))
+
+                    Text("v\(Bundle.main.shortVersionString)（最新）")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+
+                if let date = viewModel.updateService?.lastUpdateCheckDate {
+                    Text("最終確認: \(date.formatted(date: .numeric, time: .shortened))")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             }
 
