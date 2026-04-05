@@ -17,20 +17,20 @@ final class SettingsViewModel {
 
     init(
         settings: AppSettings,
-        loginItemService: LoginItemManaging = LoginItemService(),
-        accessibilityService: AccessibilityPermissionChecking = AccessibilityPermissionService(),
+        loginItemService: LoginItemManaging? = nil,
+        accessibilityService: AccessibilityPermissionChecking? = nil,
         historyStore: ClipboardHistoryStoring? = nil
     ) {
         self.settings = settings
-        self.loginItemService = loginItemService
-        self.accessibilityService = accessibilityService
+        self.loginItemService = loginItemService ?? LoginItemService()
+        self.accessibilityService = accessibilityService ?? AccessibilityPermissionService()
         self.historyStore = historyStore
-        self.isAccessibilityGranted = accessibilityService.isGranted
+        self.isAccessibilityGranted = self.accessibilityService.isGranted
 
         // ログイン項目のシステム状態と設定値を同期（初回のみ）
         // UserDefaults に値が明示的に保存されていない場合のみシステム状態で初期化
         if UserDefaults.standard.object(forKey: "launchAtLogin") == nil {
-            settings.launchAtLogin = loginItemService.isEnabled
+            settings.launchAtLogin = self.loginItemService.isEnabled
         }
     }
 
@@ -43,6 +43,11 @@ final class SettingsViewModel {
         } catch {
             settings.launchAtLogin = !enabled
         }
+    }
+
+    func toggleDockIcon(_ enabled: Bool) {
+        settings.showDockIcon = enabled
+        NSApplication.shared.setActivationPolicy(enabled ? .regular : .accessory)
     }
 
     // MARK: - 権限管理

@@ -111,11 +111,14 @@ struct clipperApp: App {
     init() {
         controller.startMonitoring()
 
+        if !controller.appSettings.showDockIcon {
+            NSApplication.shared.setActivationPolicy(.accessory)
+        }
+
         KeyboardShortcuts.onKeyUp(for: .showClipboardHistory) {
             Task { @MainActor in
                 AppController.shared.showHistoryPanel()
             }
         }
-
     }
 }

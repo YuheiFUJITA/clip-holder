@@ -6,7 +6,7 @@ import Foundation
 struct AppSettingsTests {
 
     private func cleanDefaults() {
-        let keys = ["launchAtLogin", "showMenuBarIcon", "maxHistoryCount",
+        let keys = ["launchAtLogin", "showMenuBarIcon", "showDockIcon", "maxHistoryCount",
                      "saveTextData", "saveImageData", "excludedAppsJSON", "hasCompletedOnboarding",
                      "openSettingsOnLaunch"]
         keys.forEach { UserDefaults.standard.removeObject(forKey: $0) }

@@ -15,6 +15,11 @@ final class AppSettings: @unchecked Sendable {
         set { defaults.set(newValue, forKey: "showMenuBarIcon") }
     }
 
+    var showDockIcon: Bool {
+        get { defaults.object(forKey: "showDockIcon") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "showDockIcon") }
+    }
+
     var maxHistoryCount: Int {
         get {
             let val = defaults.integer(forKey: "maxHistoryCount")

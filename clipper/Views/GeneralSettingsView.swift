@@ -18,6 +18,12 @@ struct GeneralSettingsView: View {
                 ))
                     .accessibilityLabel("メニューバーに Clipper アイコンを表示する")
 
+                Toggle("Dock にアイコンを表示", isOn: Binding(
+                    get: { viewModel.settings.showDockIcon },
+                    set: { viewModel.toggleDockIcon($0) }
+                ))
+                    .accessibilityLabel("Dock に Clipper アイコンを表示する")
+
                 Toggle("起動時に設定画面を開く", isOn: Binding(
                     get: { viewModel.settings.openSettingsOnLaunch },
                     set: { viewModel.settings.openSettingsOnLaunch = $0 }
