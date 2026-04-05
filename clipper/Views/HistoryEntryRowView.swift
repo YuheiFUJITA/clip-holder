@@ -84,7 +84,7 @@ struct HistoryEntryRowView: View {
     private var previewContent: some View {
         switch entry.dataType {
         case .text:
-            Text(entry.textContent ?? "")
+            Text(entry.textContent?.previewText ?? "")
         case .image:
             if let imageData = entry.imageData, let nsImage = NSImage(data: imageData) {
                 HStack(spacing: 8) {
@@ -126,5 +126,17 @@ struct HistoryEntryRowView: View {
         formatter.unitsStyle = .short
         formatter.locale = Locale(identifier: "ja_JP")
         return formatter.localizedString(for: date, relativeTo: Date())
+    }
+}
+
+private extension String {
+    var previewText: String {
+        for line in components(separatedBy: .newlines) {
+            let trimmed = line.trimmingCharacters(in: .whitespaces)
+            if !trimmed.isEmpty {
+                return trimmed
+            }
+        }
+        return trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
