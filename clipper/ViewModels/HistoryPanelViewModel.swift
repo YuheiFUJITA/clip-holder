@@ -39,6 +39,11 @@ final class HistoryPanelViewModel {
         !searchQuery.isEmpty && filteredEntries.isEmpty
     }
 
+    var selectedEntry: ClipboardHistoryEntry? {
+        guard selectedIndex >= 0, selectedIndex < filteredEntries.count else { return nil }
+        return filteredEntries[selectedIndex]
+    }
+
     // MARK: - Actions
 
     func loadEntries() {

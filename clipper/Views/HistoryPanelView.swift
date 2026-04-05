@@ -5,28 +5,38 @@ struct HistoryPanelView: View {
     var onDismiss: () -> Void = {}
 
     var body: some View {
-        VStack(spacing: 0) {
-            // 検索フィールド
-            searchField
-                .padding(.horizontal, 12)
-                .padding(.top, 12)
-                .padding(.bottom, 8)
+        HStack(spacing: 0) {
+            // 左パネル: 履歴リスト
+            VStack(spacing: 0) {
+                // 検索フィールド
+                searchField
+                    .padding(.horizontal, 12)
+                    .padding(.top, 12)
+                    .padding(.bottom, 8)
 
-            // エントリリストまたは空状態
-            if viewModel.isEmpty {
-                emptyState
-            } else if viewModel.isSearchEmpty {
-                noResultsState
-            } else {
-                entryList
+                // エントリリストまたは空状態
+                if viewModel.isEmpty {
+                    emptyState
+                } else if viewModel.isSearchEmpty {
+                    noResultsState
+                } else {
+                    entryList
+                }
+
+                Spacer(minLength: 0)
+
+                // ヒントバー
+                hintBar
             }
+            .frame(width: 360, height: 480)
 
-            Spacer(minLength: 0)
+            // 区切り線 + 右プレビューパネル
+            if !viewModel.isEmpty {
+                Divider()
 
-            // ヒントバー
-            hintBar
+                PreviewPanelView(entry: viewModel.selectedEntry)
+            }
         }
-        .frame(width: 360, height: 480)
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .onChange(of: viewModel.searchQuery) {

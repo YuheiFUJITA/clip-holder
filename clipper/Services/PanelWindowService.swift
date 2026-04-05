@@ -20,14 +20,14 @@ final class PanelWindowService: PanelWindowManaging {
     private var panel: NSPanel?
     private var eventMonitor: Any?
     private let caretPositionService: CaretPositionProviding
-    private let panelSize = NSSize(width: 360, height: 400)
+    private let panelSize = NSSize(width: 761, height: 480)
 
     private(set) var isVisible: Bool = false
 
     var contentView: (() -> AnyView)?
 
-    init(caretPositionService: CaretPositionProviding = CaretPositionService()) {
-        self.caretPositionService = caretPositionService
+    init(caretPositionService: CaretPositionProviding? = nil) {
+        self.caretPositionService = caretPositionService ?? CaretPositionService()
     }
 
     func showPanel() {
@@ -83,6 +83,8 @@ final class PanelWindowService: PanelWindowManaging {
 
         if let contentView = contentView {
             let hostingView = NSHostingView(rootView: contentView())
+            hostingView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+            hostingView.setContentHuggingPriority(.defaultHigh, for: .vertical)
             newPanel.contentView = hostingView
         }
 
