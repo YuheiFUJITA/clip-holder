@@ -18,6 +18,18 @@ struct HistorySettingsView: View {
                     set: { viewModel.toggleSaveImageData($0) }
                 ))
                 .accessibilityLabel("画像データをクリップボード履歴に保存する")
+
+                Toggle("PDF", isOn: Binding(
+                    get: { viewModel.settings.savePDFData },
+                    set: { viewModel.toggleSavePDFData($0) }
+                ))
+                .accessibilityLabel("PDFデータをクリップボード履歴に保存する")
+
+                Toggle("ファイル", isOn: Binding(
+                    get: { viewModel.settings.saveFileData },
+                    set: { viewModel.toggleSaveFileData($0) }
+                ))
+                .accessibilityLabel("ファイル参照をクリップボード履歴に保存する")
             }
 
             Section("除外アプリ") {

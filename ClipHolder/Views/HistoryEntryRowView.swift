@@ -72,11 +72,35 @@ struct HistoryEntryRowView: View {
                             .font(.system(size: 12, weight: .bold))
                             .foregroundStyle(.white)
                     )
+            case .svg:
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(Color.orange.opacity(0.6))
+                    .overlay(
+                        Text("SVG")
+                            .font(.system(size: 8, weight: .bold))
+                            .foregroundStyle(.white)
+                    )
             }
         case .image:
             Image(systemName: "photo")
                 .font(.system(size: 14))
                 .foregroundStyle(.green)
+        case .pdf:
+            RoundedRectangle(cornerRadius: 6)
+                .fill(Color.red.opacity(0.7))
+                .overlay(
+                    Text("PDF")
+                        .font(.system(size: 8, weight: .bold))
+                        .foregroundStyle(.white)
+                )
+        case .file:
+            RoundedRectangle(cornerRadius: 6)
+                .fill(Color.blue.opacity(0.6))
+                .overlay(
+                    Image(systemName: "doc")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.white)
+                )
         }
     }
 
@@ -84,9 +108,9 @@ struct HistoryEntryRowView: View {
     private var previewContent: some View {
         switch entry.dataType {
         case .text:
-            Text(entry.textContent?.previewText ?? "")
+            Text(entry.previewText?.previewLine ?? "")
         case .image:
-            if let imageData = entry.imageData, let nsImage = NSImage(data: imageData) {
+            if let thumbData = entry.thumbnailData, let nsImage = NSImage(data: thumbData) {
                 HStack(spacing: 8) {
                     Image(nsImage: nsImage)
                         .resizable()
@@ -98,6 +122,10 @@ struct HistoryEntryRowView: View {
             } else {
                 Text("画像")
             }
+        case .pdf:
+            Text(entry.previewText ?? "PDF")
+        case .file:
+            Text(entry.previewText ?? "ファイル")
         }
     }
 
@@ -130,13 +158,14 @@ struct HistoryEntryRowView: View {
 }
 
 private extension String {
-    var previewText: String {
-        for line in components(separatedBy: .newlines) {
+    var previewLine: String {
+        let searchRange = prefix(min(count, 500))
+        for line in searchRange.components(separatedBy: .newlines) {
             let trimmed = line.trimmingCharacters(in: .whitespaces)
             if !trimmed.isEmpty {
                 return trimmed
             }
         }
-        return trimmingCharacters(in: .whitespacesAndNewlines)
+        return String(searchRange).trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

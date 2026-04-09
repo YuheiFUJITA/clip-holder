@@ -5,11 +5,11 @@ import Foundation
 // MARK: - Mock Services
 
 final class MockPasteService: PasteExecuting {
-    var pastedEntries: [(ClipboardHistoryEntry, PasteMode)] = []
+    var pastedItems: [(EntryContent, ClipboardHistoryEntry, PasteMode)] = []
     var shouldSucceed = true
 
-    func paste(entry: ClipboardHistoryEntry, mode: PasteMode) async -> Bool {
-        pastedEntries.append((entry, mode))
+    func paste(content: EntryContent, entry: ClipboardHistoryEntry, mode: PasteMode) async -> Bool {
+        pastedItems.append((content, entry, mode))
         return shouldSucceed
     }
 }
@@ -58,8 +58,8 @@ struct HistoryPanelViewModelTests {
 
     @Test @MainActor func loadEntriesPopulatesFilteredEntries() {
         let entries = [
-            ClipboardHistoryEntry(dataType: .text, textSubtype: .plain, textContent: "Hello"),
-            ClipboardHistoryEntry(dataType: .text, textSubtype: .url, textContent: "https://example.com"),
+            ClipboardHistoryEntry(dataType: .text, textSubtype: .plain, previewText: "Hello"),
+            ClipboardHistoryEntry(dataType: .text, textSubtype: .url, previewText: "https://example.com"),
         ]
         let (vm, _, _, _) = makeViewModel(entries: entries)
         vm.loadEntries()
@@ -69,7 +69,7 @@ struct HistoryPanelViewModelTests {
 
     @Test @MainActor func loadEntriesResetsSearchQuery() {
         let (vm, _, _, _) = makeViewModel(entries: [
-            ClipboardHistoryEntry(dataType: .text, textContent: "test")
+            ClipboardHistoryEntry(dataType: .text, previewText: "test")
         ])
         vm.searchQuery = "something"
         vm.loadEntries()
@@ -80,21 +80,21 @@ struct HistoryPanelViewModelTests {
 
     @Test @MainActor func searchQueryFiltersEntries() {
         let entries = [
-            ClipboardHistoryEntry(dataType: .text, textSubtype: .plain, textContent: "Hello World"),
-            ClipboardHistoryEntry(dataType: .text, textSubtype: .url, textContent: "https://example.com"),
-            ClipboardHistoryEntry(dataType: .image, imageData: Data([0x89])),
+            ClipboardHistoryEntry(dataType: .text, textSubtype: .plain, previewText: "Hello World"),
+            ClipboardHistoryEntry(dataType: .text, textSubtype: .url, previewText: "https://example.com"),
+            ClipboardHistoryEntry(dataType: .image),
         ]
         let (vm, _, _, _) = makeViewModel(entries: entries)
         vm.loadEntries()
         vm.searchQuery = "Hello"
         vm.applyFilter()
         #expect(vm.filteredEntries.count == 1)
-        #expect(vm.filteredEntries[0].textContent == "Hello World")
+        #expect(vm.filteredEntries[0].previewText == "Hello World")
     }
 
     @Test @MainActor func searchQueryCaseInsensitive() {
         let (vm, _, _, _) = makeViewModel(entries: [
-            ClipboardHistoryEntry(dataType: .text, textContent: "Hello World"),
+            ClipboardHistoryEntry(dataType: .text, previewText: "Hello World"),
         ])
         vm.loadEntries()
         vm.searchQuery = "hello"
@@ -104,8 +104,8 @@ struct HistoryPanelViewModelTests {
 
     @Test @MainActor func emptySearchShowsAll() {
         let (vm, _, _, _) = makeViewModel(entries: [
-            ClipboardHistoryEntry(dataType: .text, textContent: "A"),
-            ClipboardHistoryEntry(dataType: .text, textContent: "B"),
+            ClipboardHistoryEntry(dataType: .text, previewText: "A"),
+            ClipboardHistoryEntry(dataType: .text, previewText: "B"),
         ])
         vm.loadEntries()
         vm.searchQuery = "X"
@@ -118,7 +118,7 @@ struct HistoryPanelViewModelTests {
 
     @Test @MainActor func isSearchEmptyWhenQueryHasNoResults() {
         let (vm, _, _, _) = makeViewModel(entries: [
-            ClipboardHistoryEntry(dataType: .text, textContent: "Hello"),
+            ClipboardHistoryEntry(dataType: .text, previewText: "Hello"),
         ])
         vm.loadEntries()
         vm.searchQuery = "xyz"
@@ -130,9 +130,9 @@ struct HistoryPanelViewModelTests {
 
     @Test @MainActor func moveSelectionDown() {
         let (vm, _, _, _) = makeViewModel(entries: [
-            ClipboardHistoryEntry(dataType: .text, textContent: "A"),
-            ClipboardHistoryEntry(dataType: .text, textContent: "B"),
-            ClipboardHistoryEntry(dataType: .text, textContent: "C"),
+            ClipboardHistoryEntry(dataType: .text, previewText: "A"),
+            ClipboardHistoryEntry(dataType: .text, previewText: "B"),
+            ClipboardHistoryEntry(dataType: .text, previewText: "C"),
         ])
         vm.loadEntries()
         #expect(vm.selectedIndex == 0)
@@ -146,8 +146,8 @@ struct HistoryPanelViewModelTests {
 
     @Test @MainActor func moveSelectionUp() {
         let (vm, _, _, _) = makeViewModel(entries: [
-            ClipboardHistoryEntry(dataType: .text, textContent: "A"),
-            ClipboardHistoryEntry(dataType: .text, textContent: "B"),
+            ClipboardHistoryEntry(dataType: .text, previewText: "A"),
+            ClipboardHistoryEntry(dataType: .text, previewText: "B"),
         ])
         vm.loadEntries()
         vm.moveSelection(direction: .down)
@@ -161,8 +161,8 @@ struct HistoryPanelViewModelTests {
     // MARK: - Delete
 
     @Test @MainActor func deleteEntryRemovesFromStoreAndUpdatesView() {
-        let entry1 = ClipboardHistoryEntry(dataType: .text, textContent: "A")
-        let entry2 = ClipboardHistoryEntry(dataType: .text, textContent: "B")
+        let entry1 = ClipboardHistoryEntry(dataType: .text, previewText: "A")
+        let entry2 = ClipboardHistoryEntry(dataType: .text, previewText: "B")
         let (vm, store, _, _) = makeViewModel(entries: [entry1, entry2])
         vm.loadEntries()
         #expect(vm.filteredEntries.count == 2)
@@ -175,8 +175,8 @@ struct HistoryPanelViewModelTests {
 
     @Test @MainActor func deleteAdjustsSelectedIndex() {
         let entries = [
-            ClipboardHistoryEntry(dataType: .text, textContent: "A"),
-            ClipboardHistoryEntry(dataType: .text, textContent: "B"),
+            ClipboardHistoryEntry(dataType: .text, previewText: "A"),
+            ClipboardHistoryEntry(dataType: .text, previewText: "B"),
         ]
         let (vm, _, _, _) = makeViewModel(entries: entries)
         vm.loadEntries()
@@ -197,7 +197,7 @@ struct HistoryPanelViewModelTests {
 
     @Test @MainActor func isNotEmptyWithEntries() {
         let (vm, _, _, _) = makeViewModel(entries: [
-            ClipboardHistoryEntry(dataType: .text, textContent: "test")
+            ClipboardHistoryEntry(dataType: .text, previewText: "test")
         ])
         vm.loadEntries()
         #expect(vm.isEmpty == false)
@@ -211,20 +211,20 @@ struct ClipboardHistoryStoreDeleteTests {
     @Test func deleteRemovesEntry() {
         let tempDir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let store = ClipboardHistoryStore(directory: tempDir)
-        let entry1 = ClipboardHistoryEntry(dataType: .text, textContent: "A")
-        let entry2 = ClipboardHistoryEntry(dataType: .text, textContent: "B")
-        store.add(entry1, maxCount: 10)
-        store.add(entry2, maxCount: 10)
+        let entryA = ClipboardHistoryEntry(dataType: .text, textSubtype: .plain, sourceAppBundleID: "com.test", sourceAppName: "Test")
+        let entryB = ClipboardHistoryEntry(dataType: .text, textSubtype: .plain, sourceAppBundleID: "com.test", sourceAppName: "Test")
+        store.add(entryA, content: EntryContent(textContent: "A"), maxCount: 10)
+        store.add(entryB, content: EntryContent(textContent: "B"), maxCount: 10)
         #expect(store.entries.count == 2)
 
-        store.delete(id: entry1.id)
+        store.delete(id: entryA.id)
         #expect(store.entries.count == 1)
-        #expect(store.entries[0].id == entry2.id)
+        #expect(store.entries[0].id == entryB.id)
 
         // ディスクからリロードして永続化を確認
         let reloaded = ClipboardHistoryStore(directory: tempDir)
         #expect(reloaded.entries.count == 1)
-        #expect(reloaded.entries[0].id == entry2.id)
+        #expect(reloaded.entries[0].id == entryB.id)
 
         try? FileManager.default.removeItem(at: tempDir)
     }

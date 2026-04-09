@@ -34,7 +34,10 @@ struct HistoryPanelView: View {
             if !viewModel.isEmpty {
                 Divider()
 
-                PreviewPanelView(entry: viewModel.selectedEntry)
+                PreviewPanelView(
+                    entry: viewModel.selectedEntry,
+                    content: viewModel.selectedEntry.map { viewModel.loadContent(for: $0) }
+                )
             }
         }
         .background(.ultraThinMaterial)

@@ -8,7 +8,7 @@ enum PasteMode {
 }
 
 protocol PasteExecuting {
-    func paste(entry: ClipboardHistoryEntry, mode: PasteMode) async -> Bool
+    func paste(content: EntryContent, entry: ClipboardHistoryEntry, mode: PasteMode) async -> Bool
 }
 
 final class PasteService: PasteExecuting {
@@ -18,25 +18,36 @@ final class PasteService: PasteExecuting {
         previousApp = NSWorkspace.shared.frontmostApplication
     }
 
-    func paste(entry: ClipboardHistoryEntry, mode: PasteMode) async -> Bool {
+    func paste(content: EntryContent, entry: ClipboardHistoryEntry, mode: PasteMode) async -> Bool {
         // クリップボードにデータを設定
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
 
         switch entry.dataType {
         case .text:
-            guard let text = entry.textContent else { return false }
-            if mode == .original, let richData = entry.richTextData {
-                // 元形式: RTF データとプレーンテキストの両方を設定
-                pasteboard.setData(richData, forType: .rtf)
-                pasteboard.setString(text, forType: .string)
+            if entry.textSubtype == .svg {
+                guard let svg = content.svgContent else { return false }
+                pasteboard.setString(svg, forType: .string)
             } else {
-                // プレーンテキストモード: テキスト文字列のみ
-                pasteboard.setString(text, forType: .string)
+                guard let text = content.textContent else { return false }
+                if mode == .original, let richData = content.richTextData {
+                    pasteboard.setData(richData, forType: .rtf)
+                    pasteboard.setString(text, forType: .string)
+                } else {
+                    pasteboard.setString(text, forType: .string)
+                }
             }
         case .image:
-            guard let imageData = entry.imageData else { return false }
+            guard let imageData = content.imageData else { return false }
             pasteboard.setData(imageData, forType: .png)
+        case .pdf:
+            guard let pdfData = content.pdfData else { return false }
+            let pdfType = NSPasteboard.PasteboardType("com.adobe.pdf")
+            pasteboard.setData(pdfData, forType: pdfType)
+        case .file:
+            guard let meta = content.fileMetadata else { return false }
+            let fileURL = URL(fileURLWithPath: meta.filePath)
+            pasteboard.writeObjects([fileURL as NSURL])
         }
 
         // 直前のアプリを前面に切り替え

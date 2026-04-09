@@ -43,6 +43,16 @@ final class AppSettings: @unchecked Sendable {
         set { defaults.set(newValue, forKey: "saveImageData") }
     }
 
+    var savePDFData: Bool {
+        get { defaults.object(forKey: "savePDFData") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "savePDFData") }
+    }
+
+    var saveFileData: Bool {
+        get { defaults.object(forKey: "saveFileData") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "saveFileData") }
+    }
+
     var openSettingsOnLaunch: Bool {
         get { defaults.object(forKey: "openSettingsOnLaunch") as? Bool ?? true }
         set { defaults.set(newValue, forKey: "openSettingsOnLaunch") }

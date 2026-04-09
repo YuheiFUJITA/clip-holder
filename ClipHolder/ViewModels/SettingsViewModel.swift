@@ -89,18 +89,29 @@ final class SettingsViewModel {
         historyStore?.clearAll()
     }
 
+    private var activeToggleCount: Int {
+        [settings.saveTextData, settings.saveImageData, settings.savePDFData, settings.saveFileData]
+            .filter { $0 }.count
+    }
+
     func toggleSaveTextData(_ enabled: Bool) {
-        if !enabled && !settings.saveImageData {
-            return
-        }
+        if !enabled && activeToggleCount <= 1 { return }
         settings.saveTextData = enabled
     }
 
     func toggleSaveImageData(_ enabled: Bool) {
-        if !enabled && !settings.saveTextData {
-            return
-        }
+        if !enabled && activeToggleCount <= 1 { return }
         settings.saveImageData = enabled
+    }
+
+    func toggleSavePDFData(_ enabled: Bool) {
+        if !enabled && activeToggleCount <= 1 { return }
+        settings.savePDFData = enabled
+    }
+
+    func toggleSaveFileData(_ enabled: Bool) {
+        if !enabled && activeToggleCount <= 1 { return }
+        settings.saveFileData = enabled
     }
 
     func updateMaxHistoryCount(_ count: Int) {

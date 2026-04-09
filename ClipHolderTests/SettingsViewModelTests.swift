@@ -27,6 +27,8 @@ struct SettingsViewModelTests {
         let settings = AppSettings()
         settings.saveTextData = true
         settings.saveImageData = false
+        settings.savePDFData = false
+        settings.saveFileData = false
         let vm = SettingsViewModel(settings: settings, loginItemService: MockLoginItemService(), accessibilityService: MockAccessibilityService())
         vm.toggleSaveTextData(false)
         #expect(settings.saveTextData == true)
@@ -36,6 +38,8 @@ struct SettingsViewModelTests {
         let settings = AppSettings()
         settings.saveTextData = false
         settings.saveImageData = true
+        settings.savePDFData = false
+        settings.saveFileData = false
         let vm = SettingsViewModel(settings: settings, loginItemService: MockLoginItemService(), accessibilityService: MockAccessibilityService())
         vm.toggleSaveImageData(false)
         #expect(settings.saveImageData == true)

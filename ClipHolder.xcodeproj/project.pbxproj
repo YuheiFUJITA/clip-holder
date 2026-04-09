@@ -29,25 +29,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9627C1062F72FBFF00E1805B /* ClipHolder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ClipHolder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9627C1132F72FC0100E1805B /* ClipHolderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ClipHolderTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9627C11D2F72FC0100E1805B /* ClipHolderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ClipHolderUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9627C1062F72FBFF00E1805B /* ClipHolder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipHolder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9627C1132F72FC0100E1805B /* ClipHolderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClipHolderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9627C11D2F72FC0100E1805B /* ClipHolderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClipHolderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9627C1082F72FBFF00E1805B /* ClipHolder */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "ClipHolder";
+			path = ClipHolder;
 			sourceTree = "<group>";
 		};
 		9627C1162F72FC0100E1805B /* ClipHolderTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "ClipHolderTests";
+			path = ClipHolderTests;
 			sourceTree = "<group>";
 		};
 		9627C1202F72FC0100E1805B /* ClipHolderUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "ClipHolderUITests";
+			path = ClipHolderUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -117,12 +117,12 @@
 			fileSystemSynchronizedGroups = (
 				9627C1082F72FBFF00E1805B /* ClipHolder */,
 			);
-			name = "ClipHolder";
+			name = ClipHolder;
 			packageProductDependencies = (
 				A1B2C3D40000000000000002 /* KeyboardShortcuts */,
 				A1B2C3D40000000000000004 /* Sparkle */,
 			);
-			productName = "ClipHolder";
+			productName = ClipHolder;
 			productReference = 9627C1062F72FBFF00E1805B /* ClipHolder.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -142,10 +142,10 @@
 			fileSystemSynchronizedGroups = (
 				9627C1162F72FC0100E1805B /* ClipHolderTests */,
 			);
-			name = "ClipHolderTests";
+			name = ClipHolderTests;
 			packageProductDependencies = (
 			);
-			productName = "ClipHolderTests";
+			productName = ClipHolderTests;
 			productReference = 9627C1132F72FC0100E1805B /* ClipHolderTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -165,10 +165,10 @@
 			fileSystemSynchronizedGroups = (
 				9627C1202F72FC0100E1805B /* ClipHolderUITests */,
 			);
-			name = "ClipHolderUITests";
+			name = ClipHolderUITests;
 			packageProductDependencies = (
 			);
-			productName = "ClipHolderUITests";
+			productName = ClipHolderUITests;
 			productReference = 9627C11D2F72FC0100E1805B /* ClipHolderUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
@@ -417,6 +417,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Clip Holder";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -450,6 +451,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Clip Holder";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -525,7 +527,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "ClipHolder";
+				TEST_TARGET_NAME = ClipHolder;
 			};
 			name = Debug;
 		};
@@ -544,7 +546,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "ClipHolder";
+				TEST_TARGET_NAME = ClipHolder;
 			};
 			name = Release;
 		};

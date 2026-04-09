@@ -70,7 +70,8 @@ final class HistoryPanelViewModel {
         // パネルを先に閉じてから貼り付ける（パネルがフォーカスを奪い返すのを防ぐ）
         panelService.hidePanel()
         Task {
-            let success = await pasteService.paste(entry: entry, mode: mode)
+            let content = loadContent(for: entry)
+            let success = await pasteService.paste(content: content, entry: entry, mode: mode)
             if !success {
                 pasteError = "ペーストに失敗しました。クリップボードにはコピー済みです。"
             }
@@ -94,6 +95,17 @@ final class HistoryPanelViewModel {
         loadEntries()
     }
 
+    func loadContent(for entry: ClipboardHistoryEntry) -> EntryContent {
+        EntryContent(
+            textContent: store.loadTextContent(for: entry.id),
+            richTextData: store.loadRichTextData(for: entry.id),
+            imageData: store.loadImageData(for: entry.id),
+            svgContent: store.loadSVGContent(for: entry.id),
+            pdfData: store.loadPDFData(for: entry.id),
+            fileMetadata: store.loadFileMetadata(for: entry.id)
+        )
+    }
+
     // MARK: - Private
 
     func applyFilter() {
@@ -101,7 +113,7 @@ final class HistoryPanelViewModel {
             filteredEntries = entries
         } else {
             filteredEntries = entries.filter { entry in
-                guard let text = entry.textContent else { return false }
+                guard let text = entry.previewText else { return false }
                 return text.localizedCaseInsensitiveContains(searchQuery)
             }
         }
