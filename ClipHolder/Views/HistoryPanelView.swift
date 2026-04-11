@@ -51,7 +51,15 @@ struct HistoryPanelView: View {
                 onDownArrow: { viewModel.moveSelection(direction: .down) },
                 onReturn: { viewModel.confirmPaste(mode: .original) },
                 onCmdShiftV: { viewModel.confirmPaste(mode: .plainText) },
-                onEscape: { onDismiss() }
+                onEscape: { onDismiss() },
+                onDeleteEntry: {
+                    guard viewModel.searchQuery.isEmpty,
+                          let entry = viewModel.selectedEntry else {
+                        return false
+                    }
+                    viewModel.deleteEntry(id: entry.id)
+                    return true
+                }
             )
         )
     }
@@ -84,23 +92,26 @@ struct HistoryPanelView: View {
                         HistoryEntryRowView(
                             entry: entry,
                             isSelected: index == viewModel.selectedIndex,
+                            onPaste: {
+                                viewModel.selectedIndex = index
+                                viewModel.confirmPaste(mode: .original)
+                            },
                             onDelete: { viewModel.deleteEntry(id: entry.id) }
                         )
                         .id(entry.id)
                         .onTapGesture {
                             viewModel.selectedIndex = index
-                            viewModel.confirmPaste(mode: .original)
                         }
                     }
                 }
                 .padding(.horizontal, 12)
             }
-            .onChange(of: viewModel.selectedIndex) { _, newValue in
-                if newValue >= 0, newValue < viewModel.filteredEntries.count {
-                    let id = viewModel.filteredEntries[newValue].id
-                    withAnimation(.easeInOut(duration: 0.1)) {
-                        proxy.scrollTo(id, anchor: .center)
-                    }
+            .onChange(of: viewModel.keyboardNavTick) { _, _ in
+                let index = viewModel.selectedIndex
+                guard index >= 0, index < viewModel.filteredEntries.count else { return }
+                let id = viewModel.filteredEntries[index].id
+                withAnimation(.easeInOut(duration: 0.1)) {
+                    proxy.scrollTo(id)
                 }
             }
         }
@@ -168,6 +179,8 @@ private struct PanelKeyHandler: NSViewRepresentable {
     let onReturn: () -> Void
     let onCmdShiftV: () -> Void
     let onEscape: () -> Void
+    /// Delete キー押下時のハンドラ。true を返すとイベントを消費する。
+    let onDeleteEntry: () -> Bool
 
     func makeNSView(context: Context) -> PanelKeyMonitorView {
         let view = PanelKeyMonitorView()
@@ -176,6 +189,7 @@ private struct PanelKeyHandler: NSViewRepresentable {
         view.onReturn = onReturn
         view.onCmdShiftV = onCmdShiftV
         view.onEscape = onEscape
+        view.onDeleteEntry = onDeleteEntry
         return view
     }
 
@@ -185,6 +199,7 @@ private struct PanelKeyHandler: NSViewRepresentable {
         nsView.onReturn = onReturn
         nsView.onCmdShiftV = onCmdShiftV
         nsView.onEscape = onEscape
+        nsView.onDeleteEntry = onDeleteEntry
     }
 }
 
@@ -194,6 +209,7 @@ private class PanelKeyMonitorView: NSView {
     var onReturn: (() -> Void)?
     var onCmdShiftV: (() -> Void)?
     var onEscape: (() -> Void)?
+    var onDeleteEntry: (() -> Bool)?
     private var localMonitor: Any?
 
     override func viewDidMoveToWindow() {
@@ -256,6 +272,14 @@ private class PanelKeyMonitorView: NSView {
             }
             onReturn?()
             return nil
+        }
+
+        // Delete / Forward Delete（検索欄に入力がある場合はそのまま通す）
+        if event.keyCode == 51 || event.keyCode == 117 {
+            if onDeleteEntry?() == true {
+                return nil
+            }
+            return event
         }
 
         return event

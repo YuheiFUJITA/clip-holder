@@ -13,6 +13,8 @@ final class HistoryPanelViewModel {
     var selectedIndex: Int = 0
     var searchQuery: String = ""
     var pasteError: String?
+    /// キーボード操作で選択が動いた回数。View 側でスクロール追従のトリガーに使う。
+    var keyboardNavTick: Int = 0
 
     private let store: ClipboardHistoryStoring
     private let pasteService: PasteExecuting
@@ -62,6 +64,7 @@ final class HistoryPanelViewModel {
         case .down:
             selectedIndex = min(filteredEntries.count - 1, selectedIndex + 1)
         }
+        keyboardNavTick &+= 1
     }
 
     func confirmPaste(mode: PasteMode) {

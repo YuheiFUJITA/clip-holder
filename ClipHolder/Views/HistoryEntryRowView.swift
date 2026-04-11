@@ -4,7 +4,10 @@ import AppKit
 struct HistoryEntryRowView: View {
     let entry: ClipboardHistoryEntry
     let isSelected: Bool
+    let onPaste: () -> Void
     let onDelete: () -> Void
+
+    @State private var isHovered: Bool = false
 
     var body: some View {
         HStack(spacing: 10) {
@@ -25,23 +28,74 @@ struct HistoryEntryRowView: View {
                     Text(metaText)
                         .font(.system(size: 11))
                         .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
 
-            Spacer()
+            if isSelected {
+                actionButtons
+            }
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 8)
         .background(
             RoundedRectangle(cornerRadius: 8)
-                .fill(isSelected ? Color.accentColor.opacity(0.6) : Color.primary.opacity(0.05))
+                .fill(backgroundFill)
         )
+        .animation(.easeInOut(duration: 0.1), value: isHovered)
+        .onHover { hovering in
+            isHovered = hovering
+        }
         .contextMenu {
             Button(role: .destructive) {
                 onDelete()
             } label: {
                 Label("Delete", systemImage: "trash")
             }
+        }
+    }
+
+    private var backgroundFill: Color {
+        if isSelected {
+            return Color.accentColor.opacity(0.6)
+        } else if isHovered {
+            return Color.primary.opacity(0.12)
+        } else {
+            return Color.primary.opacity(0.05)
+        }
+    }
+
+    private var actionButtons: some View {
+        HStack(spacing: 6) {
+            Button(action: onPaste) {
+                Text("Paste")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(Color.white.opacity(0.25))
+                    )
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text("Paste"))
+
+            Button(action: onDelete) {
+                Text("Delete")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(Color.red.opacity(0.55))
+                    )
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text("Delete"))
         }
     }
 
