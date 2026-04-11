@@ -9,7 +9,7 @@ struct PreviewPanelView: View {
         VStack(alignment: .leading, spacing: 0) {
             // ヘッダー
             HStack {
-                Text("プレビュー")
+                Text("Preview")
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(.secondary)
 
@@ -41,7 +41,7 @@ struct PreviewPanelView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    Text("選択なし")
+                    Text("No Selection")
                         .font(.system(size: 13))
                         .foregroundStyle(.tertiary)
                     Spacer()
@@ -81,7 +81,7 @@ struct PreviewPanelView: View {
                 .aspectRatio(contentMode: .fit)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         } else {
-            Text("SVGを表示できません")
+            Text("Unable to display SVG")
                 .font(.system(size: 13))
                 .foregroundStyle(.tertiary)
         }
@@ -92,7 +92,7 @@ struct PreviewPanelView: View {
         let displayText: String = {
             guard let text = content?.textContent else { return "" }
             if text.count > 10_000 {
-                return String(text.prefix(10_000)) + "\n... (省略)"
+                return String(text.prefix(10_000)) + "\n" + String(localized: "... (truncated)")
             }
             return text
         }()
@@ -111,7 +111,7 @@ struct PreviewPanelView: View {
                 .aspectRatio(contentMode: .fit)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         } else {
-            Text("画像を表示できません")
+            Text("Unable to display image")
                 .font(.system(size: 13))
                 .foregroundStyle(.tertiary)
         }
@@ -125,7 +125,7 @@ struct PreviewPanelView: View {
                 .frame(minHeight: 300)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         } else {
-            Text("PDFを表示できません")
+            Text("Unable to display PDF")
                 .font(.system(size: 13))
                 .foregroundStyle(.tertiary)
         }
@@ -156,19 +156,19 @@ struct PreviewPanelView: View {
                     Text(meta.fileName)
                         .font(.system(size: 14, weight: .semibold))
 
-                    LabeledContent("サイズ") {
+                    LabeledContent("Size") {
                         Text(meta.formattedSize)
                     }
                     .font(.system(size: 12))
 
                     if let uti = meta.fileUTI {
-                        LabeledContent("種類") {
+                        LabeledContent("Type") {
                             Text(uti)
                         }
                         .font(.system(size: 12))
                     }
 
-                    LabeledContent("パス") {
+                    LabeledContent("Path") {
                         Text(meta.filePath)
                             .lineLimit(3)
                             .truncationMode(.middle)
@@ -182,7 +182,7 @@ struct PreviewPanelView: View {
                     HStack(spacing: 6) {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .foregroundStyle(.yellow)
-                        Text("ファイルが見つかりません")
+                        Text("File not found")
                             .font(.system(size: 12))
                             .foregroundStyle(.secondary)
                     }
@@ -194,7 +194,7 @@ struct PreviewPanelView: View {
                 }
             }
         } else {
-            Text("ファイル情報を表示できません")
+            Text("Unable to display file information")
                 .font(.system(size: 13))
                 .foregroundStyle(.tertiary)
         }
@@ -205,20 +205,20 @@ struct PreviewPanelView: View {
         case .text:
             if entry.textSubtype == .svg { return "SVG" }
             let count = content?.textContent?.count ?? entry.previewText?.count ?? 0
-            return "\(count)文字"
+            return String(localized: "\(count) characters")
         case .image:
             if let data = content?.imageData, let img = NSImage(data: data) {
                 return "\(Int(img.size.width))×\(Int(img.size.height))"
             }
-            return "画像"
+            return String(localized: "Image")
         case .pdf:
             if let pdfData = content?.pdfData,
                let doc = PDFDocument(data: pdfData) {
-                return "\(doc.pageCount)ページ"
+                return String(localized: "\(doc.pageCount) pages")
             }
             return "PDF"
         case .file:
-            return content?.fileMetadata?.formattedSize ?? "ファイル"
+            return content?.fileMetadata?.formattedSize ?? String(localized: "File")
         }
     }
 }

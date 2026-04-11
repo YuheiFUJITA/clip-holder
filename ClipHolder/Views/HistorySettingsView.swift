@@ -6,33 +6,33 @@ struct HistorySettingsView: View {
 
     var body: some View {
         Form {
-            Section("保存するデータの種類") {
-                Toggle("テキストデータ", isOn: Binding(
+            Section("Saved Data Types") {
+                Toggle("Text", isOn: Binding(
                     get: { viewModel.settings.saveTextData },
                     set: { viewModel.toggleSaveTextData($0) }
                 ))
-                .accessibilityLabel("テキストデータをクリップボード履歴に保存する")
+                .accessibilityLabel("Save text data to clipboard history")
 
-                Toggle("画像データ", isOn: Binding(
+                Toggle("Images", isOn: Binding(
                     get: { viewModel.settings.saveImageData },
                     set: { viewModel.toggleSaveImageData($0) }
                 ))
-                .accessibilityLabel("画像データをクリップボード履歴に保存する")
+                .accessibilityLabel("Save image data to clipboard history")
 
                 Toggle("PDF", isOn: Binding(
                     get: { viewModel.settings.savePDFData },
                     set: { viewModel.toggleSavePDFData($0) }
                 ))
-                .accessibilityLabel("PDFデータをクリップボード履歴に保存する")
+                .accessibilityLabel("Save PDF data to clipboard history")
 
-                Toggle("ファイル", isOn: Binding(
+                Toggle("Files", isOn: Binding(
                     get: { viewModel.settings.saveFileData },
                     set: { viewModel.toggleSaveFileData($0) }
                 ))
-                .accessibilityLabel("ファイル参照をクリップボード履歴に保存する")
+                .accessibilityLabel("Save file references to clipboard history")
             }
 
-            Section("除外アプリ") {
+            Section("Excluded Apps") {
                 ForEach(viewModel.settings.excludedApps) { app in
                     HStack {
                         Image(nsImage: NSWorkspace.shared.icon(forFile: app.bundlePath))
@@ -47,32 +47,32 @@ struct HistorySettingsView: View {
                                 .foregroundStyle(.secondary)
                         }
                         .buttonStyle(.plain)
-                        .accessibilityLabel("\(app.name) を除外リストから削除")
+                        .accessibilityLabel("Remove \(app.name) from the excluded list")
                     }
                     .accessibilityElement(children: .combine)
                 }
 
-                Button("+ 追加") {
+                Button("+ Add") {
                     viewModel.addExcludedApp()
                 }
-                .accessibilityLabel("除外アプリを追加する")
+                .accessibilityLabel("Add excluded app")
             }
 
-            Section("履歴データ") {
-                Button("すべての履歴を削除", role: .destructive) {
+            Section("History Data") {
+                Button("Delete All History", role: .destructive) {
                     viewModel.requestClearHistory()
                 }
-                .accessibilityLabel("すべてのクリップボード履歴を削除する")
+                .accessibilityLabel("Delete all clipboard history")
             }
         }
         .formStyle(.grouped)
-        .alert("すべての履歴を削除しますか？", isPresented: $viewModel.showDeleteConfirmation) {
-            Button("削除", role: .destructive) {
+        .alert("Delete all history?", isPresented: $viewModel.showDeleteConfirmation) {
+            Button("Delete", role: .destructive) {
                 viewModel.confirmClearHistory()
             }
-            Button("キャンセル", role: .cancel) {}
+            Button("Cancel", role: .cancel) {}
         } message: {
-            Text("この操作は取り消せません。")
+            Text("This action cannot be undone.")
         }
     }
 }

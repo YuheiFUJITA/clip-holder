@@ -73,7 +73,7 @@ final class HistoryPanelViewModel {
             let content = loadContent(for: entry)
             let success = await pasteService.paste(content: content, entry: entry, mode: mode)
             if !success {
-                pasteError = "ペーストに失敗しました。クリップボードにはコピー済みです。"
+                pasteError = String(localized: "Paste failed. The item has been copied to the clipboard.")
             }
         }
     }

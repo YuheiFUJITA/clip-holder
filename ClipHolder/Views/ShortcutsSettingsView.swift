@@ -4,9 +4,9 @@ import KeyboardShortcuts
 struct ShortcutsSettingsView: View {
     var body: some View {
         Form {
-            Section("グローバルショートカット") {
-                KeyboardShortcuts.Recorder("クリップボード履歴を表示", name: .showClipboardHistory)
-                    .accessibilityLabel("クリップボード履歴を表示するショートカットキー")
+            Section("Global Shortcuts") {
+                KeyboardShortcuts.Recorder(String(localized: "Show Clipboard History"), name: .showClipboardHistory)
+                    .accessibilityLabel("Shortcut to show clipboard history")
             }
         }
         .formStyle(.grouped)

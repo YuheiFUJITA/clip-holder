@@ -37,7 +37,7 @@ struct OnboardingView: View {
                 }
             }
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel("ステップ \(viewModel.currentStep + 1) / 全 \(viewModel.totalSteps) ステップ")
+            .accessibilityLabel("Step \(viewModel.currentStep + 1) of \(viewModel.totalSteps)")
 
             Spacer().frame(height: 12)
 
@@ -46,14 +46,14 @@ struct OnboardingView: View {
                 // Back + Next/Start buttons (centered)
                 HStack(spacing: 12) {
                     if !viewModel.isFirstStep && !viewModel.isLastStep {
-                        Button("戻る") {
+                        Button("Back") {
                             viewModel.goToPreviousStep()
                         }
                         .buttonStyle(.bordered)
-                        .accessibilityLabel("前のステップに戻る")
+                        .accessibilityLabel("Go back to previous step")
                     }
 
-                    Button(viewModel.isLastStep ? "はじめる" : "次へ") {
+                    Button(viewModel.isLastStep ? "Get Started" : "Next") {
                         if viewModel.isLastStep {
                             viewModel.completeOnboarding()
                             finishOnboarding()
@@ -62,14 +62,14 @@ struct OnboardingView: View {
                         }
                     }
                     .buttonStyle(.borderedProminent)
-                    .accessibilityLabel(viewModel.isLastStep ? "オンボーディングを完了してアプリを開始する" : "次のステップに進む")
+                    .accessibilityLabel(viewModel.isLastStep ? "Complete onboarding and start the app" : "Go to next step")
                 }
 
                 // Skip link (right-aligned)
                 if !viewModel.isLastStep {
                     HStack {
                         Spacer()
-                        Button("スキップ") {
+                        Button("Skip") {
                             viewModel.skipOnboarding()
                             if viewModel.hasCompletedOnboarding {
                                 finishOnboarding()
@@ -78,7 +78,7 @@ struct OnboardingView: View {
                         .buttonStyle(.plain)
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                        .accessibilityLabel("オンボーディングをスキップする")
+                        .accessibilityLabel("Skip onboarding")
                     }
                 }
             }
@@ -86,14 +86,14 @@ struct OnboardingView: View {
             .padding(.bottom, 16)
         }
         .frame(width: 600, height: 450)
-        .alert("アクセシビリティ権限が未設定です", isPresented: $viewModel.showAccessibilityWarning) {
-            Button("スキップする") {
+        .alert("Accessibility permission is not granted", isPresented: $viewModel.showAccessibilityWarning) {
+            Button("Skip") {
                 viewModel.confirmSkipWithoutPermission()
                 finishOnboarding()
             }
-            Button("設定に戻る", role: .cancel) {}
+            Button("Back to Settings", role: .cancel) {}
         } message: {
-            Text("アクセシビリティ権限がないと、アプリの主要機能が制限されます。")
+            Text("Without accessibility permission, the app's main features will be limited.")
         }
     }
 

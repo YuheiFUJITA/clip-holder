@@ -13,25 +13,25 @@ struct LaunchAtLoginStepView: View {
                 .frame(width: 64, height: 64)
                 .background(Color.accentColor.opacity(0.12), in: Circle())
 
-            Text("ログイン時に自動起動")
+            Text("Launch at Login")
                 .font(.title2)
                 .fontWeight(.bold)
 
-            Text("Mac を起動するたびに Clip Holder が\n自動で立ち上がります。")
+            Text("Clip Holder will launch automatically\nevery time you start your Mac.")
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .lineSpacing(4)
 
-            Toggle("ログイン時に起動", isOn: Binding(
+            Toggle("Launch at login", isOn: Binding(
                 get: { viewModel.isLaunchAtLoginEnabled },
                 set: { viewModel.toggleLaunchAtLogin($0) }
             ))
             .toggleStyle(.switch)
             .fixedSize()
-            .accessibilityLabel("ログイン時に Clip Holder を自動起動する")
+            .accessibilityLabel("Launch Clip Holder at login")
 
-            Text("この設定は後から変更できます")
+            Text("You can change this later")
                 .font(.caption)
                 .foregroundStyle(.tertiary)
 

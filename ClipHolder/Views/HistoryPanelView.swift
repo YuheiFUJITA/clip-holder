@@ -64,7 +64,7 @@ struct HistoryPanelView: View {
                 .font(.system(size: 13))
                 .foregroundStyle(.secondary)
 
-            TextField("検索...", text: $viewModel.searchQuery)
+            TextField("Search…", text: $viewModel.searchQuery)
                 .textFieldStyle(.plain)
                 .font(.system(size: 13))
         }
@@ -112,10 +112,10 @@ struct HistoryPanelView: View {
             Image(systemName: "clipboard")
                 .font(.system(size: 32))
                 .foregroundStyle(.secondary)
-            Text("履歴がありません")
+            Text("No History")
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(.secondary)
-            Text("テキストや画像をコピーすると\nここに表示されます")
+            Text("Copy text or images\nto see them here")
                 .font(.system(size: 12))
                 .foregroundStyle(.tertiary)
                 .multilineTextAlignment(.center)
@@ -129,7 +129,7 @@ struct HistoryPanelView: View {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: 32))
                 .foregroundStyle(.secondary)
-            Text("一致する履歴がありません")
+            Text("No matching history")
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(.secondary)
             Spacer()
@@ -138,10 +138,10 @@ struct HistoryPanelView: View {
 
     private var hintBar: some View {
         HStack(spacing: 16) {
-            hintLabel("↑↓", "選択")
-            hintLabel("Enter", "ペースト")
-            hintLabel("⌘⇧V", "プレーンテキスト")
-            hintLabel("Esc", "閉じる")
+            hintLabel("↑↓", "Select")
+            hintLabel("Enter", "Paste")
+            hintLabel("⌘⇧V", "Plain Text")
+            hintLabel("Esc", "Close")
         }
         .font(.system(size: 10))
         .foregroundStyle(.secondary)
@@ -151,7 +151,7 @@ struct HistoryPanelView: View {
         .background(Color.primary.opacity(0.03))
     }
 
-    private func hintLabel(_ key: String, _ desc: String) -> some View {
+    private func hintLabel(_ key: LocalizedStringKey, _ desc: LocalizedStringKey) -> some View {
         HStack(spacing: 2) {
             Text(key)
                 .fontWeight(.medium)

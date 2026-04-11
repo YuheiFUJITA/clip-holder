@@ -171,7 +171,7 @@ final class ClipboardHistoryStore: ClipboardHistoryStoring {
         case .pdf:
             if let pdfData = content.pdfData,
                let doc = PDFDocument(data: pdfData) {
-                return "PDF — \(doc.pageCount)ページ"
+                return String(localized: "PDF — \(doc.pageCount) pages")
             }
             return "PDF"
         case .file:

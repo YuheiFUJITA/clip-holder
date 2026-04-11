@@ -13,11 +13,11 @@ struct AccessibilityPermissionStepView: View {
                 .frame(width: 64, height: 64)
                 .background(Color.accentColor.opacity(0.12), in: Circle())
 
-            Text("アクセシビリティ権限")
+            Text("Accessibility Permission")
                 .font(.title2)
                 .fontWeight(.bold)
 
-            Text("クリップボードの監視にはアクセシビリティ\n権限が必要です。下のボタンから設定してください。")
+            Text("Accessibility permission is required\nto monitor the clipboard. Please grant it below.")
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -27,14 +27,14 @@ struct AccessibilityPermissionStepView: View {
                 Circle()
                     .fill(viewModel.isAccessibilityGranted ? Color.green : Color.orange)
                     .frame(width: 10, height: 10)
-                Text(viewModel.isAccessibilityGranted ? "設定済み" : "未設定")
+                Text(viewModel.isAccessibilityGranted ? "Granted" : "Not granted")
                     .font(.subheadline)
                     .fontWeight(.medium)
                     .foregroundStyle(viewModel.isAccessibilityGranted ? .green : .orange)
             }
             .accessibilityElement(children: .combine)
-            .accessibilityLabel("アクセシビリティ権限の状態")
-            .accessibilityValue(viewModel.isAccessibilityGranted ? "設定済み" : "未設定")
+            .accessibilityLabel("Accessibility permission status")
+            .accessibilityValue(viewModel.isAccessibilityGranted ? "Granted" : "Not granted")
 
             if viewModel.isAccessibilityGranted {
                 Image(systemName: "checkmark.circle.fill")
@@ -45,12 +45,12 @@ struct AccessibilityPermissionStepView: View {
                 Button {
                     viewModel.openAccessibilitySettings()
                 } label: {
-                    Text("システム設定を開く")
+                    Text("Open System Settings")
                         .fontWeight(.semibold)
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
-                .accessibilityLabel("システム設定のアクセシビリティ権限画面を開く")
+                .accessibilityLabel("Open the Accessibility permission pane in System Settings")
             }
 
             Spacer()

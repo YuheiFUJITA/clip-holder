@@ -10,8 +10,8 @@ enum OnboardingStepType: Equatable {
 
 struct OnboardingStepContent {
     let iconName: String
-    let title: String
-    let description: String
+    let title: LocalizedStringResource
+    let description: LocalizedStringResource
     let stepType: OnboardingStepType
 }
 
@@ -19,38 +19,38 @@ extension OnboardingStepContent {
     static let allSteps: [OnboardingStepContent] = [
         OnboardingStepContent(
             iconName: "clipboard",
-            title: "Clip Holder へようこそ",
-            description: "macOS のクリップボードを\nもっと便利に、もっと賢く。",
+            title: "Welcome to Clip Holder",
+            description: "Make your macOS clipboard\nmore powerful and smarter.",
             stepType: .welcome
         ),
         OnboardingStepContent(
             iconName: "clock.arrow.circlepath",
-            title: "クリップボード履歴",
-            description: "コピーした内容を自動で記録。\nいつでも過去のコピーを呼び出せます。",
+            title: "Clipboard History",
+            description: "Automatically record everything you copy.\nRetrieve past clips anytime.",
             stepType: .feature
         ),
         OnboardingStepContent(
             iconName: "magnifyingglass",
-            title: "かんたん検索",
-            description: "キーワードで過去のコピーを\nすばやく見つけられます。",
+            title: "Easy Search",
+            description: "Quickly find past clips\nby keyword.",
             stepType: .feature
         ),
         OnboardingStepContent(
             iconName: "lock.shield",
-            title: "アクセシビリティ権限",
-            description: "クリップボードの監視にはアクセシビリティ\n権限が必要です。下のボタンから設定してください。",
+            title: "Accessibility Permission",
+            description: "Accessibility permission is required\nto monitor the clipboard. Please grant it below.",
             stepType: .accessibilityPermission
         ),
         OnboardingStepContent(
             iconName: "power",
-            title: "ログイン時に自動起動",
-            description: "Mac を起動するたびに Clip Holder が\n自動で立ち上がります。",
+            title: "Launch at Login",
+            description: "Clip Holder will launch automatically\nevery time you start your Mac.",
             stepType: .launchAtLogin
         ),
         OnboardingStepContent(
             iconName: "checkmark.circle",
-            title: "準備完了！",
-            description: "すべての設定が完了しました。\nClip Holder を使い始めましょう。",
+            title: "You're all set!",
+            description: "Setup is complete.\nStart using Clip Holder.",
             stepType: .complete
         ),
     ]

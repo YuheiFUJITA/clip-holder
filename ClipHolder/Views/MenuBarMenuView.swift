@@ -6,26 +6,26 @@ struct MenuBarMenuView: View {
     var canCheckForUpdates: Bool = true
 
     var body: some View {
-        Button("クリップボード履歴を表示") {
+        Button("Show Clipboard History") {
             onShowHistory()
         }
         .keyboardShortcut("v", modifiers: [.option, .command])
 
         Divider()
 
-        Button("アップデートを確認...") {
+        Button("Check for Updates…") {
             onCheckForUpdates()
         }
         .disabled(!canCheckForUpdates)
 
         SettingsLink {
-            Text("設定...")
+            Text("Settings…")
         }
         .keyboardShortcut(",", modifiers: .command)
 
         Divider()
 
-        Button("Clip Holder を終了") {
+        Button("Quit Clip Holder") {
             NSApplication.shared.terminate(nil)
         }
         .keyboardShortcut("q", modifiers: .command)

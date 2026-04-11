@@ -103,7 +103,7 @@ struct ClipHolderApp: App {
     private let controller = AppController.shared
 
     var body: some Scene {
-        Window("オンボーディング", id: "onboarding") {
+        Window("Onboarding", id: "onboarding") {
             OnboardingView(viewModel: OnboardingViewModel())
         }
         .windowResizability(.contentSize)
@@ -112,11 +112,11 @@ struct ClipHolderApp: App {
         Settings {
             TabView {
                 GeneralSettingsView(viewModel: controller.settingsViewModel)
-                    .tabItem { Label("一般", systemImage: "gear") }
+                    .tabItem { Label("General", systemImage: "gear") }
                 HistorySettingsView(viewModel: controller.settingsViewModel)
-                    .tabItem { Label("履歴", systemImage: "clock") }
+                    .tabItem { Label("History", systemImage: "clock") }
                 ShortcutsSettingsView()
-                    .tabItem { Label("ショートカット", systemImage: "keyboard") }
+                    .tabItem { Label("Shortcuts", systemImage: "keyboard") }
             }
             .frame(minWidth: 480, minHeight: 400)
             .background(SettingsWindowResizer())

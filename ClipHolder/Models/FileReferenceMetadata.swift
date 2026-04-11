@@ -7,7 +7,7 @@ struct FileReferenceMetadata: Codable, Equatable {
     let fileUTI: String?
 
     var formattedSize: String {
-        guard let size = fileSize else { return "不明" }
+        guard let size = fileSize else { return String(localized: "Unknown") }
         let formatter = ByteCountFormatter()
         formatter.countStyle = .file
         return formatter.string(fromByteCount: size)

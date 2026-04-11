@@ -11,35 +11,35 @@ struct GeneralSettingsView: View {
 
     var body: some View {
         Form {
-            Section("起動") {
-                Toggle("ログイン時に自動起動", isOn: Binding(
+            Section("Startup") {
+                Toggle("Launch at login", isOn: Binding(
                     get: { viewModel.settings.launchAtLogin },
                     set: { viewModel.toggleLaunchAtLogin($0) }
                 ))
-                .accessibilityLabel("ログイン時に Clip Holder を自動起動する")
+                .accessibilityLabel("Launch Clip Holder at login")
 
-                Toggle("メニューバーにアイコンを表示", isOn: Binding(
+                Toggle("Show menu bar icon", isOn: Binding(
                     get: { viewModel.settings.showMenuBarIcon },
                     set: { viewModel.settings.showMenuBarIcon = $0 }
                 ))
-                    .accessibilityLabel("メニューバーに Clip Holder アイコンを表示する")
+                    .accessibilityLabel("Show Clip Holder icon in the menu bar")
 
-                Toggle("Dock にアイコンを表示", isOn: Binding(
+                Toggle("Show Dock icon", isOn: Binding(
                     get: { viewModel.settings.showDockIcon },
                     set: { viewModel.toggleDockIcon($0) }
                 ))
-                    .accessibilityLabel("Dock に Clip Holder アイコンを表示する")
+                    .accessibilityLabel("Show Clip Holder icon in the Dock")
 
-                Toggle("起動時に設定画面を開く", isOn: Binding(
+                Toggle("Open Settings on launch", isOn: Binding(
                     get: { viewModel.settings.openSettingsOnLaunch },
                     set: { viewModel.settings.openSettingsOnLaunch = $0 }
                 ))
-                    .accessibilityLabel("起動時に設定画面を開く")
+                    .accessibilityLabel("Open Settings on launch")
             }
 
-            Section("クリップボード履歴") {
+            Section("Clipboard History") {
                 HStack {
-                    Text("最大保存件数")
+                    Text("Maximum entries")
                     Spacer()
                     TextField("", value: Binding(
                         get: { viewModel.settings.maxHistoryCount },
@@ -49,51 +49,51 @@ struct GeneralSettingsView: View {
                         .textFieldStyle(.roundedBorder)
                         .multilineTextAlignment(.center)
                 }
-                .accessibilityLabel("クリップボード履歴の最大保存件数")
-                .accessibilityValue("\(viewModel.settings.maxHistoryCount)件")
+                .accessibilityLabel("Maximum number of clipboard history entries")
+                .accessibilityValue("\(viewModel.settings.maxHistoryCount) entries")
             }
 
-            Section("アクセシビリティ権限") {
+            Section("Accessibility Permission") {
                 HStack {
                     Circle()
                         .fill(viewModel.isAccessibilityGranted ? Color.green : Color.orange)
                         .frame(width: 8, height: 8)
-                    Text(viewModel.isAccessibilityGranted ? "設定済み" : "未設定")
+                    Text(viewModel.isAccessibilityGranted ? "Granted" : "Not granted")
                         .foregroundStyle(viewModel.isAccessibilityGranted ? .green : .orange)
                         .font(.subheadline)
                 }
                 .accessibilityElement(children: .combine)
-                .accessibilityLabel("アクセシビリティ権限の状態")
-                .accessibilityValue(viewModel.isAccessibilityGranted ? "設定済み" : "未設定")
+                .accessibilityLabel("Accessibility permission status")
+                .accessibilityValue(viewModel.isAccessibilityGranted ? "Granted" : "Not granted")
 
                 if !viewModel.isAccessibilityGranted {
-                    Button("システム設定を開く") {
+                    Button("Open System Settings") {
                         viewModel.openAccessibilitySettings()
                     }
-                    .accessibilityLabel("システム設定のアクセシビリティ権限画面を開く")
+                    .accessibilityLabel("Open the Accessibility permission pane in System Settings")
                 }
             }
 
-            Section("アップデート") {
-                Toggle("自動的にダウンロードしてインストール", isOn: Binding(
+            Section("Updates") {
+                Toggle("Automatically download and install", isOn: Binding(
                     get: { viewModel.settings.automaticallyDownloadsUpdates },
                     set: { viewModel.toggleAutomaticallyDownloadsUpdates($0) }
                 ))
-                    .accessibilityLabel("アップデートを自動的にダウンロードしてインストールする")
+                    .accessibilityLabel("Automatically download and install updates")
 
                 HStack {
-                    Button("アップデートを確認") {
+                    Button("Check for Updates") {
                         viewModel.checkForUpdates()
                     }
                     .disabled(!(viewModel.updateService?.canCheckForUpdates ?? false))
 
-                    Text("v\(Bundle.main.shortVersionString)（最新）")
+                    Text("v\(Bundle.main.shortVersionString) (Latest)")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
 
                 if let date = viewModel.updateService?.lastUpdateCheckDate {
-                    Text("最終確認: \(date.formatted(date: .numeric, time: .shortened))")
+                    Text("Last checked: \(date.formatted(date: .numeric, time: .shortened))")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

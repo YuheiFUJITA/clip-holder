@@ -40,7 +40,7 @@ struct HistoryEntryRowView: View {
             Button(role: .destructive) {
                 onDelete()
             } label: {
-                Label("削除", systemImage: "trash")
+                Label("Delete", systemImage: "trash")
             }
         }
     }
@@ -117,15 +117,15 @@ struct HistoryEntryRowView: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 36, height: 24)
                         .clipShape(RoundedRectangle(cornerRadius: 4))
-                    Text("画像")
+                    Text("Image")
                 }
             } else {
-                Text("画像")
+                Text("Image")
             }
         case .pdf:
             Text(entry.previewText ?? "PDF")
         case .file:
-            Text(entry.previewText ?? "ファイル")
+            Text(entry.previewText ?? String(localized: "File"))
         }
     }
 
@@ -144,7 +144,7 @@ struct HistoryEntryRowView: View {
     }
 
     private var metaText: String {
-        let appName = entry.sourceAppName ?? "不明"
+        let appName = entry.sourceAppName ?? String(localized: "Unknown")
         let time = relativeTime(from: entry.timestamp)
         return "\(appName)  ·  \(time)"
     }
@@ -152,7 +152,6 @@ struct HistoryEntryRowView: View {
     private func relativeTime(from date: Date) -> String {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .short
-        formatter.locale = Locale(identifier: "ja_JP")
         return formatter.localizedString(for: date, relativeTo: Date())
     }
 }
