@@ -93,27 +93,44 @@ final class PanelWindowService: PanelWindowManaging {
     }
 
     private func calculatePosition() -> NSPoint {
+        let active = activeScreen()
+
         // キャレット位置を取得
         if let caretPoint = caretPositionService.getCaretPosition() {
             let screenPoint = convertToScreenCoordinates(caretPoint)
-            return adjustForScreenBounds(screenPoint)
+            // キャレットがある画面を優先、なければアクティブな画面
+            let targetScreen = screenContaining(screenPoint) ?? active
+            return adjustForScreenBounds(screenPoint, in: targetScreen)
         }
 
-        // フォールバック: 画面中央
-        return centerOfScreen()
+        // フォールバック: アクティブな画面の中央
+        return centerOfScreen(active)
+    }
+
+    // NSScreen.main は管理画面など別ディスプレイの key window がある画面を返してしまうため、
+    // マウスカーソルがある画面を「現在アクティブな画面」とみなす
+    private func activeScreen() -> NSScreen {
+        let mouseLocation = NSEvent.mouseLocation
+        if let screen = NSScreen.screens.first(where: { $0.frame.contains(mouseLocation) }) {
+            return screen
+        }
+        return NSScreen.main ?? NSScreen.screens[0]
+    }
+
+    private func screenContaining(_ point: NSPoint) -> NSScreen? {
+        NSScreen.screens.first(where: { $0.frame.contains(point) })
     }
 
     private func convertToScreenCoordinates(_ point: CGPoint) -> NSPoint {
-        // AXUIElement の座標系（左上原点）を NSWindow の座標系（左下原点）に変換
-        guard let screen = NSScreen.main else {
+        // AXUIElement の座標系（プライマリ画面の左上原点）を NSWindow の座標系（同画面の左下原点）に変換
+        let primaryScreen = NSScreen.screens.first(where: { $0.frame.origin == .zero }) ?? NSScreen.screens.first
+        guard let primaryScreen else {
             return NSPoint(x: point.x, y: point.y)
         }
-        let screenHeight = screen.frame.height
-        return NSPoint(x: point.x, y: screenHeight - point.y)
+        return NSPoint(x: point.x, y: primaryScreen.frame.height - point.y)
     }
 
-    private func adjustForScreenBounds(_ origin: NSPoint) -> NSPoint {
-        guard let screen = NSScreen.main else { return origin }
+    private func adjustForScreenBounds(_ origin: NSPoint, in screen: NSScreen) -> NSPoint {
         let visibleFrame = screen.visibleFrame
         var adjusted = origin
 
@@ -140,8 +157,7 @@ final class PanelWindowService: PanelWindowManaging {
         return adjusted
     }
 
-    private func centerOfScreen() -> NSPoint {
-        guard let screen = NSScreen.main else { return .zero }
+    private func centerOfScreen(_ screen: NSScreen) -> NSPoint {
         let visibleFrame = screen.visibleFrame
         return NSPoint(
             x: visibleFrame.midX - panelSize.width / 2,
