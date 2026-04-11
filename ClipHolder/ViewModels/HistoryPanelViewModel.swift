@@ -15,6 +15,8 @@ final class HistoryPanelViewModel {
     var pasteError: String?
     /// キーボード操作で選択が動いた回数。View 側でスクロール追従のトリガーに使う。
     var keyboardNavTick: Int = 0
+    /// パネル表示のたびに増えるカウンタ。View 側で検索フィールドへのフォーカス付与に使う。
+    var panelShowTick: Int = 0
 
     private let store: ClipboardHistoryStoring
     private let pasteService: PasteExecuting
@@ -96,6 +98,7 @@ final class HistoryPanelViewModel {
     func onPanelShow() {
         previousAppRecorder?()
         loadEntries()
+        panelShowTick &+= 1
     }
 
     func loadContent(for entry: ClipboardHistoryEntry) -> EntryContent {

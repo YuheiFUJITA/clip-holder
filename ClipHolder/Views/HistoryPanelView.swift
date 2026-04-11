@@ -4,6 +4,8 @@ struct HistoryPanelView: View {
     @Bindable var viewModel: HistoryPanelViewModel
     var onDismiss: () -> Void = {}
 
+    @FocusState private var isSearchFieldFocused: Bool
+
     var body: some View {
         HStack(spacing: 0) {
             // 左パネル: 履歴リスト
@@ -45,6 +47,12 @@ struct HistoryPanelView: View {
         .onChange(of: viewModel.searchQuery) {
             viewModel.applyFilter()
         }
+        .onChange(of: viewModel.panelShowTick) { _, _ in
+            isSearchFieldFocused = true
+        }
+        .onAppear {
+            isSearchFieldFocused = true
+        }
         .background(
             PanelKeyHandler(
                 onUpArrow: { viewModel.moveSelection(direction: .up) },
@@ -75,6 +83,7 @@ struct HistoryPanelView: View {
             TextField("Search…", text: $viewModel.searchQuery)
                 .textFieldStyle(.plain)
                 .font(.system(size: 13))
+                .focused($isSearchFieldFocused)
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 8)
