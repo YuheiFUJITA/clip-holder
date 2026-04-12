@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="yes"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+    <channel>
+        <title>ClipHolder</title>
+        <link>https://clip-holder.app</link>
+        <description>ClipHolder の最新アップデート情報</description>
+        <language>en</language>
+        <item>
+            <title>Version 0.1.1</title>
+            <sparkle:version>2</sparkle:version>
+            <sparkle:shortVersionString>0.1.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
+            <pubDate>Sun, 12 Apr 2026 19:07:44 +0000</pubDate>
+            <enclosure
+                url="https://github.com/YuheiFUJITA/clip-holder/releases/download/v0.1.1/ClipHolder-0.1.1.dmg"
+                sparkle:edSignature="qbu0PpD1hacJ48z5VUQ348y/CA5vN4Ism+I3JVw5yKbGUGNK7gHDD0KAoIj910tBBBTMCLOJgnmAo3W3OP3hBw=="
+                length="3019651"
+                type="application/octet-stream" />
+        </item>
+    </channel>
+</rss>
