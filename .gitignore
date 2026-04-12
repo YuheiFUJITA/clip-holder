@@ -87,6 +87,9 @@ iOSInjectionProject/
 
 # End of https://www.toptal.com/developers/gitignore/api/swift
 
+# Generated assets
+scripts/dmg-background.png
+
 # Claude Code
 .claude/
 CLAUDE.md
