@@ -22,6 +22,13 @@ final class AccessibilityPermissionService: AccessibilityPermissionChecking {
         self.onStatusChange = onStatusChange
         stopPolling()
 
+        // ポーリング停止中に権限が変わった場合に即座に反映する
+        let currentStatus = AXIsProcessTrusted()
+        if currentStatus != isGranted {
+            isGranted = currentStatus
+            onStatusChange(currentStatus)
+        }
+
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self else { return }
             let newStatus = AXIsProcessTrusted()

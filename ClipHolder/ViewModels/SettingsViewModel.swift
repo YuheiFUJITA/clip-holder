@@ -67,6 +67,8 @@ final class SettingsViewModel {
     }
 
     func startAccessibilityPolling() {
+        // ポーリング開始前にキャッシュ済みの状態を同期
+        isAccessibilityGranted = accessibilityService.isGranted
         accessibilityService.startPolling { [weak self] granted in
             Task { @MainActor in
                 self?.isAccessibilityGranted = granted
