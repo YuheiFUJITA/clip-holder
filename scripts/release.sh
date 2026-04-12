@@ -71,6 +71,7 @@ xcrun stapler staple "${EXPORT_PATH}/${APP_NAME}.app"
 echo ""
 echo "==> Step 5/5: DMG 作成..."
 DMG_OUTPUT="${PROJECT_DIR}/build/${DMG_NAME}-v${VERSION}.dmg"
+DMG_BACKGROUND="${PROJECT_DIR}/scripts/dmg-background.png"
 rm -f "$DMG_OUTPUT"
 
 # DMG 用一時ディレクトリ
@@ -78,16 +79,36 @@ DMG_TEMP="${PROJECT_DIR}/build/dmg-temp"
 rm -rf "$DMG_TEMP"
 mkdir -p "$DMG_TEMP"
 cp -R "${EXPORT_PATH}/${APP_NAME}.app" "$DMG_TEMP/"
-ln -s /Applications "$DMG_TEMP/Applications"
 
-hdiutil create -volname "$APP_NAME" \
-    -srcfolder "$DMG_TEMP" \
-    -ov -format UDZO \
-    "$DMG_OUTPUT"
+# 背景画像がなければ生成
+if [ ! -f "$DMG_BACKGROUND" ]; then
+    echo "    背景画像を生成中..."
+    swift "${PROJECT_DIR}/scripts/generate-dmg-background.swift"
+fi
+
+create-dmg \
+    --volname "$APP_NAME" \
+    --background "$DMG_BACKGROUND" \
+    --window-pos 200 120 \
+    --window-size 660 400 \
+    --icon-size 128 \
+    --text-size 10 \
+    --icon "${APP_NAME}.app" 225 165 \
+    --app-drop-link 445 165 \
+    --hide-extension "${APP_NAME}.app" \
+    --no-internet-enable \
+    "$DMG_OUTPUT" \
+    "$DMG_TEMP"
 
 rm -rf "$DMG_TEMP"
 
-# DMG にもステープル
+# DMG を公証してステープル
+echo ""
+echo "==> DMG を公証中..."
+xcrun notarytool submit "$DMG_OUTPUT" \
+    --keychain-profile "notarytool" \
+    --wait
+
 xcrun stapler staple "$DMG_OUTPUT"
 
 echo ""
