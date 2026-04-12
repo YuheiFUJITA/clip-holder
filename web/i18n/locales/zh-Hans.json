@@ -1,1 +1,69 @@
-{}
+{
+  "meta": {
+    "title": "macOS 剪贴板管理器",
+    "description": "macOS 剪贴板历史管理器。自动捕获并整理您复制的所有内容。通过键盘快捷键即时调取过去的剪贴板内容。"
+  },
+  "nav": {
+    "features": "功能",
+    "download": "下载",
+    "github": "GitHub",
+    "sponsor": "赞助"
+  },
+  "hero": {
+    "headline": "macOS 剪贴板管理器",
+    "title": "ClipHolder",
+    "description": "自动捕获并整理您复制的所有内容。\n通过键盘快捷键即时调取过去的剪贴板内容。",
+    "cta": "下载 macOS 版",
+    "version": "v1.3.0 · macOS 26.2+"
+  },
+  "features": {
+    "label": "功能",
+    "title": "您复制的一切，触手可及。",
+    "description": "ClipHolder 自动管理您的剪贴板历史记录，大幅提升您的工作效率。",
+    "items": {
+      "history": {
+        "title": "剪贴板历史",
+        "description": "自动捕获文本、图片、PDF 和文件引用。随时调取您曾复制的任何内容。"
+      },
+      "keyboard": {
+        "title": "键盘驱动",
+        "description": "使用您偏好的键盘快捷键即时打开历史面板。仅通过键盘即可全速粘贴。"
+      },
+      "multiContent": {
+        "title": "不止于文本",
+        "description": "不仅是文本——图片、PDF 和文件引用都统一管理。再也不会丢失复制的内容。"
+      },
+      "multilingual": {
+        "title": "11 种语言",
+        "description": "支持包括英语和日语在内的 11 种语言。自动适配您的系统语言。"
+      }
+    }
+  },
+  "support": {
+    "label": "支持",
+    "title": "想要支持开发者吗？",
+    "description": "ClipHolder 是一款免费应用。\n您的支持对持续开发意义重大。",
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee",
+    "note": "即使是小额支持也非常感激 🙏"
+  },
+  "download": {
+    "title": "立即体验 ClipHolder",
+    "description": "免费的 macOS 剪贴板管理器。\n下载即可立即开始使用。",
+    "cta": "免费下载",
+    "version": "v1.3.0 · macOS 26.2 或更高版本"
+  },
+  "footer": {
+    "project": "项目",
+    "sourceCode": "源代码",
+    "pastVersions": "历史版本",
+    "feedback": "反馈与 Bug",
+    "support": "支持",
+    "appDescription": "macOS 剪贴板\n历史管理器",
+    "copyright": "© 2026 Yuhei FUJITA. All rights reserved."
+  },
+  "sponsor": {
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee"
+  }
+}

@@ -1,1 +1,69 @@
-{}
+{
+  "meta": {
+    "title": "macOS용 클립보드 관리자",
+    "description": "macOS용 클립보드 기록 관리자입니다. 복사하는 모든 것을 자동으로 캡처하고 정리합니다. 키보드 단축키로 과거 클립보드 내용을 즉시 불러올 수 있습니다."
+  },
+  "nav": {
+    "features": "기능",
+    "download": "다운로드",
+    "github": "GitHub",
+    "sponsor": "후원"
+  },
+  "hero": {
+    "headline": "macOS용 클립보드 관리자",
+    "title": "ClipHolder",
+    "description": "복사하는 모든 것을 자동으로 캡처하고 정리합니다.\n키보드 단축키로 과거 클립보드 내용을 즉시 불러올 수 있습니다.",
+    "cta": "macOS용 다운로드",
+    "version": "v1.3.0 · macOS 26.2+"
+  },
+  "features": {
+    "label": "기능",
+    "title": "복사한 모든 것을 손끝에서.",
+    "description": "ClipHolder는 클립보드 기록을 자동으로 관리하여 생산성을 획기적으로 향상시킵니다.",
+    "items": {
+      "history": {
+        "title": "클립보드 기록",
+        "description": "텍스트, 이미지, PDF, 파일 참조를 자동으로 캡처합니다. 복사한 모든 것을 언제든지 불러올 수 있습니다."
+      },
+      "keyboard": {
+        "title": "키보드 중심 조작",
+        "description": "원하는 키보드 단축키로 기록 패널을 즉시 엽니다. 키보드만으로 최고 속도로 붙여넣기할 수 있습니다."
+      },
+      "multiContent": {
+        "title": "텍스트 그 이상",
+        "description": "텍스트뿐만 아니라 이미지, PDF, 파일 참조까지 함께 관리됩니다. 다시는 복사한 내용을 잃지 마세요."
+      },
+      "multilingual": {
+        "title": "11개 언어",
+        "description": "영어와 일본어를 포함한 11개 언어로 제공됩니다. 시스템 언어에 자동으로 적응합니다."
+      }
+    }
+  },
+  "support": {
+    "label": "후원",
+    "title": "개발자를 후원하시겠습니까?",
+    "description": "ClipHolder는 무료 앱입니다.\n여러분의 후원이 개발을 지속하는 데 큰 도움이 됩니다.",
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee",
+    "note": "소액이라도 큰 힘이 됩니다 🙏"
+  },
+  "download": {
+    "title": "오늘 ClipHolder를 사용해 보세요",
+    "description": "macOS용 무료 클립보드 관리자입니다.\n다운로드하고 바로 사용해 보세요.",
+    "cta": "무료 다운로드",
+    "version": "v1.3.0 · macOS 26.2 이상"
+  },
+  "footer": {
+    "project": "프로젝트",
+    "sourceCode": "소스 코드",
+    "pastVersions": "이전 버전",
+    "feedback": "피드백 및 버그",
+    "support": "후원",
+    "appDescription": "macOS용\n클립보드 기록 관리자",
+    "copyright": "© 2026 Yuhei FUJITA. All rights reserved."
+  },
+  "sponsor": {
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee"
+  }
+}

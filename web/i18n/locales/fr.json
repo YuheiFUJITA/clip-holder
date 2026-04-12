@@ -1,1 +1,69 @@
-{}
+{
+  "meta": {
+    "title": "Gestionnaire de presse-papiers pour macOS",
+    "description": "Un gestionnaire d'historique du presse-papiers pour macOS. Capture et organise automatiquement tout ce que vous copiez. Retrouvez instantanément le contenu précédent du presse-papiers avec un raccourci clavier."
+  },
+  "nav": {
+    "features": "Fonctionnalités",
+    "download": "Télécharger",
+    "github": "GitHub",
+    "sponsor": "Soutenir"
+  },
+  "hero": {
+    "headline": "Gestionnaire de presse-papiers pour macOS",
+    "title": "ClipHolder",
+    "description": "Capture et organise automatiquement tout ce que vous copiez.\nRetrouvez instantanément le contenu précédent du presse-papiers avec un raccourci clavier.",
+    "cta": "Télécharger pour macOS",
+    "version": "v1.3.0 · macOS 26.2+"
+  },
+  "features": {
+    "label": "Fonctionnalités",
+    "title": "Tout ce que vous copiez, à portée de main.",
+    "description": "ClipHolder gère automatiquement l'historique de votre presse-papiers et améliore considérablement votre productivité.",
+    "items": {
+      "history": {
+        "title": "Historique du presse-papiers",
+        "description": "Capture automatiquement le texte, les images, les PDF et les références de fichiers. Retrouvez à tout moment tout ce que vous avez copié."
+      },
+      "keyboard": {
+        "title": "Piloté au clavier",
+        "description": "Ouvrez instantanément le panneau d'historique avec votre raccourci clavier préféré. Collez à pleine vitesse en utilisant uniquement le clavier."
+      },
+      "multiContent": {
+        "title": "Au-delà du texte",
+        "description": "Pas seulement du texte — images, PDF et références de fichiers sont tous gérés ensemble. Ne perdez plus jamais une copie."
+      },
+      "multilingual": {
+        "title": "11 langues",
+        "description": "Disponible en 11 langues, dont l'anglais et le japonais. S'adapte automatiquement à la langue de votre système."
+      }
+    }
+  },
+  "support": {
+    "label": "Soutien",
+    "title": "Vous souhaitez soutenir le développeur ?",
+    "description": "ClipHolder est une application gratuite.\nVotre soutien fait une grande différence pour maintenir le développement.",
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee",
+    "note": "Même un petit montant est très apprécié 🙏"
+  },
+  "download": {
+    "title": "Essayez ClipHolder dès aujourd'hui",
+    "description": "Un gestionnaire de presse-papiers gratuit pour macOS.\nTéléchargez et commencez à l'utiliser immédiatement.",
+    "cta": "Téléchargement gratuit",
+    "version": "v1.3.0 · macOS 26.2 ou ultérieur"
+  },
+  "footer": {
+    "project": "Projet",
+    "sourceCode": "Code source",
+    "pastVersions": "Versions précédentes",
+    "feedback": "Commentaires et bugs",
+    "support": "Soutien",
+    "appDescription": "Un gestionnaire d'historique\ndu presse-papiers pour macOS",
+    "copyright": "© 2026 Yuhei FUJITA. All rights reserved."
+  },
+  "sponsor": {
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee"
+  }
+}

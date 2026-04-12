@@ -70,7 +70,7 @@ xcrun stapler staple "${EXPORT_PATH}/${APP_NAME}.app"
 # ---- Step 5: DMG 作成 ----
 echo ""
 echo "==> Step 5/5: DMG 作成..."
-DMG_OUTPUT="${PROJECT_DIR}/build/${DMG_NAME}-v${VERSION}.dmg"
+DMG_OUTPUT="${PROJECT_DIR}/build/${DMG_NAME}-${VERSION}.dmg"
 DMG_BACKGROUND="${PROJECT_DIR}/scripts/dmg-background.png"
 rm -f "$DMG_OUTPUT"
 

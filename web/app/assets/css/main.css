@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+body {
+  text-wrap: pretty;
+}

@@ -1,1 +1,69 @@
-{}
+{
+  "meta": {
+    "title": "Clipboard Manager for macOS",
+    "description": "A clipboard history manager for macOS. Automatically captures and organizes everything you copy. Instantly recall past clipboard content with a keyboard shortcut."
+  },
+  "nav": {
+    "features": "Features",
+    "download": "Download",
+    "github": "GitHub",
+    "sponsor": "Sponsor"
+  },
+  "hero": {
+    "headline": "Clipboard Manager for macOS",
+    "title": "ClipHolder",
+    "description": "Automatically captures and organizes everything you copy.\nInstantly recall past clipboard content with a keyboard shortcut.",
+    "cta": "Download for macOS",
+    "version": "v1.3.0 · macOS 26.2+"
+  },
+  "features": {
+    "label": "Features",
+    "title": "Everything you copy, at your fingertips.",
+    "description": "ClipHolder automatically manages your clipboard history and dramatically boosts your productivity.",
+    "items": {
+      "history": {
+        "title": "Clipboard History",
+        "description": "Automatically captures text, images, PDF, and file references. Recall anything you've copied at any time."
+      },
+      "keyboard": {
+        "title": "Keyboard Driven",
+        "description": "Instantly open the history panel with your preferred keyboard shortcut. Paste at full speed using only the keyboard."
+      },
+      "multiContent": {
+        "title": "Beyond Text",
+        "description": "Not just text — images, PDF, and file references are all managed together. Never lose a copy again."
+      },
+      "multilingual": {
+        "title": "11 Languages",
+        "description": "Available in 11 languages including English and Japanese. Automatically adapts to your system language."
+      }
+    }
+  },
+  "support": {
+    "label": "Support",
+    "title": "Want to support the developer?",
+    "description": "ClipHolder is a free app.\nYour support makes a big difference in keeping development going.",
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee",
+    "note": "Even a small amount is greatly appreciated 🙏"
+  },
+  "download": {
+    "title": "Try ClipHolder today",
+    "description": "A free clipboard manager for macOS.\nDownload and start using it right away.",
+    "cta": "Free Download",
+    "version": "v1.3.0 · macOS 26.2 or later"
+  },
+  "footer": {
+    "project": "Project",
+    "sourceCode": "Source Code",
+    "pastVersions": "Past Versions",
+    "feedback": "Feedback & Bugs",
+    "support": "Support",
+    "appDescription": "A clipboard history manager\nfor macOS",
+    "copyright": "© 2026 Yuhei FUJITA. All rights reserved."
+  },
+  "sponsor": {
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee"
+  }
+}

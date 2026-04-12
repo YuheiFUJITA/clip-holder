@@ -1,1 +1,69 @@
-{}
+{
+  "meta": {
+    "title": "Zwischenablage-Manager für macOS",
+    "description": "Ein Zwischenablage-Verlaufsmanager für macOS. Erfasst und organisiert automatisch alles, was Sie kopieren. Rufen Sie vergangene Zwischenablage-Inhalte sofort mit einer Tastenkombination ab."
+  },
+  "nav": {
+    "features": "Funktionen",
+    "download": "Download",
+    "github": "GitHub",
+    "sponsor": "Unterstützen"
+  },
+  "hero": {
+    "headline": "Zwischenablage-Manager für macOS",
+    "title": "ClipHolder",
+    "description": "Erfasst und organisiert automatisch alles, was Sie kopieren.\nRufen Sie vergangene Zwischenablage-Inhalte sofort mit einer Tastenkombination ab.",
+    "cta": "Für macOS herunterladen",
+    "version": "v1.3.0 · macOS 26.2+"
+  },
+  "features": {
+    "label": "Funktionen",
+    "title": "Alles, was Sie kopieren, immer griffbereit.",
+    "description": "ClipHolder verwaltet automatisch Ihren Zwischenablage-Verlauf und steigert Ihre Produktivität erheblich.",
+    "items": {
+      "history": {
+        "title": "Zwischenablage-Verlauf",
+        "description": "Erfasst automatisch Texte, Bilder, PDF und Dateireferenzen. Rufen Sie jederzeit alles ab, was Sie kopiert haben."
+      },
+      "keyboard": {
+        "title": "Tastaturgesteuert",
+        "description": "Öffnen Sie das Verlaufsfenster sofort mit Ihrer bevorzugten Tastenkombination. Einfügen in voller Geschwindigkeit nur mit der Tastatur."
+      },
+      "multiContent": {
+        "title": "Mehr als nur Text",
+        "description": "Nicht nur Text — Bilder, PDF und Dateireferenzen werden gemeinsam verwaltet. Verlieren Sie nie wieder eine Kopie."
+      },
+      "multilingual": {
+        "title": "11 Sprachen",
+        "description": "Verfügbar in 11 Sprachen, darunter Englisch und Japanisch. Passt sich automatisch an Ihre Systemsprache an."
+      }
+    }
+  },
+  "support": {
+    "label": "Unterstützung",
+    "title": "Möchten Sie den Entwickler unterstützen?",
+    "description": "ClipHolder ist eine kostenlose App.\nIhre Unterstützung macht einen großen Unterschied für die Weiterentwicklung.",
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee",
+    "note": "Auch ein kleiner Betrag wird sehr geschätzt 🙏"
+  },
+  "download": {
+    "title": "Probieren Sie ClipHolder noch heute aus",
+    "description": "Ein kostenloser Zwischenablage-Manager für macOS.\nHerunterladen und sofort loslegen.",
+    "cta": "Kostenloser Download",
+    "version": "v1.3.0 · macOS 26.2 oder neuer"
+  },
+  "footer": {
+    "project": "Projekt",
+    "sourceCode": "Quellcode",
+    "pastVersions": "Frühere Versionen",
+    "feedback": "Feedback & Fehler",
+    "support": "Unterstützung",
+    "appDescription": "Ein Zwischenablage-Verlaufsmanager\nfür macOS",
+    "copyright": "© 2026 Yuhei FUJITA. All rights reserved."
+  },
+  "sponsor": {
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee"
+  }
+}

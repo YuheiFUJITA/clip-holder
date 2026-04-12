@@ -1,1 +1,69 @@
-{}
+{
+  "meta": {
+    "title": "Gestor de portapapeles para macOS",
+    "description": "Un gestor de historial del portapapeles para macOS. Captura y organiza automáticamente todo lo que copias. Recupera al instante el contenido anterior del portapapeles con un atajo de teclado."
+  },
+  "nav": {
+    "features": "Funciones",
+    "download": "Descargar",
+    "github": "GitHub",
+    "sponsor": "Patrocinar"
+  },
+  "hero": {
+    "headline": "Gestor de portapapeles para macOS",
+    "title": "ClipHolder",
+    "description": "Captura y organiza automáticamente todo lo que copias.\nRecupera al instante el contenido anterior del portapapeles con un atajo de teclado.",
+    "cta": "Descargar para macOS",
+    "version": "v1.3.0 · macOS 26.2+"
+  },
+  "features": {
+    "label": "Funciones",
+    "title": "Todo lo que copias, al alcance de tu mano.",
+    "description": "ClipHolder gestiona automáticamente el historial de tu portapapeles y aumenta drásticamente tu productividad.",
+    "items": {
+      "history": {
+        "title": "Historial del portapapeles",
+        "description": "Captura automáticamente texto, imágenes, PDF y referencias de archivos. Recupera en cualquier momento todo lo que hayas copiado."
+      },
+      "keyboard": {
+        "title": "Control por teclado",
+        "description": "Abre instantáneamente el panel de historial con tu atajo de teclado preferido. Pega a máxima velocidad usando solo el teclado."
+      },
+      "multiContent": {
+        "title": "Más allá del texto",
+        "description": "No solo texto — imágenes, PDF y referencias de archivos se gestionan juntos. Nunca pierdas una copia de nuevo."
+      },
+      "multilingual": {
+        "title": "11 idiomas",
+        "description": "Disponible en 11 idiomas, incluidos inglés y japonés. Se adapta automáticamente al idioma de tu sistema."
+      }
+    }
+  },
+  "support": {
+    "label": "Apoyo",
+    "title": "¿Quieres apoyar al desarrollador?",
+    "description": "ClipHolder es una aplicación gratuita.\nTu apoyo marca una gran diferencia para mantener el desarrollo activo.",
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee",
+    "note": "Incluso una pequeña cantidad se agradece enormemente 🙏"
+  },
+  "download": {
+    "title": "Prueba ClipHolder hoy",
+    "description": "Un gestor de portapapeles gratuito para macOS.\nDescarga y empieza a usarlo de inmediato.",
+    "cta": "Descarga gratuita",
+    "version": "v1.3.0 · macOS 26.2 o posterior"
+  },
+  "footer": {
+    "project": "Proyecto",
+    "sourceCode": "Código fuente",
+    "pastVersions": "Versiones anteriores",
+    "feedback": "Comentarios y errores",
+    "support": "Apoyo",
+    "appDescription": "Un gestor de historial del portapapeles\npara macOS",
+    "copyright": "© 2026 Yuhei FUJITA. All rights reserved."
+  },
+  "sponsor": {
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee"
+  }
+}

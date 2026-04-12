@@ -1,1 +1,69 @@
-{}
+{
+  "meta": {
+    "title": "Gestore degli appunti per macOS",
+    "description": "Un gestore della cronologia degli appunti per macOS. Acquisisce e organizza automaticamente tutto ciò che copi. Richiama istantaneamente i contenuti precedenti degli appunti con una scorciatoia da tastiera."
+  },
+  "nav": {
+    "features": "Funzionalità",
+    "download": "Download",
+    "github": "GitHub",
+    "sponsor": "Sostieni"
+  },
+  "hero": {
+    "headline": "Gestore degli appunti per macOS",
+    "title": "ClipHolder",
+    "description": "Acquisisce e organizza automaticamente tutto ciò che copi.\nRichiama istantaneamente i contenuti precedenti degli appunti con una scorciatoia da tastiera.",
+    "cta": "Scarica per macOS",
+    "version": "v1.3.0 · macOS 26.2+"
+  },
+  "features": {
+    "label": "Funzionalità",
+    "title": "Tutto ciò che copi, a portata di mano.",
+    "description": "ClipHolder gestisce automaticamente la cronologia degli appunti e aumenta drasticamente la tua produttività.",
+    "items": {
+      "history": {
+        "title": "Cronologia degli appunti",
+        "description": "Acquisisce automaticamente testo, immagini, PDF e riferimenti ai file. Richiama in qualsiasi momento tutto ciò che hai copiato."
+      },
+      "keyboard": {
+        "title": "Controllo da tastiera",
+        "description": "Apri istantaneamente il pannello della cronologia con la tua scorciatoia da tastiera preferita. Incolla alla massima velocità usando solo la tastiera."
+      },
+      "multiContent": {
+        "title": "Oltre il testo",
+        "description": "Non solo testo — immagini, PDF e riferimenti ai file sono tutti gestiti insieme. Non perdere mai più una copia."
+      },
+      "multilingual": {
+        "title": "11 lingue",
+        "description": "Disponibile in 11 lingue, tra cui inglese e giapponese. Si adatta automaticamente alla lingua del tuo sistema."
+      }
+    }
+  },
+  "support": {
+    "label": "Supporto",
+    "title": "Vuoi supportare lo sviluppatore?",
+    "description": "ClipHolder è un'app gratuita.\nIl tuo supporto fa una grande differenza per mantenere attivo lo sviluppo.",
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee",
+    "note": "Anche un piccolo importo è molto apprezzato 🙏"
+  },
+  "download": {
+    "title": "Prova ClipHolder oggi",
+    "description": "Un gestore degli appunti gratuito per macOS.\nScarica e inizia a usarlo subito.",
+    "cta": "Download gratuito",
+    "version": "v1.3.0 · macOS 26.2 o successivo"
+  },
+  "footer": {
+    "project": "Progetto",
+    "sourceCode": "Codice sorgente",
+    "pastVersions": "Versioni precedenti",
+    "feedback": "Feedback e bug",
+    "support": "Supporto",
+    "appDescription": "Un gestore della cronologia\ndegli appunti per macOS",
+    "copyright": "© 2026 Yuhei FUJITA. All rights reserved."
+  },
+  "sponsor": {
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee"
+  }
+}

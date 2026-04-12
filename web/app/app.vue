@@ -1,6 +1,15 @@
+<script setup lang="ts">
+useSchemaOrg([
+  defineWebSite({
+    name: 'ClipHolder',
+  }),
+  defineWebPage(),
+])
+</script>
+
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+    <NuxtPage />
   </div>
 </template>

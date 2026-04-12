@@ -1,1 +1,69 @@
-{}
+{
+  "meta": {
+    "title": "macOS 向けクリップボードマネージャー",
+    "description": "macOS 向けのクリップボード履歴管理アプリ。コピーした内容を自動で蓄積・整理し、キーボードショートカットで即座に過去のコピー内容を再利用できます。"
+  },
+  "nav": {
+    "features": "機能",
+    "download": "ダウンロード",
+    "github": "GitHub",
+    "sponsor": "サポート"
+  },
+  "hero": {
+    "headline": "macOS 向けクリップボードマネージャー",
+    "title": "ClipHolder",
+    "description": "コピーした内容を自動で蓄積・整理。\nキーボードショートカットで即座に過去のコピー内容を再利用。",
+    "cta": "macOS 版をダウンロード",
+    "version": "v1.3.0 · macOS 26.2+"
+  },
+  "features": {
+    "label": "機能",
+    "title": "すべてのコピーを、指先ひとつで。",
+    "description": "ClipHolder はクリップボードの履歴を自動で管理し、生産性を飛躍的に向上させます。",
+    "items": {
+      "history": {
+        "title": "クリップボード履歴",
+        "description": "テキスト・画像・PDF・ファイル参照を自動でキャプチャ。コピーした内容をいつでも呼び出せます。"
+      },
+      "keyboard": {
+        "title": "キーボード操作",
+        "description": "お好みのキー操作で即座に履歴パネルを呼び出し。キーボードだけで高速にペースト。"
+      },
+      "multiContent": {
+        "title": "テキスト以外にも対応",
+        "description": "テキストはもちろん、画像・PDF・ファイル参照もまとめて管理。いろんなコピーを逃しません。"
+      },
+      "multilingual": {
+        "title": "11 言語対応",
+        "description": "日本語・英語をはじめ 11 言語の表示言語を提供。システム言語に自動で対応。"
+      }
+    }
+  },
+  "support": {
+    "label": "サポート",
+    "title": "開発者を支援しませんか？",
+    "description": "ClipHolder は無料で使えるアプリです。\n開発の継続にはあなたのサポートが大きな力になります。",
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee",
+    "note": "少額からでも大歓迎です 🙏"
+  },
+  "download": {
+    "title": "今すぐ ClipHolder を試そう",
+    "description": "macOS 向けの無料クリップボードマネージャー。\nダウンロードしてすぐに使い始められます。",
+    "cta": "無料でダウンロード",
+    "version": "v1.3.0 · macOS 26.2 以降"
+  },
+  "footer": {
+    "project": "Project",
+    "sourceCode": "ソースコード",
+    "pastVersions": "過去のバージョン",
+    "feedback": "不具合・要望",
+    "support": "Support",
+    "appDescription": "macOS 向けクリップボード\n履歴管理アプリ",
+    "copyright": "© 2026 Yuhei FUJITA. All rights reserved."
+  },
+  "sponsor": {
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee"
+  }
+}

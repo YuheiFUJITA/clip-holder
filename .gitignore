@@ -90,6 +90,9 @@ iOSInjectionProject/
 # Generated assets
 scripts/dmg-background.png
 
+# Environment variables
+web/.env
+
 # Claude Code
 .claude/
 CLAUDE.md

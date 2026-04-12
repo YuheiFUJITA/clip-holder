@@ -1,1 +1,69 @@
-{}
+{
+  "meta": {
+    "title": "Gerenciador de área de transferência para macOS",
+    "description": "Um gerenciador de histórico da área de transferência para macOS. Captura e organiza automaticamente tudo o que você copia. Recupere instantaneamente o conteúdo anterior da área de transferência com um atalho de teclado."
+  },
+  "nav": {
+    "features": "Recursos",
+    "download": "Download",
+    "github": "GitHub",
+    "sponsor": "Patrocinar"
+  },
+  "hero": {
+    "headline": "Gerenciador de área de transferência para macOS",
+    "title": "ClipHolder",
+    "description": "Captura e organiza automaticamente tudo o que você copia.\nRecupere instantaneamente o conteúdo anterior da área de transferência com um atalho de teclado.",
+    "cta": "Baixar para macOS",
+    "version": "v1.3.0 · macOS 26.2+"
+  },
+  "features": {
+    "label": "Recursos",
+    "title": "Tudo o que você copia, na ponta dos dedos.",
+    "description": "ClipHolder gerencia automaticamente o histórico da sua área de transferência e aumenta drasticamente sua produtividade.",
+    "items": {
+      "history": {
+        "title": "Histórico da área de transferência",
+        "description": "Captura automaticamente texto, imagens, PDF e referências de arquivos. Recupere a qualquer momento tudo o que você copiou."
+      },
+      "keyboard": {
+        "title": "Controle por teclado",
+        "description": "Abra instantaneamente o painel de histórico com seu atalho de teclado preferido. Cole na velocidade máxima usando apenas o teclado."
+      },
+      "multiContent": {
+        "title": "Além do texto",
+        "description": "Não apenas texto — imagens, PDF e referências de arquivos são todos gerenciados juntos. Nunca mais perca uma cópia."
+      },
+      "multilingual": {
+        "title": "11 idiomas",
+        "description": "Disponível em 11 idiomas, incluindo inglês e japonês. Adapta-se automaticamente ao idioma do seu sistema."
+      }
+    }
+  },
+  "support": {
+    "label": "Apoio",
+    "title": "Quer apoiar o desenvolvedor?",
+    "description": "ClipHolder é um aplicativo gratuito.\nSeu apoio faz uma grande diferença para manter o desenvolvimento ativo.",
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee",
+    "note": "Mesmo um pequeno valor é muito apreciado 🙏"
+  },
+  "download": {
+    "title": "Experimente o ClipHolder hoje",
+    "description": "Um gerenciador de área de transferência gratuito para macOS.\nBaixe e comece a usar imediatamente.",
+    "cta": "Download gratuito",
+    "version": "v1.3.0 · macOS 26.2 ou posterior"
+  },
+  "footer": {
+    "project": "Projeto",
+    "sourceCode": "Código-fonte",
+    "pastVersions": "Versões anteriores",
+    "feedback": "Feedback e bugs",
+    "support": "Apoio",
+    "appDescription": "Um gerenciador de histórico da\nárea de transferência para macOS",
+    "copyright": "© 2026 Yuhei FUJITA. All rights reserved."
+  },
+  "sponsor": {
+    "githubSponsors": "GitHub Sponsors",
+    "buyMeACoffee": "Buy Me a Coffee"
+  }
+}
