@@ -100,3 +100,6 @@ CLAUDE.md
 
 # Kiro spec-driven development (Claude Code integration)
 .kiro/
+
+# Wrangler
+.wrangler

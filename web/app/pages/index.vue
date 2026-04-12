@@ -15,6 +15,7 @@ useSeoMeta({
 
     <UMain>
       <HeroSection />
+      <PreviewSection />
       <FeaturesSection />
       <SupportSection />
       <DownloadSection />
