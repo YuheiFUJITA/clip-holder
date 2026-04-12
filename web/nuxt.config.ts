@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/i18n", "@nuxt/ui", '@nuxtjs/seo', 'nuxt-gtag'],
   css: ['~/assets/css/main.css'],
   nitro: {
-    preset: 'cloudflare-pages',
+    preset: 'static',
   },
   app: {
     head: {
