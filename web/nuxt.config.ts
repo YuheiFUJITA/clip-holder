@@ -4,6 +4,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/i18n", "@nuxt/ui", '@nuxtjs/seo', 'nuxt-gtag'],
   css: ['~/assets/css/main.css'],
+  nitro: {
+    preset: 'github-pages',
+  },
   app: {
     head: {
       link: [
@@ -14,7 +17,7 @@ export default defineNuxtConfig({
     },
   },
   site: {
-    url: process.env.NUXT_SITE_URL,
+    url: 'https://clip-holder.app',
     name: 'ClipHolder',
     description: 'A clipboard history manager for macOS',
     defaultLocale: 'en',
