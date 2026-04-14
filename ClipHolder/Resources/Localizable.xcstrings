@@ -330,6 +330,12 @@
     "⌘⇧V" : {
       "shouldTranslate" : false
     },
+    "About" : {
+      "extractionState" : "manual"
+    },
+    "About Clip Holder" : {
+      "extractionState" : "manual"
+    },
     "Accessibility Permission" : {
       "localizations" : {
         "de" : {
@@ -1484,6 +1490,9 @@
           }
         }
       }
+    },
+    "Copyright © 2026 Yuhei FUJITA. All rights reserved." : {
+      "extractionState" : "manual"
     },
     "Delete" : {
       "localizations" : {
@@ -2963,6 +2972,12 @@
         }
       }
     },
+    "License" : {
+      "extractionState" : "manual"
+    },
+    "License text unavailable." : {
+      "extractionState" : "manual"
+    },
     "Make your macOS clipboard\nmore powerful and smarter." : {
       "localizations" : {
         "de" : {
@@ -3538,6 +3553,9 @@
           }
         }
       }
+    },
+    "Open on GitHub" : {
+      "extractionState" : "manual"
     },
     "Open Settings on launch" : {
       "localizations" : {
@@ -5529,9 +5547,6 @@
         }
       }
     },
-    "Space" : {
-
-    },
     "Startup" : {
       "localizations" : {
         "de" : {
@@ -5729,6 +5744,9 @@
           }
         }
       }
+    },
+    "Third-Party Licenses" : {
+      "extractionState" : "manual"
     },
     "This action cannot be undone." : {
       "localizations" : {
@@ -6242,6 +6260,9 @@
         }
       }
     },
+    "v%@" : {
+
+    },
     "v%@ (Latest)" : {
       "localizations" : {
         "de" : {
@@ -6305,6 +6326,9 @@
           }
         }
       }
+    },
+    "Version %@ (%@)" : {
+      "extractionState" : "manual"
     },
     "Welcome to Clip Holder" : {
       "localizations" : {

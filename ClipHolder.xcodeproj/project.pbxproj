@@ -436,7 +436,7 @@
 				INFOPLIST_FILE = ClipHolder/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Clip Holder";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Yuhei FUJITA. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -472,7 +472,7 @@
 				INFOPLIST_FILE = ClipHolder/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Clip Holder";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Yuhei FUJITA. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
