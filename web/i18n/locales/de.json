@@ -51,7 +51,7 @@
     "title": "Probieren Sie ClipHolder noch heute aus",
     "description": "Ein kostenloser Zwischenablage-Manager für macOS.\nHerunterladen und sofort loslegen.",
     "cta": "Kostenloser Download",
-    "version": "v1.3.0 · macOS 26.2 oder neuer"
+    "requirement": "macOS 26.2 oder neuer"
   },
   "footer": {
     "project": "Projekt",
@@ -65,10 +65,5 @@
   "sponsor": {
     "githubSponsors": "GitHub Sponsors",
     "buyMeACoffee": "Buy Me a Coffee"
-  },
-  "notice": {
-    "title": "Manuelles Update für v0.1.1 und v0.2.0 erforderlich",
-    "description": "Aufgrund einer Fehlkonfiguration der App Sandbox funktioniert die automatische Aktualisierung in diesen Versionen nicht. Bitte laden Sie v0.2.1 manuell herunter, um die automatische Aktualisierung für zukünftige Versionen wiederherzustellen.",
-    "cta": "v0.2.1 herunterladen"
   }
 }

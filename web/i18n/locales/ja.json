@@ -51,7 +51,7 @@
     "title": "今すぐ ClipHolder を試そう",
     "description": "macOS 向けの無料クリップボードマネージャー。\nダウンロードしてすぐに使い始められます。",
     "cta": "無料でダウンロード",
-    "version": "v1.3.0 · macOS 26.2 以降"
+    "requirement": "macOS 26.2 以降"
   },
   "footer": {
     "project": "Project",
@@ -65,10 +65,5 @@
   "sponsor": {
     "githubSponsors": "GitHub Sponsors",
     "buyMeACoffee": "Buy Me a Coffee"
-  },
-  "notice": {
-    "title": "v0.1.1 / v0.2.0 をご利用の方は手動アップデートが必要です",
-    "description": "App Sandbox 設定の不備により、これらのバージョンでは自動アップデートが失敗します。お手数ですが v0.2.1 の DMG を手動でダウンロードしてください。以降のバージョンは自動アップデートが正常に動作します。",
-    "cta": "v0.2.1 をダウンロード"
   }
 }

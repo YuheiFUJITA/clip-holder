@@ -51,7 +51,7 @@
     "title": "Experimente o ClipHolder hoje",
     "description": "Um gerenciador de área de transferência gratuito para macOS.\nBaixe e comece a usar imediatamente.",
     "cta": "Download gratuito",
-    "version": "v1.3.0 · macOS 26.2 ou posterior"
+    "requirement": "macOS 26.2 ou posterior"
   },
   "footer": {
     "project": "Projeto",
@@ -65,10 +65,5 @@
   "sponsor": {
     "githubSponsors": "GitHub Sponsors",
     "buyMeACoffee": "Buy Me a Coffee"
-  },
-  "notice": {
-    "title": "Atualização manual necessária para v0.1.1 e v0.2.0",
-    "description": "A atualização automática está quebrada nessas versões devido a uma configuração incorreta do App Sandbox. Baixe a v0.2.1 manualmente para restaurar a atualização automática em versões futuras.",
-    "cta": "Baixar v0.2.1"
   }
 }

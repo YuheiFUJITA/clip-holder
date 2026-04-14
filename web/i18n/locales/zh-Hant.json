@@ -51,7 +51,7 @@
     "title": "立即體驗 ClipHolder",
     "description": "免費的 macOS 剪貼簿管理器。\n下載即可立即開始使用。",
     "cta": "免費下載",
-    "version": "v1.3.0 · macOS 26.2 或更新版本"
+    "requirement": "macOS 26.2 或更新版本"
   },
   "footer": {
     "project": "專案",
@@ -65,10 +65,5 @@
   "sponsor": {
     "githubSponsors": "GitHub Sponsors",
     "buyMeACoffee": "Buy Me a Coffee"
-  },
-  "notice": {
-    "title": "v0.1.1 與 v0.2.0 使用者需要手動更新",
-    "description": "由於 App Sandbox 設定錯誤，這些版本的自動更新無法正常運作。請手動下載 v0.2.1 DMG 以恢復後續版本的自動更新功能。",
-    "cta": "下載 v0.2.1"
   }
 }

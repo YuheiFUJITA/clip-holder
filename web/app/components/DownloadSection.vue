@@ -21,8 +21,8 @@ const { version, dmgUrl } = useLatestRelease()
             :to="dmgUrl"
             download
           />
-          <p v-if="version" class="text-dimmed text-sm">
-            {{ version }}
+          <p class="text-dimmed text-sm">
+            <template v-if="version">{{ version }} · </template>{{ t('download.requirement') }}
           </p>
         </div>
       </div>

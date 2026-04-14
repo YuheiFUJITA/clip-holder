@@ -51,7 +51,7 @@
     "title": "Try ClipHolder today",
     "description": "A free clipboard manager for macOS.\nDownload and start using it right away.",
     "cta": "Free Download",
-    "version": "v1.3.0 · macOS 26.2 or later"
+    "requirement": "macOS 26.2 or later"
   },
   "footer": {
     "project": "Project",
@@ -65,10 +65,5 @@
   "sponsor": {
     "githubSponsors": "GitHub Sponsors",
     "buyMeACoffee": "Buy Me a Coffee"
-  },
-  "notice": {
-    "title": "Manual update required for v0.1.1 and v0.2.0",
-    "description": "Auto-update is broken on these versions due to an App Sandbox misconfiguration. Please download v0.2.1 manually to restore auto-update for future releases.",
-    "cta": "Download v0.2.1"
   }
 }
