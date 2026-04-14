@@ -23,6 +23,10 @@ struct MenuBarMenuView: View {
         }
         .keyboardShortcut(",", modifiers: .command)
 
+        SettingsLink {
+            Text("About Clip Holder")
+        }
+
         Divider()
 
         Button("Quit Clip Holder") {

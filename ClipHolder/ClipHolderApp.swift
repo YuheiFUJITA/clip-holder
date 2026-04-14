@@ -117,6 +117,8 @@ struct ClipHolderApp: App {
                     .tabItem { Label("History", systemImage: "clock") }
                 ShortcutsSettingsView()
                     .tabItem { Label("Shortcuts", systemImage: "keyboard") }
+                AboutSettingsView()
+                    .tabItem { Label("About", systemImage: "info.circle") }
             }
             .frame(minWidth: 480, minHeight: 400)
             .background(SettingsWindowResizer())
