@@ -38,7 +38,7 @@ struct HistoryPanelView: View {
 
                 PreviewPanelView(
                     entry: viewModel.selectedEntry,
-                    content: viewModel.selectedEntry.map { viewModel.loadContent(for: $0) }
+                    loader: viewModel
                 )
             }
         }

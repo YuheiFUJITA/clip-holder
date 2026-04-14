@@ -1,7 +1,36 @@
 import SwiftUI
 import AppKit
 
+/// アプリアイコンの解決と NSImage 生成は LaunchServices 呼び出しを伴うため、
+/// スクロール中に毎行で呼ぶと負荷になる。bundleID をキーにキャッシュする。
+@MainActor
+enum AppIconCache {
+    private static var cache: [String: NSImage] = [:]
+
+    static func icon(forBundleID bundleID: String) -> NSImage? {
+        if let cached = cache[bundleID] {
+            return cached
+        }
+        guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else {
+            return nil
+        }
+        let icon = NSWorkspace.shared.icon(forFile: url.path)
+        // 表示は 12x12 なので 32x32 まで縮めてキャッシュ
+        icon.size = NSSize(width: 32, height: 32)
+        cache[bundleID] = icon
+        return icon
+    }
+}
+
 struct HistoryEntryRowView: View {
+    /// `RelativeDateTimeFormatter` のインスタンス化は地味に重い (CFLocale を内部で持つ)。
+    /// 行 × 再描画ごとに new していたのを共通インスタンスに切り替える。
+    private static let relativeFormatter: RelativeDateTimeFormatter = {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .short
+        return formatter
+    }()
+
     let entry: ClipboardHistoryEntry
     let isSelected: Bool
     let onPaste: () -> Void
@@ -186,8 +215,7 @@ struct HistoryEntryRowView: View {
     @ViewBuilder
     private var sourceAppIcon: some View {
         if let bundleID = entry.sourceAppBundleID,
-           let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) {
-            let icon = NSWorkspace.shared.icon(forFile: appURL.path)
+           let icon = AppIconCache.icon(forBundleID: bundleID) {
             Image(nsImage: icon)
                 .resizable()
         } else {
@@ -204,9 +232,7 @@ struct HistoryEntryRowView: View {
     }
 
     private func relativeTime(from date: Date) -> String {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .short
-        return formatter.localizedString(for: date, relativeTo: Date())
+        Self.relativeFormatter.localizedString(for: date, relativeTo: Date())
     }
 }
 

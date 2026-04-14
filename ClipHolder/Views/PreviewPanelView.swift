@@ -1,42 +1,27 @@
 import SwiftUI
+import AppKit
 import PDFKit
 
 struct PreviewPanelView: View {
     let entry: ClipboardHistoryEntry?
-    let content: EntryContent?
+    let loader: any PreviewContentLoading
+
+    // 現在ロード済みのコンテンツとデコード結果を @State でキャッシュする。
+    // body 評価ごとの同期 IO や NSImage(data:)/PDFDocument(data:) の再生成を避ける。
+    @State private var loadedEntryID: UUID? = nil
+    @State private var content: EntryContent? = nil
+    @State private var decodedImage: NSImage? = nil
+    @State private var decodedPDF: PDFDocument? = nil
+    @State private var decodedSVGImage: NSImage? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // ヘッダー
-            HStack {
-                Text("Preview")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(.secondary)
+            header
 
-                Spacer()
-
-                if let entry {
-                    Text(metaLabel(for: entry))
-                        .font(.system(size: 11))
-                        .foregroundStyle(.tertiary)
-                }
-            }
-            .padding(.horizontal, 16)
-            .padding(.top, 16)
-            .padding(.bottom, 12)
-
-            Divider()
-                .padding(.horizontal, 16)
-
-            // コンテンツ
-            if let entry {
-                ScrollView {
-                    previewContent(for: entry)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 12)
-                        .padding(.bottom, 16)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
+            if entry != nil {
+                Divider()
+                    .padding(.horizontal, 16)
+                contentArea
             } else {
                 Spacer()
                 HStack {
@@ -51,6 +36,65 @@ struct PreviewPanelView: View {
         }
         .frame(width: 400)
         .background(.ultraThinMaterial)
+        .task(id: entry?.id) {
+            await reload()
+        }
+    }
+
+    // MARK: - Subviews
+
+    private var header: some View {
+        HStack {
+            Text("Preview")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(.secondary)
+
+            Spacer()
+
+            if let entry {
+                Text(metaLabel(for: entry))
+                    .font(.system(size: 11))
+                    .foregroundStyle(.tertiary)
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 16)
+        .padding(.bottom, 12)
+    }
+
+    /// 長文テキストは NSTextView (ReadOnlyTextView) が自前の NSScrollView を持つため、
+    /// 外側の SwiftUI ScrollView をネストしないように分岐する。
+    @ViewBuilder
+    private var contentArea: some View {
+        if let entry, useNativeScrolling(for: entry) {
+            previewContent(for: entry)
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                .padding(.bottom, 16)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        } else if let entry {
+            ScrollView {
+                previewContent(for: entry)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 12)
+                    .padding(.bottom, 16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+    }
+
+    /// 自前スクロールを持つビュー (NSTextView, PDFView) を表示する場合は外側 ScrollView を外す。
+    private func useNativeScrolling(for entry: ClipboardHistoryEntry) -> Bool {
+        switch entry.dataType {
+        case .pdf:
+            return true
+        case .text:
+            if entry.textSubtype == .svg { return false }
+            let length = content?.textContent?.count ?? 0
+            return length >= Self.nsTextViewThreshold
+        default:
+            return false
+        }
     }
 
     @ViewBuilder
@@ -73,13 +117,14 @@ struct PreviewPanelView: View {
 
     @ViewBuilder
     private var svgPreview: some View {
-        if let svgString = content?.svgContent,
-           let svgData = svgString.data(using: .utf8),
-           let nsImage = NSImage(data: svgData) {
+        if let nsImage = decodedSVGImage {
             Image(nsImage: nsImage)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
+        } else if content == nil {
+            // ロード中
+            EmptyView()
         } else {
             Text("Unable to display SVG")
                 .font(.system(size: 13))
@@ -89,27 +134,33 @@ struct PreviewPanelView: View {
 
     @ViewBuilder
     private var textPreview: some View {
-        let displayText: String = {
-            guard let text = content?.textContent else { return "" }
-            if text.count > 10_000 {
-                return String(text.prefix(10_000)) + "\n" + String(localized: "... (truncated)")
-            }
-            return text
-        }()
-        Text(displayText)
-            .font(.system(size: 12))
-            .lineSpacing(6)
-            .foregroundStyle(.primary)
-            .textSelection(.enabled)
+        let raw = content?.textContent ?? ""
+        let truncated: String = raw.count > Self.textTruncationLimit
+            ? String(raw.prefix(Self.textTruncationLimit)) + "\n" + String(localized: "... (truncated)")
+            : raw
+
+        if truncated.count >= Self.nsTextViewThreshold {
+            // 長文は NSTextView に委譲（非連続レイアウトで重さを抑える）
+            ReadOnlyTextView(text: truncated)
+                .frame(minHeight: 200)
+        } else {
+            Text(truncated)
+                .font(.system(size: 12))
+                .lineSpacing(6)
+                .foregroundStyle(.primary)
+                .textSelection(.enabled)
+        }
     }
 
     @ViewBuilder
     private var imagePreview: some View {
-        if let imageData = content?.imageData, let nsImage = NSImage(data: imageData) {
+        if let nsImage = decodedImage {
             Image(nsImage: nsImage)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
+        } else if content == nil {
+            EmptyView()
         } else {
             Text("Unable to display image")
                 .font(.system(size: 13))
@@ -119,11 +170,12 @@ struct PreviewPanelView: View {
 
     @ViewBuilder
     private var pdfPreview: some View {
-        if let pdfData = content?.pdfData,
-           let pdfDoc = PDFDocument(data: pdfData) {
+        if let pdfDoc = decodedPDF {
             PDFKitView(document: pdfDoc)
                 .frame(minHeight: 300)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
+        } else if content == nil {
+            EmptyView()
         } else {
             Text("Unable to display PDF")
                 .font(.system(size: 13))
@@ -193,6 +245,8 @@ struct PreviewPanelView: View {
                     )
                 }
             }
+        } else if content == nil {
+            EmptyView()
         } else {
             Text("Unable to display file information")
                 .font(.system(size: 13))
@@ -207,13 +261,12 @@ struct PreviewPanelView: View {
             let count = content?.textContent?.count ?? entry.previewText?.count ?? 0
             return String(localized: "\(count) characters")
         case .image:
-            if let data = content?.imageData, let img = NSImage(data: data) {
+            if let img = decodedImage {
                 return "\(Int(img.size.width))×\(Int(img.size.height))"
             }
             return String(localized: "Image")
         case .pdf:
-            if let pdfData = content?.pdfData,
-               let doc = PDFDocument(data: pdfData) {
+            if let doc = decodedPDF {
                 return String(localized: "\(doc.pageCount) pages")
             }
             return "PDF"
@@ -221,9 +274,71 @@ struct PreviewPanelView: View {
             return content?.fileMetadata?.formattedSize ?? String(localized: "File")
         }
     }
+
+    // MARK: - Loading
+
+    private func reload() async {
+        guard let entry else {
+            resetState()
+            return
+        }
+        // 同じエントリが再トリガーされた場合は skip
+        if loadedEntryID == entry.id, content != nil {
+            return
+        }
+
+        let snapshot = entry
+        let loaded = await loader.loadContentAsync(for: snapshot)
+
+        // ロード中にエントリが変わっていたら結果を破棄
+        guard !Task.isCancelled, self.entry?.id == snapshot.id else { return }
+
+        self.content = loaded
+        self.loadedEntryID = snapshot.id
+        decode(entry: snapshot, content: loaded)
+    }
+
+    private func decode(entry: ClipboardHistoryEntry, content: EntryContent) {
+        // dataType に応じて必要なデコードだけを行い、結果を State に保存する
+        decodedImage = nil
+        decodedPDF = nil
+        decodedSVGImage = nil
+
+        switch entry.dataType {
+        case .image:
+            decodedImage = content.imageData.flatMap { NSImage(data: $0) }
+        case .pdf:
+            decodedPDF = content.pdfData.flatMap { PDFDocument(data: $0) }
+        case .text where entry.textSubtype == .svg:
+            if let svg = content.svgContent,
+               let data = svg.data(using: .utf8) {
+                decodedSVGImage = NSImage(data: data)
+            }
+        default:
+            break
+        }
+    }
+
+    private func resetState() {
+        content = nil
+        loadedEntryID = nil
+        decodedImage = nil
+        decodedPDF = nil
+        decodedSVGImage = nil
+    }
+
+    // MARK: - Constants
+
+    /// この文字数を超えるテキストプレビューは NSTextView に委譲する。
+    /// SwiftUI Text + lineSpacing は全文レイアウトを行うため、長文だと選択直後にカクつく。
+    private static let nsTextViewThreshold: Int = 3_000
+
+    /// この文字数で末尾を切り捨てる。NSTextView 側でも一定以上は重くなるため上限を設ける。
+    private static let textTruncationLimit: Int = 50_000
 }
 
-// PDFKit を SwiftUI で使うためのラッパー
+// MARK: - PDFKit ラッパー
+
 private struct PDFKitView: NSViewRepresentable {
     let document: PDFDocument
 
@@ -236,6 +351,62 @@ private struct PDFKitView: NSViewRepresentable {
     }
 
     func updateNSView(_ nsView: PDFView, context: Context) {
-        nsView.document = document
+        // document が同一インスタンスなら再代入を避ける（再レイアウトを防ぐ）
+        if nsView.document !== document {
+            nsView.document = document
+        }
+    }
+}
+
+// MARK: - 長文表示用 NSTextView ラッパー
+
+/// 大きなテキストを SwiftUI Text で描画すると全文レイアウトが走り、選択直後にカクつく。
+/// NSTextView の非連続レイアウトを使い、可視範囲のみ描画させる。
+private struct ReadOnlyTextView: NSViewRepresentable {
+    let text: String
+
+    func makeNSView(context: Context) -> NSScrollView {
+        let scroll = NSTextView.scrollableTextView()
+        scroll.drawsBackground = false
+        scroll.borderType = .noBorder
+        scroll.hasVerticalScroller = true
+        scroll.hasHorizontalScroller = false
+        scroll.autohidesScrollers = true
+
+        guard let textView = scroll.documentView as? NSTextView else { return scroll }
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.drawsBackground = false
+        textView.backgroundColor = .clear
+        textView.textContainerInset = .zero
+        textView.font = .systemFont(ofSize: 12)
+        textView.textContainer?.lineFragmentPadding = 0
+        textView.layoutManager?.allowsNonContiguousLayout = true
+        textView.isVerticallyResizable = true
+        textView.isHorizontallyResizable = false
+        textView.autoresizingMask = [.width]
+
+        applyText(textView, text)
+        return scroll
+    }
+
+    func updateNSView(_ nsView: NSScrollView, context: Context) {
+        guard let textView = nsView.documentView as? NSTextView else { return }
+        if textView.string != text {
+            applyText(textView, text)
+        }
+    }
+
+    private func applyText(_ textView: NSTextView, _ text: String) {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineSpacing = 4
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: 12),
+            .foregroundColor: NSColor.labelColor,
+            .paragraphStyle: paragraph
+        ]
+        textView.textStorage?.setAttributedString(
+            NSAttributedString(string: text, attributes: attributes)
+        )
     }
 }

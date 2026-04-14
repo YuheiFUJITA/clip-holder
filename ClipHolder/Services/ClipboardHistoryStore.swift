@@ -16,6 +16,11 @@ protocol ClipboardHistoryStoring {
     func loadImageData(for entryID: UUID) -> Data?
     func loadPDFData(for entryID: UUID) -> Data?
     func loadFileMetadata(for entryID: UUID) -> FileReferenceMetadata?
+
+    /// dataType / textSubtype に応じて必要なファイルだけを読み込む。
+    /// 6 種類すべてを `try?` で開く旧来パスより stat 回数が少なく、
+    /// 大きな text エントリで体感差が出る。
+    func loadContent(for entry: ClipboardHistoryEntry) -> EntryContent
 }
 
 final class ClipboardHistoryStore: ClipboardHistoryStoring {
@@ -123,6 +128,31 @@ final class ClipboardHistoryStore: ClipboardHistoryStoring {
 
     func loadFileMetadata(for entryID: UUID) -> FileReferenceMetadata? {
         fileManager.loadFileMetadata(for: entryID)
+    }
+
+    func loadContent(for entry: ClipboardHistoryEntry) -> EntryContent {
+        let id = entry.id
+        switch entry.dataType {
+        case .text:
+            switch entry.textSubtype {
+            case .svg:
+                return EntryContent(svgContent: fileManager.loadSVGContent(for: id))
+            case .richText:
+                // RTF と plain text の両方をロード（plain は plainText paste モードで使用）
+                return EntryContent(
+                    textContent: fileManager.loadTextContent(for: id),
+                    richTextData: fileManager.loadRichTextData(for: id)
+                )
+            case .plain, .url, .none:
+                return EntryContent(textContent: fileManager.loadTextContent(for: id))
+            }
+        case .image:
+            return EntryContent(imageData: fileManager.loadImageData(for: id))
+        case .pdf:
+            return EntryContent(pdfData: fileManager.loadPDFData(for: id))
+        case .file:
+            return EntryContent(fileMetadata: fileManager.loadFileMetadata(for: id))
+        }
     }
 
     // MARK: - Private

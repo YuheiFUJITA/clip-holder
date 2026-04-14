@@ -90,6 +90,27 @@ final class MockClipboardHistoryStore: ClipboardHistoryStoring {
     func loadPDFData(for entryID: UUID) -> Data? { pdfDatas[entryID] }
     func loadFileMetadata(for entryID: UUID) -> FileReferenceMetadata? { fileMetadatas[entryID] }
 
+    func loadContent(for entry: ClipboardHistoryEntry) -> EntryContent {
+        let id = entry.id
+        switch entry.dataType {
+        case .text:
+            switch entry.textSubtype {
+            case .svg:
+                return EntryContent(svgContent: svgContents[id])
+            case .richText:
+                return EntryContent(textContent: textContents[id], richTextData: richTextDatas[id])
+            case .plain, .url, .none:
+                return EntryContent(textContent: textContents[id])
+            }
+        case .image:
+            return EntryContent(imageData: imageDatas[id])
+        case .pdf:
+            return EntryContent(pdfData: pdfDatas[id])
+        case .file:
+            return EntryContent(fileMetadata: fileMetadatas[id])
+        }
+    }
+
     // テスト用ヘルパー: データを直接セット
     func setTextContent(_ text: String, for id: UUID) { textContents[id] = text }
     func setSVGContent(_ svg: String, for id: UUID) { svgContents[id] = svg }

@@ -5,6 +5,14 @@ enum SelectionDirection {
     case down
 }
 
+/// PreviewPanelView などのビューがコンテンツを非同期ロードするためのインターフェース。
+/// 同期版 `loadContent(for:)` をビュー body 内で直接呼ぶと、選択変更のたびに
+/// 同期 IO がメインスレッドで走るため、`.task(id:)` 経由でこちらを使う。
+@MainActor
+protocol PreviewContentLoading: AnyObject {
+    func loadContentAsync(for entry: ClipboardHistoryEntry) async -> EntryContent
+}
+
 @Observable
 @MainActor
 final class HistoryPanelViewModel {
@@ -102,14 +110,7 @@ final class HistoryPanelViewModel {
     }
 
     func loadContent(for entry: ClipboardHistoryEntry) -> EntryContent {
-        EntryContent(
-            textContent: store.loadTextContent(for: entry.id),
-            richTextData: store.loadRichTextData(for: entry.id),
-            imageData: store.loadImageData(for: entry.id),
-            svgContent: store.loadSVGContent(for: entry.id),
-            pdfData: store.loadPDFData(for: entry.id),
-            fileMetadata: store.loadFileMetadata(for: entry.id)
-        )
+        store.loadContent(for: entry)
     }
 
     // MARK: - Private
@@ -129,5 +130,18 @@ final class HistoryPanelViewModel {
         } else {
             selectedIndex = min(selectedIndex, filteredEntries.count - 1)
         }
+    }
+}
+
+// MARK: - PreviewContentLoading
+
+extension HistoryPanelViewModel: PreviewContentLoading {
+    /// 一度 yield してビュー描画を先行させてから同期 IO を実行する。
+    /// `.task(id:)` 経由で呼ばれる前提なので、エントリ切替時には自動的に
+    /// 旧 Task が cancel される（ファイル read 中の cancel は効かないが、
+    /// 結果の反映は呼び出し側の `Task.isCancelled` チェックで防ぐ）。
+    func loadContentAsync(for entry: ClipboardHistoryEntry) async -> EntryContent {
+        await Task.yield()
+        return store.loadContent(for: entry)
     }
 }
