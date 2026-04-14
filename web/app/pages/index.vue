@@ -13,6 +13,8 @@ useSeoMeta({
   <UApp>
     <AppHeader />
 
+    <UpdateNotice />
+
     <UMain>
       <HeroSection />
       <PreviewSection />

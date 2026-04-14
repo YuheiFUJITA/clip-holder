@@ -65,5 +65,10 @@
   "sponsor": {
     "githubSponsors": "GitHub Sponsors",
     "buyMeACoffee": "Buy Me a Coffee"
+  },
+  "notice": {
+    "title": "Se requiere actualización manual para v0.1.1 y v0.2.0",
+    "description": "La actualización automática está rota en estas versiones debido a una mala configuración de App Sandbox. Descarga v0.2.1 manualmente para restaurar la actualización automática en las próximas versiones.",
+    "cta": "Descargar v0.2.1"
   }
 }

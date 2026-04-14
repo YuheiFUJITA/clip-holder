@@ -65,5 +65,10 @@
   "sponsor": {
     "githubSponsors": "GitHub Sponsors",
     "buyMeACoffee": "Buy Me a Coffee"
+  },
+  "notice": {
+    "title": "v0.1.1 및 v0.2.0 사용자는 수동 업데이트가 필요합니다",
+    "description": "App Sandbox 설정 오류로 인해 이 버전들에서 자동 업데이트가 작동하지 않습니다. v0.2.1 DMG를 수동으로 다운로드해 주세요. 이후 버전부터는 자동 업데이트가 정상적으로 작동합니다.",
+    "cta": "v0.2.1 다운로드"
   }
 }

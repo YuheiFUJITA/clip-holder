@@ -65,5 +65,10 @@
   "sponsor": {
     "githubSponsors": "GitHub Sponsors",
     "buyMeACoffee": "Buy Me a Coffee"
+  },
+  "notice": {
+    "title": "Manual update required for v0.1.1 and v0.2.0",
+    "description": "Auto-update is broken on these versions due to an App Sandbox misconfiguration. Please download v0.2.1 manually to restore auto-update for future releases.",
+    "cta": "Download v0.2.1"
   }
 }

@@ -65,5 +65,10 @@
   "sponsor": {
     "githubSponsors": "GitHub Sponsors",
     "buyMeACoffee": "Buy Me a Coffee"
+  },
+  "notice": {
+    "title": "v0.1.1 和 v0.2.0 用户需要手动更新",
+    "description": "由于 App Sandbox 配置错误，这些版本的自动更新无法正常工作。请手动下载 v0.2.1 DMG 以恢复后续版本的自动更新功能。",
+    "cta": "下载 v0.2.1"
   }
 }
