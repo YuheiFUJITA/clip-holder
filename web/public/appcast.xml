@@ -6,6 +6,18 @@
         <description>ClipHolder の最新アップデート情報</description>
         <language>en</language>
         <item>
+            <title>Version 0.2.1</title>
+            <sparkle:version>4</sparkle:version>
+            <sparkle:shortVersionString>0.2.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
+            <pubDate>Tue, 14 Apr 2026 19:40:11 +0000</pubDate>
+            <enclosure
+                url="https://github.com/YuheiFUJITA/clip-holder/releases/download/v0.2.1/ClipHolder-0.2.1.dmg"
+                sparkle:edSignature="AGgDy2CVzNB1jO35LBqFot7g1zeb4fgiZVXJb+SJs01aAuCWaEbfp92vGu47nErf/wEu3gtMnTWCHlq0D+/IDA=="
+                length="3067251"
+                type="application/octet-stream" />
+        </item>
+        <item>
             <title>Version 0.2.0</title>
             <sparkle:version>3</sparkle:version>
             <sparkle:shortVersionString>0.2.0</sparkle:shortVersionString>
