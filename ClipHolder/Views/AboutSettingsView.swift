@@ -46,7 +46,22 @@ struct AboutSettingsView: View {
                 .frame(minHeight: 200, maxHeight: 260)
             }
 
-            // Step 3 でここに Third-Party Licenses Section を追加する
+            Section("Third-Party Licenses") {
+                ThirdPartyLicenseRow(
+                    name: "Sparkle",
+                    version: "2.9.1",
+                    licenseType: "MIT License",
+                    licenseResourceName: "LICENSE-Sparkle",
+                    url: URL(string: "https://github.com/sparkle-project/Sparkle")
+                )
+                ThirdPartyLicenseRow(
+                    name: "KeyboardShortcuts",
+                    version: "2.4.0",
+                    licenseType: "MIT License",
+                    licenseResourceName: "LICENSE-KeyboardShortcuts",
+                    url: URL(string: "https://github.com/sindresorhus/KeyboardShortcuts")
+                )
+            }
         }
         .formStyle(.grouped)
     }
