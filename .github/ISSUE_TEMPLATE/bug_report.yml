@@ -1,0 +1,69 @@
+name: 不具合報告
+description: 不具合やバグを報告する
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        不具合のご報告ありがとうございます。
+        以下のフォームにできるだけ詳しくご記入ください。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 不具合の内容
+      description: どのような不具合が発生していますか？
+      placeholder: 例）クリップボードの履歴が一定数を超えると古い履歴が表示されなくなる
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: 再現手順
+      description: 不具合を再現する手順を教えてください。
+      placeholder: |
+        1. アプリを起動する
+        2. クリップボードに 100 件以上コピーする
+        3. 履歴一覧を開く
+        4. 古い履歴が表示されない
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: 期待する動作
+      description: 本来はどのように動作すべきですか？
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: 実際の動作
+      description: 実際にはどのように動作しましたか？
+
+  - type: input
+    id: app-version
+    attributes:
+      label: アプリのバージョン
+      description: "メニューバーアイコン → 「ClipHolder について」から確認できます"
+      placeholder: 例）0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: macos-version
+    attributes:
+      label: macOS のバージョン
+      description: "「このMacについて」から確認できます"
+      placeholder: 例）macOS 15.4
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: その他の情報
+      description: スクリーンショットやログなど、補足情報があれば追加してください。
