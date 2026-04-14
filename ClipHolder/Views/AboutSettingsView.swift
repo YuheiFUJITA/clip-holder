@@ -35,6 +35,39 @@ struct AboutSettingsView: View {
                 .padding(.vertical, 8)
             }
 
+            Section("Support") {
+                Link(destination: URL(string: "https://github.com/sponsors/YuheiFUJITA")!) {
+                    HStack(spacing: 10) {
+                        Image(systemName: "heart.fill")
+                            .foregroundStyle(.pink)
+                            .frame(width: 20)
+                        Text("GitHub Sponsors")
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        Image(systemName: "arrow.up.forward")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                Link(destination: URL(string: "https://buymeacoffee.com/yuhei_fujita")!) {
+                    HStack(spacing: 10) {
+                        Image(systemName: "cup.and.saucer.fill")
+                            .foregroundStyle(.brown)
+                            .frame(width: 20)
+                        Text("Buy Me a Coffee")
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        Image(systemName: "arrow.up.forward")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+            }
+
             Section("License") {
                 ScrollView {
                     Text(Self.loadLicenseText())
