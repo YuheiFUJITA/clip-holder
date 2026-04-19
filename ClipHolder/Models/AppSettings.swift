@@ -53,6 +53,11 @@ final class AppSettings: @unchecked Sendable {
         set { defaults.set(newValue, forKey: "saveFileData") }
     }
 
+    var showPreview: Bool {
+        get { defaults.object(forKey: "showPreview") as? Bool ?? true }
+        set { defaults.set(newValue, forKey: "showPreview") }
+    }
+
     var openSettingsOnLaunch: Bool {
         get { defaults.object(forKey: "openSettingsOnLaunch") as? Bool ?? true }
         set { defaults.set(newValue, forKey: "openSettingsOnLaunch") }

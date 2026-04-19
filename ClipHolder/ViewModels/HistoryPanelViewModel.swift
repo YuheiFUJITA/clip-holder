@@ -29,19 +29,25 @@ final class HistoryPanelViewModel {
     private let store: ClipboardHistoryStoring
     private let pasteService: PasteExecuting
     private let panelService: PanelWindowManaging
+    private let appSettings: AppSettings
     private let previousAppRecorder: (() -> Void)?
 
     init(
         store: ClipboardHistoryStoring,
         pasteService: PasteExecuting,
         panelService: PanelWindowManaging,
+        appSettings: AppSettings,
         previousAppRecorder: (() -> Void)? = nil
     ) {
         self.store = store
         self.pasteService = pasteService
         self.panelService = panelService
+        self.appSettings = appSettings
+        self.showPreview = appSettings.showPreview
         self.previousAppRecorder = previousAppRecorder
     }
+
+    var showPreview: Bool
 
     var isEmpty: Bool {
         entries.isEmpty
@@ -107,6 +113,12 @@ final class HistoryPanelViewModel {
         previousAppRecorder?()
         loadEntries()
         panelShowTick &+= 1
+    }
+
+    func togglePreview() {
+        showPreview.toggle()
+        appSettings.showPreview = showPreview
+        panelService.resizePanel(showPreview: showPreview)
     }
 
     func loadContent(for entry: ClipboardHistoryEntry) -> EntryContent {

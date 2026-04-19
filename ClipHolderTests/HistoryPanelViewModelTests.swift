@@ -18,6 +18,7 @@ final class MockPanelWindowService: PanelWindowManaging {
     var isVisible: Bool = false
     var showCount = 0
     var hideCount = 0
+    var lastResizeShowPreview: Bool?
 
     func showPanel() {
         isVisible = true
@@ -32,6 +33,10 @@ final class MockPanelWindowService: PanelWindowManaging {
     func togglePanel() {
         if isVisible { hidePanel() } else { showPanel() }
     }
+
+    func resizePanel(showPreview: Bool) {
+        lastResizeShowPreview = showPreview
+    }
 }
 
 // MARK: - Tests
@@ -42,14 +47,16 @@ struct HistoryPanelViewModelTests {
     @MainActor private func makeViewModel(
         entries: [ClipboardHistoryEntry] = [],
         pasteService: MockPasteService = MockPasteService(),
-        panelService: MockPanelWindowService = MockPanelWindowService()
+        panelService: MockPanelWindowService = MockPanelWindowService(),
+        appSettings: AppSettings = AppSettings()
     ) -> (HistoryPanelViewModel, MockClipboardHistoryStore, MockPasteService, MockPanelWindowService) {
         let store = MockClipboardHistoryStore()
         store.entries = entries
         let vm = HistoryPanelViewModel(
             store: store,
             pasteService: pasteService,
-            panelService: panelService
+            panelService: panelService,
+            appSettings: appSettings
         )
         return (vm, store, pasteService, panelService)
     }

@@ -13,6 +13,7 @@ protocol PanelWindowManaging {
     func showPanel()
     func hidePanel()
     func togglePanel()
+    func resizePanel(showPreview: Bool)
 }
 
 @MainActor
@@ -20,7 +21,20 @@ final class PanelWindowService: PanelWindowManaging {
     private var panel: NSPanel?
     private var eventMonitor: Any?
     private let caretPositionService: CaretPositionProviding
-    private let panelSize = NSSize(width: 761, height: 480)
+    static let panelHeight: CGFloat = 480
+    static let listWidth: CGFloat = 360
+    static let previewWidth: CGFloat = 400
+    static let dividerWidth: CGFloat = 1
+
+    static func panelWidth(showPreview: Bool) -> CGFloat {
+        showPreview ? listWidth + dividerWidth + previewWidth : listWidth
+    }
+
+    private var currentShowPreview: Bool = true
+
+    private var panelSize: NSSize {
+        NSSize(width: Self.panelWidth(showPreview: currentShowPreview), height: Self.panelHeight)
+    }
 
     private(set) var isVisible: Bool = false
 
@@ -56,6 +70,26 @@ final class PanelWindowService: PanelWindowManaging {
         } else {
             showPanel()
         }
+    }
+
+    func resizePanel(showPreview: Bool) {
+        currentShowPreview = showPreview
+        guard let panel else { return }
+        let newSize = panelSize
+        var frame = panel.frame
+        let topY = frame.origin.y + frame.size.height
+        frame.size = newSize
+        frame.origin.y = topY - newSize.height
+        if let screen = panel.screen ?? NSScreen.main {
+            let visible = screen.visibleFrame
+            if frame.origin.x + frame.size.width > visible.maxX {
+                frame.origin.x = visible.maxX - frame.size.width
+            }
+            if frame.origin.x < visible.minX {
+                frame.origin.x = visible.minX
+            }
+        }
+        panel.setFrame(frame, display: true, animate: false)
     }
 
     // MARK: - Private

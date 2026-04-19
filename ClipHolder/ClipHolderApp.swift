@@ -73,7 +73,8 @@ final class AppController {
             let vm = HistoryPanelViewModel(
                 store: historyStore,
                 pasteService: pasteService,
-                panelService: service
+                panelService: service,
+                appSettings: appSettings
             )
             historyPanelViewModel = vm
             service.contentView = { [weak service] in
@@ -90,6 +91,7 @@ final class AppController {
         service.togglePanel()
         if service.isVisible {
             historyPanelViewModel?.onPanelShow()
+            service.resizePanel(showPreview: appSettings.showPreview)
         }
     }
 }

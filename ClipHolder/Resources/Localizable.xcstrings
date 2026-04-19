@@ -330,6 +330,9 @@
     "⌘⇧V" : {
       "shouldTranslate" : false
     },
+    "⌘P" : {
+
+    },
     "About" : {
       "extractionState" : "manual"
     },
@@ -5881,6 +5884,9 @@
           }
         }
       }
+    },
+    "Toggle Preview (⌘P)" : {
+
     },
     "Type" : {
       "localizations" : {

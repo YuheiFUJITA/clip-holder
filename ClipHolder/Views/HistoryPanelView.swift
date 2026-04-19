@@ -33,7 +33,7 @@ struct HistoryPanelView: View {
             .frame(width: 360, height: 480)
 
             // 区切り線 + 右プレビューパネル
-            if !viewModel.isEmpty {
+            if !viewModel.isEmpty && viewModel.showPreview {
                 Divider()
 
                 PreviewPanelView(
@@ -42,6 +42,7 @@ struct HistoryPanelView: View {
                 )
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .onChange(of: viewModel.searchQuery) {
@@ -67,7 +68,8 @@ struct HistoryPanelView: View {
                     }
                     viewModel.deleteEntry(id: entry.id)
                     return true
-                }
+                },
+                onTogglePreview: { viewModel.togglePreview() }
             )
         )
     }
@@ -84,6 +86,14 @@ struct HistoryPanelView: View {
                 .textFieldStyle(.plain)
                 .font(.system(size: 13))
                 .focused($isSearchFieldFocused)
+
+            Button(action: { viewModel.togglePreview() }) {
+                Image(systemName: viewModel.showPreview ? "sidebar.trailing" : "sidebar.leading")
+                    .font(.system(size: 13))
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+            .help("Toggle Preview (⌘P)")
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 8)
@@ -161,6 +171,7 @@ struct HistoryPanelView: View {
             hintLabel("↑↓", "Select")
             hintLabel("Enter", "Paste")
             hintLabel("⌘⇧V", "Plain Text")
+            hintLabel("⌘P", "Preview")
             hintLabel("Esc", "Close")
         }
         .font(.system(size: 10))
@@ -190,6 +201,7 @@ private struct PanelKeyHandler: NSViewRepresentable {
     let onEscape: () -> Void
     /// Delete キー押下時のハンドラ。true を返すとイベントを消費する。
     let onDeleteEntry: () -> Bool
+    let onTogglePreview: () -> Void
 
     func makeNSView(context: Context) -> PanelKeyMonitorView {
         let view = PanelKeyMonitorView()
@@ -199,6 +211,7 @@ private struct PanelKeyHandler: NSViewRepresentable {
         view.onCmdShiftV = onCmdShiftV
         view.onEscape = onEscape
         view.onDeleteEntry = onDeleteEntry
+        view.onTogglePreview = onTogglePreview
         return view
     }
 
@@ -209,6 +222,7 @@ private struct PanelKeyHandler: NSViewRepresentable {
         nsView.onCmdShiftV = onCmdShiftV
         nsView.onEscape = onEscape
         nsView.onDeleteEntry = onDeleteEntry
+        nsView.onTogglePreview = onTogglePreview
     }
 }
 
@@ -219,6 +233,7 @@ private class PanelKeyMonitorView: NSView {
     var onCmdShiftV: (() -> Void)?
     var onEscape: (() -> Void)?
     var onDeleteEntry: (() -> Bool)?
+    var onTogglePreview: (() -> Void)?
     private var localMonitor: Any?
 
     override func viewDidMoveToWindow() {
@@ -246,6 +261,14 @@ private class PanelKeyMonitorView: NSView {
     }
 
     private func handleKeyEvent(_ event: NSEvent) -> NSEvent? {
+        // ⌘P — プレビューのトグル
+        if event.modifierFlags.contains(.command),
+           !event.modifierFlags.contains(.shift),
+           event.charactersIgnoringModifiers == "p" {
+            onTogglePreview?()
+            return nil
+        }
+
         // ⌘⇧V
         if event.modifierFlags.contains([.command, .shift]),
            event.charactersIgnoringModifiers == "v" {
