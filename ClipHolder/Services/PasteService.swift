@@ -14,6 +14,15 @@ protocol PasteExecuting {
 final class PasteService: PasteExecuting {
     private var previousApp: NSRunningApplication?
 
+    /// 貼り付け先アプリが最前面になるのを待つ上限時間
+    private static let activationTimeout: Duration = .seconds(1)
+    /// 最前面確認のポーリング間隔
+    private static let activationPollInterval: Duration = .milliseconds(20)
+    /// 最前面になった後、キーウィンドウ/first responder の復帰を待つための猶予
+    private static let postActivationDelay: Duration = .milliseconds(50)
+    /// ⌘V の keyDown と keyUp の間隔（連続 post を取りこぼすアプリ対策）
+    private static let keyEventGap: Duration = .milliseconds(10)
+
     func recordPreviousApp() {
         previousApp = NSWorkspace.shared.frontmostApplication
     }
@@ -51,33 +60,80 @@ final class PasteService: PasteExecuting {
         }
 
         // 直前のアプリを前面に切り替え
-        guard let targetApp = previousApp else {
+        guard let targetApp = previousApp, !targetApp.isTerminated else {
             return false
         }
-        targetApp.activate(options: .activateIgnoringOtherApps)
 
-        // アプリ切替の安定化のための遅延
-        try? await Task.sleep(for: .milliseconds(100))
+        // 対象アプリが最前面になるまで待つ。
+        // アクティブ化は非同期なので、固定時間待つだけでは ⌘V が
+        // 自アプリや復帰前の対象アプリに届いて取りこぼされることがある。
+        guard await activateAndWait(for: targetApp) else {
+            print("[PasteService] Target app did not become frontmost: \(targetApp.localizedName ?? "unknown")")
+            return false
+        }
 
         // ⌘V キーイベントを送信
-        sendPasteKeyEvent()
+        await sendPasteKeyEvent()
         return true
     }
 
     // MARK: - Private
 
-    private func sendPasteKeyEvent() {
-        let vKeyCode: CGKeyCode = CGKeyCode(kVK_ANSI_V)
+    private func isFrontmost(_ app: NSRunningApplication) -> Bool {
+        NSWorkspace.shared.frontmostApplication?.processIdentifier == app.processIdentifier
+    }
 
-        guard let keyDown = CGEvent(keyboardEventSource: nil, virtualKey: vKeyCode, keyDown: true),
-              let keyUp = CGEvent(keyboardEventSource: nil, virtualKey: vKeyCode, keyDown: false) else {
+    /// 対象アプリのアクティブ化を要求し、最前面になるまでポーリングで待つ。
+    /// タイムアウトした場合は false を返す。
+    private func activateAndWait(for targetApp: NSRunningApplication) async -> Bool {
+        if !isFrontmost(targetApp) {
+            // macOS 14 以降の協調的アクティベーションでは、アクティブなアプリが
+            // 別アプリへ activation を譲る形 (activate(from:)) が正規ルート。
+            // 自アプリがアクティブでない場合に備えて従来 API にもフォールバックする。
+            var requested = targetApp.activate(from: .current, options: [])
+            if !requested {
+                requested = targetApp.activate(options: [])
+            }
+            if !requested {
+                print("[PasteService] activate() request was not accepted")
+            }
+        }
+
+        let clock = ContinuousClock()
+        let deadline = clock.now + Self.activationTimeout
+        while !isFrontmost(targetApp) {
+            if clock.now >= deadline {
+                return false
+            }
+            try? await Task.sleep(for: Self.activationPollInterval)
+        }
+
+        // アプリ切替直後はキーウィンドウ/first responder の復帰が追いついていないことがある
+        try? await Task.sleep(for: Self.postActivationDelay)
+        return true
+    }
+
+    private func sendPasteKeyEvent() async {
+        let vKeyCode = CGKeyCode(kVK_ANSI_V)
+
+        // combinedSessionState を使い、合成イベント送出中は物理キーボード入力を抑制する
+        // （Enter キーがまだ押されたままの状態で ⌘V と混ざるのを防ぐ）
+        let source = CGEventSource(stateID: .combinedSessionState)
+        source?.setLocalEventsFilterDuringSuppressionState(
+            [.permitLocalMouseEvents, .permitSystemDefinedEvents],
+            state: .eventSuppressionStateSuppressionInterval
+        )
+
+        guard let keyDown = CGEvent(keyboardEventSource: source, virtualKey: vKeyCode, keyDown: true),
+              let keyUp = CGEvent(keyboardEventSource: source, virtualKey: vKeyCode, keyDown: false) else {
             return
         }
 
         keyDown.flags = .maskCommand
         keyUp.flags = .maskCommand
 
-        keyDown.post(tap: .cghidEventTap)
-        keyUp.post(tap: .cghidEventTap)
+        keyDown.post(tap: .cgSessionEventTap)
+        try? await Task.sleep(for: Self.keyEventGap)
+        keyUp.post(tap: .cgSessionEventTap)
     }
 }

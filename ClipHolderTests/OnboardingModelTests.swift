@@ -1,4 +1,5 @@
 import Testing
+import Foundation
 @testable import ClipHolder
 
 struct OnboardingModelTests {
@@ -41,8 +42,8 @@ struct OnboardingModelTests {
     @Test func allStepsHaveNonEmptyContent() {
         for step in OnboardingStepContent.allSteps {
             #expect(!step.iconName.isEmpty)
-            #expect(!step.title.isEmpty)
-            #expect(!step.description.isEmpty)
+            #expect(!step.title.key.isEmpty)
+            #expect(!step.description.key.isEmpty)
         }
     }
 
