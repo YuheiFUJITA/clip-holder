@@ -264,14 +264,14 @@ private class PanelKeyMonitorView: NSView {
         // ⌘P — プレビューのトグル
         if event.modifierFlags.contains(.command),
            !event.modifierFlags.contains(.shift),
-           event.charactersIgnoringModifiers == "p" {
+           event.charactersIgnoringModifiers?.lowercased() == "p" {
             onTogglePreview?()
             return nil
         }
 
         // ⌘⇧V
         if event.modifierFlags.contains([.command, .shift]),
-           event.charactersIgnoringModifiers == "v" {
+           event.charactersIgnoringModifiers?.lowercased() == "v" {
             onCmdShiftV?()
             return nil
         }
